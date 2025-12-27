@@ -3,6 +3,10 @@ interface IUser extends Document {
   email: string;
   password: string;
   name: string;
+  isVerify: boolean;
+  verifyToken: string | undefined;
+  verifyTokenExpiry: Date | undefined;
+  isAdmin: boolean;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -14,12 +18,22 @@ const userSchema: Schema<IUser> = new Schema({
     type: String,
     required: true,
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    unique:true
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
+  isVerify: {
+    type: Boolean,
+    default: false,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: String,
+  verifyTokenExpiry: Date,
 });
 export const User: Model<IUser> =
   mongoose.models.users || mongoose.model<IUser>("users", userSchema);
