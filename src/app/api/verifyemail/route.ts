@@ -1,6 +1,5 @@
 import { dbConnect } from "@/src/lib/dbConnect";
 import { User } from "@/src/model/userSchema";
-import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   await dbConnect();

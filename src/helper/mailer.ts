@@ -76,7 +76,7 @@ export async function sendMail(
     Please click the button below to verify your email address.
   </p>
 
-  <a href="${process.env.BASE_URL}/${verifyToken}"
+  <a href="${process.env.BASE_URL}/verify/${verifyToken}"
      style="display:inline-block;
             padding:12px 20px;
             background:#2563eb;
@@ -106,7 +106,7 @@ export async function sendMail(
     const mailOption = {
       from: "ruchitvasoya2806@gmail.com",
       to: email,
-      subject: verifyToken ? "OTP verification" : "Email verification",
+      subject: verifyToken ? "Email verification" : "OTP verification",
       html: verifyToken ? verifyEmail : forgotPassword,
     };
     await transport.sendMail(mailOption);

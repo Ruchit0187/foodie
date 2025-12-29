@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "../../../lib/dbConnect";
+import { dbConnect } from "@/src/lib/dbConnect"
 import { User } from "@/src/model/userSchema";
 import bcrypt from "bcryptjs";
 import { sendMail } from "@/src/helper/mailer";
@@ -10,10 +10,10 @@ export async function POST(request: NextRequest) {
     const { email, password, name } = await request.json();
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ error: "User already Registered" });
+      return NextResponse.json({ error: "User already Registered" },{status:409});
     }
     const hashPassword = await bcrypt.hash(password, 10);
-    const verifyToken = bcrypt.hashSync(name, 10);
+    const verifyToken = bcrypt.hashSync(name,10);
     await User.create({
       name,
       email,

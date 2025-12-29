@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       { otp: randomNumber },
       process.env.JWT_SECRET_KEY!
     );
-    cookie.set("otp", jwtToken, { maxAge: 300, httpOnly: true });
+    cookie.set("otp", jwtToken, { maxAge: 3000, httpOnly: true });
     sendMail(email, randomNumber);
     return NextResponse.json({ message: "cookies is set" }, { status: 200 });
   } catch (error) {

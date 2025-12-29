@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
   const { mailOtp } = await request.json();
   const cookie = await cookies();
   const token = cookie.get("otp") as Itoken;
+  console.log(token)
   if (!token) {
     return NextResponse.json({ error: "Time is Expiry" }, { status: 400 });
   }
