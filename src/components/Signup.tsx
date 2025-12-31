@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
 interface formData {
   name: string;
   email: string;
   password: string;
 }
-
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -97,6 +97,14 @@ export default function Signup() {
           </button>
         )}
       </form>
+
+      <button
+        className="bg-black text-white flex justify-center items-center gap-2 p-2 rounded-2xl mx-auto"
+        onClick={() => signIn("google")}
+      >
+        <FcGoogle />
+        Signup with Google
+      </button>
     </>
   );
 }

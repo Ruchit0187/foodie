@@ -1,17 +1,17 @@
 import Signup from "@/src/components/Signup";
-import { cookies } from "next/headers";
 import Link from "next/link";
-function Signuppage() {
+
+function SignUppage() {
   return (
     <>
       <Signup />
       <p className="text-center">
-        If Already Registered
-        <Link href={"/signin"} className="text-blue-600 ml-2">
+        If Already Registered?
+        <Link href={"/signin"} className="text-blue-600 ml-2 text-xl underline">
           Signin
         </Link>
       </p>
     </>
   );
 }
-export default Signuppage;
+export default SignUppage;

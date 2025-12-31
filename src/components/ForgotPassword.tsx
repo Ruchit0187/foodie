@@ -2,24 +2,24 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface IEmail {
   email: string;
 }
 
 function ForgotPassword() {
-    const router = useRouter();
+  const router = useRouter();
   const otpGenerator = async (emailData: IEmail) => {
     const email = emailData.email.trim();
     try {
-      const emailStatus = await axios.post("/api/forgot", {email});
+      const emailStatus = await axios.post("/api/forgot", { email });
       if (emailStatus.status === 200) {
         router.push("/otpverify");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.error);
-        console.log(error.response?.data.error);
+        toast.error(error.response?.data.error);
       }
     }
   };
@@ -37,7 +37,7 @@ function ForgotPassword() {
       <div className="mb-5">
         <label
           htmlFor="email"
-          className="block mb-2.5  font-medium text-heading text-xl" 
+          className="block mb-2.5  font-medium text-heading text-xl"
         >
           Your email
         </label>

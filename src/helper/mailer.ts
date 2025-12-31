@@ -76,7 +76,7 @@ export async function sendMail(
     Please click the button below to verify your email address.
   </p>
 
-  <a href="${process.env.BASE_URL}/verify/${verifyToken}"
+  <a href="${process.env.BASE_URL}/emailverify?${verifyToken}"
      style="display:inline-block;
             padding:12px 20px;
             background:#2563eb;
