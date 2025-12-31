@@ -19,14 +19,14 @@ export async function POST(request: NextRequest) {
     const search = searchParams.get("search");
     const difficulty = searchParams.get("difficulty");
     const category = searchParams.get("category");
-    console.log(search, difficulty);
+    console.log(search, difficulty,category);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
     if (difficulty) query.difficulty = difficulty;
     if (category) query.category = category;
-    console.log("Query",query);
     const filterRecipes = await Recipes.find(query);
+    console.log(filterRecipes)
     // const filterRecipes = await Recipes.find({
     //   $or: [{ name: search }, { difficulty }],
     // });

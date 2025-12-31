@@ -16,7 +16,7 @@ export default function Navbar() {
         </Link>
         <ul className="flex w-full justify-between items-center text-2xl ml-2.5">
           <li>
-            <Link href={"/"}>Recipes</Link>
+            <Link href={"/recipe"}>Recipes</Link>
           </li>
           <li>
             <Link href={"/blogs"}>Blogs</Link>
@@ -27,7 +27,7 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="pr-5 text-2xl">
-        <Link href={"/signup"}><FaUser/></Link>
+        <Link href={"/signup"} className="flex flex-col items-center gap-1"><FaUser/> <p className="text-sm">SignUp</p></Link>
       </div>
     </div>
   );

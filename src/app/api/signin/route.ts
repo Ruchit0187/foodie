@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
@@ -35,7 +36,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
     response.cookies.set("signin", token, { httpOnly: true });
-    console.log(response)
     return response;
   } catch (error) {
     return NextResponse.json({ error });
