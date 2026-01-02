@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, Types } from "mongoose";
 export interface Ingredients {
   name: string;
   quantity: string;
@@ -9,6 +9,7 @@ export interface Irecipes extends Document {
   category: string;
   difficulty: string;
   ingredients: Ingredients[];
+  userid: Types.ObjectId[];
 }
 
 const recipesSchema: Schema<Irecipes> = new Schema({
@@ -17,6 +18,7 @@ const recipesSchema: Schema<Irecipes> = new Schema({
   category: String,
   difficulty: String,
   ingredients: [],
+  userid:[]
 });
 export const Recipes: Model<Irecipes> =
   mongoose.models.recipes || mongoose.model("recipes", recipesSchema);

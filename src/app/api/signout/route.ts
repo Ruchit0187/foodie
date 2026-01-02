@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const cookie = await cookies();
   try {
-    cookie.set("signin", "", { httpOnly: true });
-    // cookie.delete("signin")
+    cookie.delete("signin")
     return NextResponse.json(
       { message: "User signout successfully" },
       { status: 200 }

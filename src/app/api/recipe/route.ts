@@ -19,14 +19,12 @@ export async function POST(request: NextRequest) {
     const search = searchParams.get("search");
     const difficulty = searchParams.get("difficulty");
     const category = searchParams.get("category");
-    console.log(search, difficulty,category);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
     if (difficulty) query.difficulty = difficulty;
     if (category) query.category = category;
     const filterRecipes = await Recipes.find(query);
-    console.log(filterRecipes)
     // const filterRecipes = await Recipes.find({
     //   $or: [{ name: search }, { difficulty }],
     // });
@@ -35,3 +33,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
+
+
+

@@ -1,34 +1,32 @@
 "use client";
-
-import axios  from "axios";
 import { signIn } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-
 interface Isignin {
   email: string;
   password: string;
 }
 export default function Signin() {
-  const router = useRouter();
-  const signinData = async (data: Isignin) => {
+  const router=useRouter()
+  const signinData = async (formData: Isignin) => {
     const userSignData = {
-      email: data.email.trim(),
-      password: data.password,
+      email: formData.email.trim(),
+      password: formData.password,
     };
-    try {
-      const signInData = await axios.post("/api/signin", userSignData);
-      if (signInData.status === 200) {
-        toast.success("SignIn successfully");
-        router.push("/recipe");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error);
-      }
+
+    const signInValue = await signIn("credentials", {
+      ...userSignData,
+      redirect: false,
+    });
+    if (signInValue.error) {
+      toast.error("enter the valid email and password");
+      
+    } else {
+      toast.success("use login successfully");
+      router.push("/recipes")
     }
   };
   const {

@@ -5,6 +5,7 @@ import RecipeCard from "./RecipeCard";
 import axios from "axios";
 import { useDebounceCallback } from "usehooks-ts";
 
+
 export interface IrecipeDeatils {
   recipeData: recipeDataTypes[];
 }
@@ -14,8 +15,7 @@ function RecipeDetails() {
   const [difficulty, setDifficulty] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [recipeCardData, setRecipeCardData] = useState<recipeDataTypes[]>([]);
-  const debounce = useDebounceCallback(setSearchName, 500);
-
+  const debounce = useDebounceCallback(setSearchName, 1000);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,11 +32,10 @@ function RecipeDetails() {
     };
     fetchData();
   }, [searchName, difficulty, category]);
-
   return (
     <>
-      <div className="flex justify-between my-2 px-2.5 max-[500px]:flex-col max-[500px]:gap-2 ">
-        <div className="flex gap-50">
+      <div className="flex justify-between my-2 px-2.5 max-[750px]:flex-col max-[750px]:gap-5 ">
+        <div className="flex gap-50 max-[750px]:justify-between max-[480px]:flex-col max-[480px]:gap-2.5">
           <select
             className="border-2  rounded-2xl py-2 px-5"
             onChange={(e) => setCategory(e.target.value)}

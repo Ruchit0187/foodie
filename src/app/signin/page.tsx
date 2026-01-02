@@ -1,11 +1,11 @@
+import { signIn } from "@/auth";
 import Signin from "@/src/components/Signin";
 import Link from "next/link";
 
-async function Loginpage() {
- 
+function SignIn() {
   return (
     <div>
-      <Signin />
+      <Signin/>
       <div className="text-center mt-2">
         Reset Password
         <Link href={"/forgot"} className="text-center  text-violet-600 ml-2">
@@ -15,4 +15,32 @@ async function Loginpage() {
     </div>
   );
 }
-export default Loginpage;
+export default SignIn;
+// export default function SignIn() {
+//   return (
+//     <form
+//       action={async (formData) => {
+//         "use server";
+//         await signIn("credentials", formData);
+//       }}
+//     >
+//       <label>
+//         Email
+//         <input
+//           name="email"
+//           type="email"
+//           style={{ border: "1px solid black" }}
+//         />
+//       </label>
+//       <label>
+//         Password
+//         <input
+//           name="password"
+//           type="password"
+//           style={{ border: "1px solid black" }}
+//         />
+//       </label>
+//       <button>Sign In</button>
+//     </form>
+//   );
+// }

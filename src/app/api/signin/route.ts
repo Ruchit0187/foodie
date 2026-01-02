@@ -2,7 +2,6 @@ import { dbConnect } from "@/src/lib/dbConnect";
 import { User } from "@/src/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 
 export async function POST(request: NextRequest) {
@@ -26,16 +25,10 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    const signToken = {
-      email: email,
-      password: password,
-    };
-    const token = jwt.sign(signToken, process.env.JWT_SECRET_KEY!);
     const response = NextResponse.json(
-      { message: "User SignIn Successfully" },
+      { message: "User SignIn Successfully", user },
       { status: 200 }
     );
-    response.cookies.set("signin", token, { httpOnly: true });
     return response;
   } catch (error) {
     return NextResponse.json({ error });
