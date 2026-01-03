@@ -3,11 +3,10 @@ import { User } from "@/src/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
-    const { email, password } = await request.json();
+    const { email,password } = await request.json();
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "User not  Found" }, { status: 404 });

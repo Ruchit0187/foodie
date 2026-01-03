@@ -9,7 +9,8 @@ export interface Irecipes extends Document {
   category: string;
   difficulty: string;
   ingredients: Ingredients[];
-  userid: Types.ObjectId[];
+  likes: Types.ObjectId[];
+  count: number;
 }
 
 const recipesSchema: Schema<Irecipes> = new Schema({
@@ -18,7 +19,8 @@ const recipesSchema: Schema<Irecipes> = new Schema({
   category: String,
   difficulty: String,
   ingredients: [],
-  userid:[]
+  likes: [],
+  count: Number,
 });
 export const Recipes: Model<Irecipes> =
   mongoose.models.recipes || mongoose.model("recipes", recipesSchema);

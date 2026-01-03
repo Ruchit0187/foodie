@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
@@ -16,14 +16,13 @@ export default function Signin() {
       email: formData.email.trim(),
       password: formData.password,
     };
-
     const signInValue = await signIn("credentials", {
-      ...userSignData,
+       ...userSignData,
       redirect: false,
     });
+    console.log(signInValue)
     if (signInValue.error) {
       toast.error("enter the valid email and password");
-      
     } else {
       toast.success("use login successfully");
       router.push("/recipes")

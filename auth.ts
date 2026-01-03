@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth, { AuthError } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
+import { dbConnect } from "./src/lib/dbConnect";
+import { User } from "./src/model/userSchema";
+import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -19,23 +23,48 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         password: { type: "password", label: "password" },
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async authorize(credentials: any): Promise<any> {
+        await dbConnect();
         try {
-          const userSignInData = await axios.post(
-            "http://localhost:3000/api/signin",
-            credentials
+          const user = await User.findOne({ email: credentials.email });
+          if (!user) {
+            return null;
+          }
+          if (!user.isVerify) {
+            return null;
+          }
+          const verifyPassword = await bcrypt.compare(
+            credentials.password,
+            user.password
           );
-          return userSignInData.data.user;
-          // eslint-disable-next-line
-        } catch (error: any) {
-          const authErr = error instanceof AuthError;
-          console.log(error)
+          if (!verifyPassword) {
+            return null;
+          }
+
+          return {
+            id: user._id,
+            email: user.email,
+          };
+        } catch (error) {
+          console.log(error);
           return null;
-         
         }
       },
     }),
   ],
-  
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
+  secret: process.env.AUTH_SECRET,
 });
