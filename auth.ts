@@ -2,10 +2,8 @@
 import NextAuth, { AuthError } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import axios from "axios";
-import { dbConnect } from "./src/lib/dbConnect";
-import { User } from "./src/model/userSchema";
-import bcrypt from "bcryptjs";
+
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -23,27 +21,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         password: { type: "password", label: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
-        await dbConnect();
+      async authorize(credentials:any): Promise<any> {
         try {
-          const user = await User.findOne({ email: credentials.email });
-          if (!user) {
-            return null;
-          }
-          if (!user.isVerify) {
-            return null;
-          }
-          const verifyPassword = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-          if (!verifyPassword) {
-            return null;
-          }
-
+          if(!credentials.email || !credentials.password) return null
           return {
-            id: user._id,
-            email: user.email,
+            email: credentials.email,
+            id:credentials._id
           };
         } catch (error) {
           console.log(error);
@@ -59,12 +42,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return token;
     },
-    async session({ token, session }) {
+    async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
       }
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET,
 });

@@ -3,13 +3,15 @@ import Link from "next/link";
 import { CiClock2 } from "react-icons/ci";
 import Image from "next/image";
 import LikeButton from "./LikeButton";
-
+import BookMark from "./BookMark";
+import { useSession } from "next-auth/react";
 
 interface IrecipeCardData {
   recipeCardData: recipeDataTypes[];
 }
 
 function RecipeCard({ recipeCardData }: IrecipeCardData) {
+  const {data:sessionData}=useSession()
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
@@ -28,20 +30,26 @@ function RecipeCard({ recipeCardData }: IrecipeCardData) {
                   alt={value.name}
                 />
               </div>
-              <div className="">
+              <div>
                 <div className="p-5 pt-2">
                   <div className="flex justify-between items-center gap-2">
                     <h5 className="mt-4 mb-2 text-xl font-semibold text-heading text-nowrap">
                       {value.name}
                     </h5>
-                    <LikeButton recipeId={value._id} count={value.count}/>
+                    <LikeButton recipeId={value._id} count={value.count} likes={value.likes} />
                   </div>
-                  <div className=" flex items-center">
+                  <div className="flex items-center gap-2">
                     <div className="text-body text-sm flex items-center gap-2 bg-[#fef4cc] p-2 mt-2 rounded-2xl">
                       <CiClock2 style={{ minWidth: "10px" }} />
                       {value.cookingTimeMinutes} mins
                       <p>|</p>
                       <div>{value.difficulty}</div>
+                    </div>
+                    <div className="p-2 mt-1">
+                      <BookMark
+                        recipeID={value._id}
+                        bookmarkValue={value.bookmark}
+                      />
                     </div>
                   </div>
                 </div>

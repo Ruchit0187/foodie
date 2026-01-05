@@ -32,6 +32,7 @@ function RecipeDetails() {
     };
     fetchData();
   }, [searchName, difficulty, category]);
+  
   return (
     <>
       <div className="flex justify-between my-2 px-2.5 max-[750px]:flex-col max-[750px]:gap-5 ">
@@ -62,7 +63,7 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-      <RecipeCard recipeCardData={recipeCardData} />
+      <RecipeCard recipeCardData={recipeCardData}/>
     </>
   );
 }

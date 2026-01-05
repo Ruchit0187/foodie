@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
-    const { email,password } = await request.json();
+    const { email, password } = await request.json();
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "User not  Found" }, { status: 404 });
@@ -24,11 +24,10 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    const response = NextResponse.json(
+    return NextResponse.json(
       { message: "User SignIn Successfully", user },
       { status: 200 }
     );
-    return response;
   } catch (error) {
     return NextResponse.json({ error });
   }

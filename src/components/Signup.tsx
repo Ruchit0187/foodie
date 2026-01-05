@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 interface formData {
   name: string;
   email: string;
@@ -29,12 +30,7 @@ export default function Signup() {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.status === 409) {
-          console.log("yes");
-          alert(error.response?.data.error);
-        } else {
-          alert(error);
-        }
+        toast.error(error.response?.data.error)
       }
       setLoading(false);
     }

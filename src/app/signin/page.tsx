@@ -1,4 +1,3 @@
-import { signIn } from "@/auth";
 import Signin from "@/src/components/Signin";
 import Link from "next/link";
 
@@ -16,31 +15,3 @@ function SignIn() {
   );
 }
 export default SignIn;
-// export default function SignIn() {
-//   return (
-//     <form
-//       action={async (formData) => {
-//         "use server";
-//         await signIn("credentials", formData);
-//       }}
-//     >
-//       <label>
-//         Email
-//         <input
-//           name="email"
-//           type="email"
-//           style={{ border: "1px solid black" }}
-//         />
-//       </label>
-//       <label>
-//         Password
-//         <input
-//           name="password"
-//           type="password"
-//           style={{ border: "1px solid black" }}
-//         />
-//       </label>
-//       <button>Sign In</button>
-//     </form>
-//   );
-// }

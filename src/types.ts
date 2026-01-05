@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+
 interface ingredients {
   name: string;
   quantity: string;
@@ -14,6 +14,7 @@ export interface recipeDataTypes {
   cookingTimeMinutes:number
   likes:[]
   count:number
+  bookmark:[]
 }
 export interface recipeRoute{
     filterRecipes:recipeDataTypes[] 
