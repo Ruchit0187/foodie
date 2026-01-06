@@ -1,6 +1,5 @@
-import RecipeDetails from "@/src/components/RecipeDetails"
+import RecipeDetails from "@/src/components/RecipeDetails";
 
-
-export default async function Home() {
-  return <RecipeDetails/>;
+export default function Recipe() {
+  return <RecipeDetails />;
 }

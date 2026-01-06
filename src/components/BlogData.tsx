@@ -1,0 +1,48 @@
+"use client";
+import Image from "next/image";
+import { blogData } from "../types";
+import Link from "next/link";
+import BlogLike from "./BlogLike";
+
+function BlogData({ blogData }: { blogData: blogData[] }) {
+  return (
+    <div className="w-full mx-auto p-4 ">
+      <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
+        {blogData?.map((blogvalue) => (
+          <li
+            className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
+            key={String(blogvalue._id)}
+          >
+            <Link href={`/blogs/${blogvalue._id}`}>
+              <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
+                <Image
+                  src={"/sample.jpg"}
+                  width={250}
+                  height={250}
+                  className="object-cover object-center  h-65  rounded-2xl"
+                  alt={blogvalue.name}
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center justify-between p-1.5">
+                  <span className="">
+                    <BlogLike
+                      bloglikes={blogvalue.blog_likes}
+                      blogID={blogvalue._id}
+                    />
+                  </span>
+                  <span className="">Date</span>
+                </div>
+                <div className=" p-1.5 text-left italic font-bold ">
+                  {blogvalue.title}
+                </div>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default BlogData;

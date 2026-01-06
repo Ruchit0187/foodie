@@ -17,7 +17,7 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
   );
   const [likecontrol, setLikeControl] = useState<boolean>(likeRecipeValue);
   const handleLikeButton = async (event: MouseEvent, value: string) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     event.preventDefault();
     try {
       const likeValue = await axios.patch("/api/recipelike", {

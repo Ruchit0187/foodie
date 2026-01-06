@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   await dbConnect();
   try {
-    const userData = await Recipes.find();
-    return NextResponse.json({ userData }, { status: 200 });
+    const filterRecipes = await Recipes.find();
+    return NextResponse.json({ filterRecipes }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
@@ -33,6 +33,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
-
-
-

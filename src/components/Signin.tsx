@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ interface Isignin {
   password: string;
 }
 export default function Signin() {
+  const router=useRouter()
   const signinData = async (formData: Isignin) => {
     const userSignData = {
       email: formData.email.trim(),
@@ -19,9 +21,10 @@ export default function Signin() {
       const signInApiResponse = await axios.post("/api/signin", userSignData);
         signIn("credentials", {
          ...signInApiResponse.data?.user,
-        redirectTo:"/"
+         redirect:false
       });
-      // toast.success(signInApiResponse.data.message)
+      toast.success(signInApiResponse.data.message)
+      router.push("/")
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error?.response?.data.error);

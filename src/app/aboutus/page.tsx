@@ -1,9 +1,6 @@
+async function Aboutus() {
 
-
-function page() {
-  return (
-    <div>page</div>
-  )
+  return <div>page</div>;
 }
 
-export default page
+export default Aboutus;

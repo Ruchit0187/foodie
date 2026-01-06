@@ -5,11 +5,9 @@ import RecipeCard from "./RecipeCard";
 import axios from "axios";
 import { useDebounceCallback } from "usehooks-ts";
 
-
 export interface IrecipeDeatils {
   recipeData: recipeDataTypes[];
 }
-
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
@@ -19,26 +17,28 @@ function RecipeDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const axiosFilterData = await axios.post(
-          `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}`
-        );
-        if (axiosFilterData.status === 200) {
-          const filterData = axiosFilterData.data as recipeRoute;
-          setRecipeCardData(filterData.filterRecipes);
-        }
+
+        setTimeout(async () => {
+          const axiosFilterData = await axios.post(
+            `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}`
+          );
+          if (axiosFilterData?.data) {
+            const filterData = axiosFilterData?.data as recipeRoute;
+            setRecipeCardData(filterData?.filterRecipes);
+          }
+        }, 1000);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   }, [searchName, difficulty, category]);
-  
   return (
     <>
       <div className="flex justify-between my-2 px-2.5 max-[750px]:flex-col max-[750px]:gap-5 ">
         <div className="flex gap-50 max-[750px]:justify-between max-[480px]:flex-col max-[480px]:gap-2.5">
           <select
-            className="border-2  rounded-2xl py-2 px-5"
+            className="border-2 rounded-2xl py-2 px-5"
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Category</option>
@@ -63,7 +63,8 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-      <RecipeCard recipeCardData={recipeCardData}/>
+        <RecipeCard recipeCardData={recipeCardData} />
+      
     </>
   );
 }

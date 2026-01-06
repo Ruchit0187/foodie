@@ -4,18 +4,17 @@ import { CiClock2 } from "react-icons/ci";
 import Image from "next/image";
 import LikeButton from "./LikeButton";
 import BookMark from "./BookMark";
-import { useSession } from "next-auth/react";
+
 
 interface IrecipeCardData {
   recipeCardData: recipeDataTypes[];
 }
 
 function RecipeCard({ recipeCardData }: IrecipeCardData) {
-  const {data:sessionData}=useSession()
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
-        {recipeCardData.map((value) => (
+        {recipeCardData?.map((value) => (
           <li
             className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
             key={String(value._id)}
@@ -36,7 +35,7 @@ function RecipeCard({ recipeCardData }: IrecipeCardData) {
                     <h5 className="mt-4 mb-2 text-xl font-semibold text-heading text-nowrap">
                       {value.name}
                     </h5>
-                    <LikeButton recipeId={value._id} count={value.count} likes={value.likes} />
+                    <LikeButton recipeId={value?._id} count={value?.count} likes={value?.likes} />
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="text-body text-sm flex items-center gap-2 bg-[#fef4cc] p-2 mt-2 rounded-2xl">

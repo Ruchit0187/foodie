@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
   const decode = jwt.verify(String(token.value), process.env.JWT_SECRET_KEY!) as Ijwt;
   if (decode.otp === mailOtp) {
     cookie.set("otp", "");
+    cookie.delete("otp");
     return NextResponse.json(
       { message: "OTP verify Successfully" },
       { status: 200 }

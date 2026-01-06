@@ -3,8 +3,6 @@ import NextAuth, { AuthError } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
-
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
@@ -21,12 +19,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         password: { type: "password", label: "password" },
       },
-      async authorize(credentials:any): Promise<any> {
+      async authorize(credentials: any): Promise<any> {
         try {
-          if(!credentials.email || !credentials.password) return null
+          if (!credentials.email || !credentials.password) return null;
           return {
             email: credentials.email,
-            id:credentials._id
+            id: credentials._id,
           };
         } catch (error) {
           console.log(error);
@@ -49,4 +47,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
+  session: {
+    strategy: "jwt",
+  },
+  pages:{
+    signIn:"/signin"
+  },
+  secret: process.env.JWT_SECRET_KEY!,
 });
