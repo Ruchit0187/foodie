@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/image";
 import { blogData } from "../types";
 import Link from "next/link";
@@ -16,7 +15,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
             <Link href={`/blogs/${blogvalue._id}`}>
               <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
                 <Image
-                  src={"/sample.jpg"}
+                  src={blogvalue.image.trimEnd()}
                   width={250}
                   height={250}
                   className="object-cover object-center  h-65  rounded-2xl"
@@ -31,7 +30,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                       blogID={blogvalue._id}
                     />
                   </span>
-                  <span className="">Date</span>
+                  <span className="">{blogvalue.date}</span>
                 </div>
                 <div className=" p-1.5 text-left italic font-bold ">
                   {blogvalue.title}

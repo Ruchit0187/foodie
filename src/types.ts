@@ -23,7 +23,7 @@ export interface blogData {
   name: string;
   title: string;
   category: string;
-  date: Date;
+  date: string;
   image: string;
   quick_summary: string;
   health_benefits: string[];

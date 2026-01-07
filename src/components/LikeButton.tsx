@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 
 interface likeButtonProps {
@@ -10,12 +10,19 @@ interface likeButtonProps {
 }
 
 function LikeButton({ recipeId, count, likes }: likeButtonProps) {
+  
   const { data: sessionData } = useSession();
+  const [likecontrol, setLikeControl] = useState<boolean>(false);
   const [likeRecipe, setLikeRecipe] = useState<number>(count);
-  const likeRecipeValue: boolean = likes?.includes(
-    String(sessionData?.user?.id)
-  );
-  const [likecontrol, setLikeControl] = useState<boolean>(likeRecipeValue);
+  useEffect(() => {
+    if (sessionData?.user?.id) {
+      const likeRecipeValue: boolean = likes?.includes(
+        String(sessionData?.user?.id)
+      );
+      setLikeControl(likeRecipeValue);
+    }
+  }, [sessionData]);
+
   const handleLikeButton = async (event: MouseEvent, value: string) => {
     event.stopPropagation();
     event.preventDefault();

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { CiBookmark } from "react-icons/ci";
 import { FaBookmark } from "react-icons/fa";
 
@@ -12,10 +12,15 @@ function BookMark({
   bookmarkValue: string[];
 }) {
   const { data: sessionData } = useSession();
-  const bookMark: boolean = bookmarkValue.includes(
-    String(sessionData?.user?.id)
-  );
-  const [bookmarkApi, setBookmarkApi] = useState<boolean>(bookMark);
+  const [bookmarkApi, setBookmarkApi] = useState<boolean>(false);
+  useEffect(() => {
+    if (sessionData?.user?.id) {
+      const bookMark: boolean = bookmarkValue.includes(
+        String(sessionData?.user?.id)
+      );
+      setBookmarkApi(bookMark);
+    }
+  }, [sessionData]);
   const handleMarkDown = async (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();

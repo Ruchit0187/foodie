@@ -3,7 +3,7 @@ interface Iblog extends Document {
   name: string;
   title: string;
   category: string;
-  date: Date;
+  date: string;
   image: string;
   quick_summary: string;
   health_benefits: string[];
@@ -13,7 +13,7 @@ const blogSchema: Schema<Iblog> = new Schema({
   name: String,
   title: String,
   category: String,
-  date: Date,
+  date: String,
   image: String,
   quick_summary: String,
   health_benefits:[],

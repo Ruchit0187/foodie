@@ -1,38 +1,26 @@
 "use client";
-import { recipeDataTypes, recipeRoute } from "../types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RecipeCard from "./RecipeCard";
 import axios from "axios";
 import { useDebounceCallback } from "usehooks-ts";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "./Loading";
 
-export interface IrecipeDeatils {
-  recipeData: recipeDataTypes[];
-}
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-  const [recipeCardData, setRecipeCardData] = useState<recipeDataTypes[]>([]);
   const debounce = useDebounceCallback(setSearchName, 1000);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-
-        setTimeout(async () => {
-          const axiosFilterData = await axios.post(
-            `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}`
-          );
-          if (axiosFilterData?.data) {
-            const filterData = axiosFilterData?.data as recipeRoute;
-            setRecipeCardData(filterData?.filterRecipes);
-          }
-        }, 1000);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [searchName, difficulty, category]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["recipe", difficulty, category, searchName],
+    queryFn: async () => {
+      const value = await axios.post(
+        `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}`
+      );
+      return value.data;
+    },
+    gcTime: 5000,
+  });
   return (
     <>
       <div className="flex justify-between my-2 px-2.5 max-[750px]:flex-col max-[750px]:gap-5 ">
@@ -63,8 +51,7 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-        <RecipeCard recipeCardData={recipeCardData} />
-      
+      {isLoading ? <Loading /> : <RecipeCard recipeCardData={data} />}
     </>
   );
 }

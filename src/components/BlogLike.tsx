@@ -1,6 +1,7 @@
+"use client"
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 
 interface blogLikeProps {
@@ -9,10 +10,13 @@ interface blogLikeProps {
 }
 function BlogLike({ bloglikes, blogID }: blogLikeProps) {
   const { data: sessionData } = useSession();
-  const likeRecipeValue: boolean = bloglikes?.includes(
-    String(sessionData?.user?.id)
-  );
-  const [likecontrol, setLikeControl] = useState(likeRecipeValue);
+  const [likecontrol, setLikeControl] = useState(false);
+  useEffect(() => {
+    if (sessionData?.user?.id) {
+      const liked = bloglikes.includes(String(sessionData.user.id));
+      setLikeControl(liked);
+    }
+  }, [sessionData]);
   const handleLikeButton = async (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
