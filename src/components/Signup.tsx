@@ -43,7 +43,7 @@ export default function Signup() {
   return (
     <>
       <form
-        className="flex flex-col w-1/2 mx-auto gap-2 p-8"
+        className="flex flex-col w-1/2 mx-auto gap-2 p-8 max-[700px]:w-full"
         method="post"
         onSubmit={handleSubmit(signupData)}
       >

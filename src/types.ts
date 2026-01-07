@@ -29,3 +29,14 @@ export interface blogData {
   health_benefits: string[];
   blog_likes: string[];
 }
+
+export interface individualBlog {
+  name: string;
+  title: string;
+  category: string;
+  date: string;
+  image: string;
+  quick_summary: string;
+  health_benefits: string[];
+  description: string;
+}

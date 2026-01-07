@@ -12,7 +12,6 @@ interface filterRecipes {
 
 function RecipeCard({ recipeCardData }: filterRecipes) {
   const {filterRecipes}:any=recipeCardData
-
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">

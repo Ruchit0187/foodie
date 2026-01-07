@@ -6,7 +6,7 @@ const eslintConfig = defineConfig([
   // Override default ignores of eslint-config-next.
   {
     rules: {
-      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/set-state-in-effect": "off",
     },
   },
   globalIgnores([

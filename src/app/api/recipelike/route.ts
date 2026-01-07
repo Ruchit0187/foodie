@@ -11,7 +11,7 @@ export async function PATCH(request: NextRequest) {
      const likeValue=await Recipes.findByIdAndUpdate(recipeID, {
         $addToSet: { likes: userID },
         $inc: { count: 1 },
-      },{new:true});
+      },{new:true}).select('-_id -bookmark');
       return NextResponse.json(likeValue, { status: 200 });
     } else {
      const likeValue= await Recipes.findByIdAndUpdate(recipeID, {

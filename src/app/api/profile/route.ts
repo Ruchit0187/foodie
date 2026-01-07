@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { User } from "@/src/model/userSchema";
+import { dbConnect } from "@/src/lib/dbConnect";
 
 export async function GET(request: NextRequest) {
-  const cookie = await cookies();
-  const cookieData = cookie.get("signin")?.value || "";
-  const userEmail = jwt.verify(cookieData, process.env.JWT_SECRET_KEY!);
-  console.log(userEmail);
-  //   console.log(userEmail)
-  return NextResponse.json({ message: "cookie is get" });
+  await dbConnect()
+  try {
+    const { email } = await request.json();
+    const user = await User.findOne({ email }).select("-_id");
+    return NextResponse.json(user, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 });
+  }
 }

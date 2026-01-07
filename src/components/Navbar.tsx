@@ -1,9 +1,12 @@
+import { auth } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
+import Profile from "./Profile";
 
-export default function Navbar() {
-
+export default async function Navbar() {
+  const session = await auth();
+  
   return (
     <div className="flex w-full bg-amber-400 mx-auto justify-between items-center">
       <div className="flex w-[80%] p-2">
@@ -48,9 +51,16 @@ export default function Navbar() {
         </div>
       </div>
       <div className="pr-5 text-2xl">
-        <Link href={"/signup"} className="flex flex-col items-center gap-1">
-          <FaUser /> <p className="text-sm">SignUp</p>
-        </Link>
+        {session?.user ? (
+          <div>
+            <Profile/>
+          </div>
+        ) : (
+          <Link href={"/signup"} className="flex flex-col items-center gap-1">
+            <FaUser  />{" "}
+            <p className="text-sm">SignUp</p>
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -11,7 +11,8 @@ interface Isignin {
   password: string;
 }
 export default function Signin() {
-  const router=useRouter()
+  const router=useRouter();
+
   const signinData = async (formData: Isignin) => {
     const userSignData = {
       email: formData.email.trim(),
