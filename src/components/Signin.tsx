@@ -24,7 +24,7 @@ export default function Signin() {
          ...signInApiResponse.data?.user,
          redirect:false
       });
-      toast.success(signInApiResponse.data.message)
+      toast.success(signInApiResponse.data.message);
       router.push("/")
     } catch (error) {
       if (axios.isAxiosError(error)) {

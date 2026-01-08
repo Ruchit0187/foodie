@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 const { Title } = Typography;
 const OtpVerify: React.FC = () => {
   const [otp, setOtp] = useState<string>("");
- 
   const router = useRouter();
   useEffect(() => {
     async function otpCheck() {

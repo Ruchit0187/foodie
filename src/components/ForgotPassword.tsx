@@ -14,7 +14,7 @@ function ForgotPassword() {
     const email = emailData.email.trim();
     try {
       const emailStatus = await axios.post("/api/forgot", { email });
-      if (emailStatus.status === 200) {
+      if (emailStatus.status === 200){
         router.push("/otpverify");
       }
     } catch (error) {
