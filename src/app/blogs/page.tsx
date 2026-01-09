@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 
 const blogDataFetch = async () => {
   try {
-    const blogResponse = await fetch("http://localhost:3000/api/blogs", {
-      next: { revalidate: 10 },
+    const blogResponse = await fetch(`${process.env.BASE_URL}/api/blogs`, {
+      next: { revalidate: 5 },
     });
     if (!blogResponse.ok) return notFound();
     const blogDataValue = await blogResponse.json();
@@ -16,7 +16,7 @@ const blogDataFetch = async () => {
 
 async function Blog() {
   const blogValue = await blogDataFetch();
-  return <BlogData blogData={blogValue} />;
+  return <BlogData blogData={blogValue}/>;
 }
 
 export default Blog;

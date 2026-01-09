@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
     const search = searchParams.get("search");
     const difficulty = searchParams.get("difficulty");
     const category = searchParams.get("category");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
     if (difficulty) query.difficulty = difficulty;

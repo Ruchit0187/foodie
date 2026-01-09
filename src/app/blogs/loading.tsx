@@ -1,9 +1,6 @@
 export default function Loading() {
   return (
    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-4 bg-white">
-  <p className="text-lg font-semibold text-gray-700 tracking-wide">
-    Loading blogs...
-  </p>
 
   <div role="status">
     <svg

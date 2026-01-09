@@ -20,10 +20,11 @@ export default function Signin() {
     };
     try {
       const signInApiResponse = await axios.post("/api/signin", userSignData);
-        signIn("credentials", {
+      signIn("credentials", {
          ...signInApiResponse.data?.user,
          redirect:false
       });
+      console.log(signInApiResponse)
       toast.success(signInApiResponse.data.message);
       router.push("/")
     } catch (error) {

@@ -9,7 +9,7 @@ function Profile({ sessionValue }: any) {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
-      <button onClick={() => setOpen(true)}>
+      <button onClick={() => setOpen(true)} className="cursor-pointer">
         <FaUser />
       </button>
       <Modal
@@ -33,7 +33,6 @@ function Profile({ sessionValue }: any) {
           </span>
           <div className="flex flex-col">
             <span>{sessionValue.user.email}</span>
-            <span>profile.email</span>
           </div>
           <button
             className="block bg-black text-white mx-auto p-2.5 rounded-2xl"

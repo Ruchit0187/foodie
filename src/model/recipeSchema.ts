@@ -11,7 +11,8 @@ export interface Irecipes extends Document {
   ingredients: Ingredients[];
   likes: Types.ObjectId[];
   count: number;
-  bookmark:Types.ObjectId[]
+  bookmark: Types.ObjectId[];
+  cookingTimeMinutes: number;
 }
 
 const recipesSchema: Schema<Irecipes> = new Schema({
@@ -22,7 +23,8 @@ const recipesSchema: Schema<Irecipes> = new Schema({
   ingredients: [],
   likes: [],
   count: Number,
-  bookmark:[]
+  bookmark: [],
+  cookingTimeMinutes: Number,
 });
 export const Recipes: Model<Irecipes> =
   mongoose.models.recipes || mongoose.model("recipes", recipesSchema);

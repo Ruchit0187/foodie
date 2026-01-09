@@ -44,7 +44,7 @@ function BookMark({
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 
-                      text-2xl text-red-600
+                      text-2xl text-green-500
                       transition-transform duration-200
                       hover:scale-110 active:scale-95 cursor-pointer"
             onClick={(event) => handleMarkDown(event)}

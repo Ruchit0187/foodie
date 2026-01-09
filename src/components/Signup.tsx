@@ -53,7 +53,7 @@ export default function Signup() {
         <input
           {...register("name", { required: true })}
           id="Name"
-          className="border-2  p-1 block"
+          className="border-2  p-1.5 block rounded-2xl"
           placeholder="Enter your Name"
         />
         {errors.name && <p className="text-red-500">Enter the Name</p>}
@@ -67,7 +67,7 @@ export default function Signup() {
           })}
           placeholder="Enter your Email"
           id="Email"
-          className="border-2 p-1"
+          className="border-2 p-1.5 rounded-2xl"
         />
         {errors.email && (
           <p className="text-red-500">Enter the Valid Email id</p>
@@ -78,7 +78,7 @@ export default function Signup() {
         <input
           type="password"
           {...register("password", { required: true, min: 5 })}
-          className="border-2  p-1"
+          className="border-2  p-1.5 rounded-2xl"
           id="Password"
           placeholder="Enter your Password"
         />

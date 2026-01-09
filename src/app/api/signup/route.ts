@@ -7,7 +7,7 @@ import { sendMail } from "@/src/helper/mailer";
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
-    const { email, password, name } = await request.json();
+    const { email, password, name} = await request.json();
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json({ error: "User already Registered" },{status:409});
