@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+export { auth as middleware } from '@/auth'; 
 
 export async function proxy(request: NextRequest) {
   const secret = process.env.JWT_SECRET_KEY;
@@ -24,6 +25,6 @@ export const config = {
     "/signup",
     "/forgot",
     "/resetpassword",
-    
+    "/admin"
   ],
 };

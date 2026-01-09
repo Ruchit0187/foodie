@@ -10,7 +10,6 @@ interface likeButtonProps {
 }
 
 function LikeButton({ recipeId, count, likes }: likeButtonProps) {
-  
   const { data: sessionData } = useSession();
   const [likecontrol, setLikeControl] = useState<boolean>(false);
   const [likeRecipe, setLikeRecipe] = useState<number>(count);
@@ -22,7 +21,6 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
       setLikeControl(likeRecipeValue);
     }
   }, [sessionData]);
-
   const handleLikeButton = async (event: MouseEvent, value: string) => {
     event.stopPropagation();
     event.preventDefault();
@@ -44,7 +42,7 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
   };
   return (
     <div className="mt-4 mb-2 text-sm text-body">
-      {sessionData?.user && (
+      {sessionData?.user && sessionData?.user.isAdmin === "false" && (
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 

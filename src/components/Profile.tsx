@@ -36,7 +36,7 @@ function Profile({ sessionValue }: any) {
           </div>
           <button
             className="block bg-black text-white mx-auto p-2.5 rounded-2xl"
-            onClick={() => signOut({redirectTo:"/"})}
+            onClick={() => signOut({redirect:false})}
           >
             Sign out
           </button>

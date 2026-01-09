@@ -1,6 +1,25 @@
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
+
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      isAdmin: string;
+    } & DefaultSession["user"];
+  }
+  interface User {
+    isAdmin: string ;
+  }
+}
+declare module "next-auth/jwt" {
+  interface JWT {
+    user: {
+      isAdmin: string;
+    } & DefaultSession["user"];
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -24,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return {
             email: credentials.email,
             id: credentials._id,
+            isAdmin: credentials.isAdmin,
           };
         } catch (error) {
           console.log(error);
@@ -36,12 +56,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.isAdmin = user.isAdmin;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
+        session.user.isAdmin = token.isAdmin as string;
       }
       return session;
     },

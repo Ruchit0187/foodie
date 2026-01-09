@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Navbar from "../components/Navbar";
-import "./globals.css";
+import Navbar from "@/src/components/Navbar";
+import "../globals.css";
 import type { Session } from "next-auth";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";

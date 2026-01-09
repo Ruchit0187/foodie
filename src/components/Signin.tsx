@@ -12,7 +12,6 @@ interface Isignin {
 }
 export default function Signin() {
   const router=useRouter();
-
   const signinData = async (formData: Isignin) => {
     const userSignData = {
       email: formData.email.trim(),
@@ -24,7 +23,6 @@ export default function Signin() {
          ...signInApiResponse.data?.user,
          redirect:false
       });
-      console.log(signInApiResponse)
       toast.success(signInApiResponse.data.message);
       router.push("/")
     } catch (error) {
@@ -90,7 +88,7 @@ export default function Signin() {
 
         <button
           type="submit"
-          className="text-white bg-black mx-auto block rounded-2xl box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none "
+          className="text-white bg-black mx-auto block rounded-2xl box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none  cursor-pointer"
         >
           Submit
         </button>

@@ -38,7 +38,9 @@ export async function DELETE(request: NextRequest) {
   await dbConnect();
   try {
     const { recipeID } = await request.json();
-    await Recipes.findByIdAndDelete(recipeID);
+    console.log(recipeID)
+   const value= await Recipes.findByIdAndDelete(recipeID);
+   console.log(value)
     return NextResponse.json(
       { message: "Recipe data Deleted Successfully" },
       { status: 200 }
