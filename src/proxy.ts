@@ -16,6 +16,9 @@ export async function proxy(request: NextRequest) {
   if (token && (path.startsWith("/signin") || path.startsWith("/signup"))) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+  if(token?.isAdmin==="false" &&(path.startsWith("/admin"))){
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 }
 export const config = {
   matcher: [

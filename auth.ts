@@ -10,14 +10,12 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
   interface User {
-    isAdmin: string ;
+    isAdmin: string;
   }
 }
 declare module "next-auth/jwt" {
   interface JWT {
-    user: {
-      isAdmin: string;
-    } & DefaultSession["user"];
+    isAdmin: string ;
   }
 }
 

@@ -1,6 +1,11 @@
 import { SessionProvider } from "next-auth/react";
-import "../globals.css"
-import Navbar from "./_component/Navbar";
+import "../globals.css";
+import Navbar from "./_components/Navbar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Panel",
+};
 export default function RootLayout({
   children,
 }: {
@@ -9,9 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-      <body>
-        <Navbar/>
-        {children}</body>
+        <body>
+          <Navbar />
+          {children}
+        </body>
       </SessionProvider>
     </html>
   );

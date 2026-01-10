@@ -11,7 +11,7 @@ interface Isignin {
   password: string;
 }
 export default function Signin() {
-  const router=useRouter();
+  const router = useRouter();
   const signinData = async (formData: Isignin) => {
     const userSignData = {
       email: formData.email.trim(),
@@ -20,11 +20,15 @@ export default function Signin() {
     try {
       const signInApiResponse = await axios.post("/api/signin", userSignData);
       signIn("credentials", {
-         ...signInApiResponse.data?.user,
-         redirect:false
+        ...signInApiResponse.data?.user,
+        redirect: false,
       });
       toast.success(signInApiResponse.data.message);
-      router.push("/")
+      if (signInApiResponse.data.user.isAdmin) {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error?.response?.data.error);

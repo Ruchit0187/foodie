@@ -47,9 +47,6 @@ export default  function Navbar() {
                 About us
               </Link>
             </li>
-            <li>
-              {session?.user.isAdmin==="true" && <div>Admin panel</div>}
-            </li>
           </ul>
         </div>
       </div>

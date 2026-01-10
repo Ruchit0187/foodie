@@ -42,7 +42,7 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
   };
   return (
     <div className="mt-4 mb-2 text-sm text-body">
-      {sessionData?.user && sessionData?.user.isAdmin === "false" && (
+      {sessionData?.user && (
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 

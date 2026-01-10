@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import Profile from "@/src/components/Profile";
 import { useSession } from "next-auth/react";
 
-export default  function Navbar() {
+export default function Navbar() {
   const {data:session}=useSession()
   return (
     <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-1">
@@ -25,7 +25,7 @@ export default  function Navbar() {
           <ul className="font-medium flex  p-4 md:p-0 mt-4  rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8  md:mt-0 md:border-0 md:bg-neutral-primary">
             <li>
               <Link
-                href={"/admin"}
+                href={"/admin/recipes"}
                 className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
               >
                 Recipes
@@ -33,7 +33,7 @@ export default  function Navbar() {
             </li>
             <li>
               <Link
-                href={"/admin"}
+                href={"/admin/blogs"}
                 className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
               >
                 Blogs
@@ -41,7 +41,7 @@ export default  function Navbar() {
             </li>
             <li>
               <Link
-                href={"/admin"}
+                href={"/admin/addrecipe"}
                 className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
               >
                 Add Recipe
@@ -49,14 +49,11 @@ export default  function Navbar() {
             </li>
             <li>
               <Link
-                href={"/admin"}
+                href={"/admin/users"}
                 className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
               >
                 Users
               </Link>
-            </li>
-            <li>
-              {session?.user.isAdmin==="true" && <div>Admin panel</div>}
             </li>
           </ul>
         </div>

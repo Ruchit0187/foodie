@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   await dbConnect();
   try {
-    const allRecipes = await Recipes.find();
+    const allRecipes = await Recipes.find().select("-likes -bookmark");
     return NextResponse.json(allRecipes, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Data not fetch" }, { status: 500 });
@@ -14,14 +14,17 @@ export async function GET() {
 export async function PATCH(request: NextRequest) {
   await dbConnect();
   try {
-    const { recipeID, name, category, difficulty, cookingTimeMinutes } =
+    
+    const { recipeID, name, category, image,difficulty, cookingTimeMinutes,ingredients } =
       await request.json();
     const query: Record<string, any> = {};
     if (name) query.name = name;
     if (category) query.category = category.toLowerCase();
     if (difficulty) query.difficulty = difficulty.toLowerCase();
     if (cookingTimeMinutes) query.cookingTimeMinutes = cookingTimeMinutes;
-    if (!(name && category && difficulty && cookingTimeMinutes)) {
+    if(image) query.image=image
+    if(ingredients) query.ingredients=ingredients
+    if (!(name && category && difficulty && cookingTimeMinutes &&ingredients)) {
       return NextResponse.json({ message: "No Update Found" });
     }
     await Recipes.findByIdAndUpdate(recipeID, query);
@@ -38,9 +41,9 @@ export async function DELETE(request: NextRequest) {
   await dbConnect();
   try {
     const { recipeID } = await request.json();
-    console.log(recipeID)
-   const value= await Recipes.findByIdAndDelete(recipeID);
-   console.log(value)
+    console.log(recipeID);
+    const value = await Recipes.findByIdAndDelete(recipeID);
+    console.log(value);
     return NextResponse.json(
       { message: "Recipe data Deleted Successfully" },
       { status: 200 }
