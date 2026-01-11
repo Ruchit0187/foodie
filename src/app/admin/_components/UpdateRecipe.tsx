@@ -24,7 +24,6 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
   const showModal = () => {
     setIsModalOpen(true);
   };
-
   const handleOk = async () => {
     setIsModalOpen(false);
     handleSubmit(onSubmit)();

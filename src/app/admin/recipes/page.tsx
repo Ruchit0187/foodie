@@ -1,40 +1,32 @@
 import { recipeDataTypes } from "@/src/types";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import RecipeDelete from "../_components/DeleteRecipe";
 import UpdateRecipe from "../_components/UpdateRecipe";
 
 async function page() {
   const recipeAdminData = await fetch(
-    "http://localhost:3000/api/admin/recipes",
-    { next: { tags: ["admin-recipes"] } }
+    `${process.env.BASE_URL}/api/admin/recipes`
   );
   if (!recipeAdminData.ok) return notFound();
   const recipeJsonData: recipeDataTypes[] = await recipeAdminData.json();
+  const tableHeading = [
+    "Image",
+    "Recipe Name",
+    "Category",
+    " Difficulty",
+    "Ingredients",
+  ];
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
       <table className="w-full text-sm text-left rtl:text-right text-body">
         <thead className="bg-neutral-secondary-soft border-b border-default">
           <tr className="text-xl">
-            <th scope="col" className="px-2.5 py-3 font-medium">
-              Image
-            </th>
-            <th scope="col" className="px-2.5 py-3 font-medium">
-              Recipe name
-            </th>
-            <th scope="col" className="px-1.5 py-3 font-medium">
-              Category
-            </th>
-            <th scope="col" className="px-1.5 py-3 font-medium">
-              Difficulty
-            </th>
-            <th scope="col" className="px-2.5 py-3 font-medium">
-              CookingTime
-            </th>
-            <th scope="col" className="text-center py-3 font-medium">
-              Ingredients
-            </th>
+            {tableHeading.map((tableValue, index) => (
+              <th key={index} scope="col" className="px-2.5 py-3 font-medium">
+                {tableValue}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -53,7 +45,6 @@ async function page() {
                   alt={data.name}
                   height={52}
                   width={101}
-                  quality={50}  
                   className="object-cover w-34 h-24.5"
                 />
               </th>

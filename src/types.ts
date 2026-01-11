@@ -40,3 +40,12 @@ export interface individualBlog {
   health_benefits: string[];
   description: string;
 }
+
+export interface userData {
+  _id: string;
+  name:string
+  email: string;
+  password: string;
+  isVerify: boolean;
+  isAdmin: boolean;
+}

@@ -22,7 +22,10 @@ const recipesSchema: Schema<Irecipes> = new Schema({
   difficulty: String,
   ingredients: [],
   likes: [],
-  count: Number,
+  count: {
+    type: Number,
+    default: 0,
+  },
   bookmark: [],
   cookingTimeMinutes: Number,
 });

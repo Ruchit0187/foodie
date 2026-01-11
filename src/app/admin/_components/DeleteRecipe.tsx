@@ -5,18 +5,26 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 
-
-
-function RecipeDelete({ recipeID }: { recipeID: string }) {
-  const router=useRouter()
+function RecipeDelete({
+  recipeID,
+  userID,
+}: {
+  recipeID?: string;
+  userID?: string;
+}) {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
-   
     setIsModalOpen(true);
   };
 
   const handleOk = async () => {
-    await axios.delete("/api/admin/recipes", { data: { recipeID } });
+    if (recipeID) {
+      await axios.delete("/api/admin/recipes", { data: { recipeID } });
+    }
+    if (userID) {
+      await axios.delete("/api/admin/users", { data: { userID } });
+    }
     router.refresh();
     setIsModalOpen(false);
   };
