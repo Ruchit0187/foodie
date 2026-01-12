@@ -1,7 +1,7 @@
 import { recipeDataTypes } from "@/src/types";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import RecipeDelete from "../_components/DeleteRecipe";
+import DeleteData from "../_components/DeleteData";
 import UpdateRecipe from "../_components/UpdateRecipe";
 
 async function page() {
@@ -15,6 +15,7 @@ async function page() {
     "Recipe Name",
     "Category",
     " Difficulty",
+    "cooking time",
     "Ingredients",
   ];
   return (
@@ -62,7 +63,7 @@ async function page() {
                 </div>
               </td>
               <td className="mr-2.5">
-                <RecipeDelete recipeID={data._id} />
+                <DeleteData recipeID={data._id} />
               </td>
               <td>
                 <UpdateRecipe value={data} />

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RecipeCard from "@/src/components/RecipeCard";
 import axios from "axios";
 import { useDebounceCallback } from "usehooks-ts";
@@ -10,17 +10,34 @@ function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
   const [category, setCategory] = useState<string>("");
+  const [recipeData, setRecipeData] = useState([]);
   const debounce = useDebounceCallback(setSearchName, 1000);
-  const { data, isLoading } = useQuery({
-    queryKey: ["recipe", difficulty, category, searchName],
+  const [limit, setLimit] = useState<number>(1);
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["recipe", difficulty, category, searchName, limit],
     queryFn: async () => {
       const value = await axios.post(
-        `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}`
+        `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}&limit=${limit}`
       );
+      setRecipeData(value.data);
       return value.data;
     },
-    gcTime: 5000,
+    gcTime: 40000,
   });
+
+  const handleScroll = useCallback(() => {
+    const bottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 1;
+    if (bottom && !isFetching) {
+      setLimit((prev) => prev + 1);
+    }
+  }, [isFetching]);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isFetching, handleScroll]);
+
   return (
     <>
       <div className="flex justify-between my-2 px-2.5 max-[750px]:flex-col max-[750px]:gap-5 ">
@@ -51,7 +68,11 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-      {isLoading ? <Loading /> : <RecipeCard recipeCardData={data} />}
+      {recipeData.length < 1 ? (
+        <Loading />
+      ) : (
+        <RecipeCard recipeCardData={recipeData} isLoadingData={isLoading} />
+      )}
     </>
   );
 }

@@ -1,13 +1,12 @@
 import { userData } from "@/src/types";
 import NotFound from "../recipes/not-found";
-import RecipeDelete from "../_components/DeleteRecipe";
-
+import DeleteData from "../_components/DeleteData";
 
 async function UserPage() {
   const userData = await fetch(`${process.env.BASE_URL}/api/admin/users`);
   if (!userData.ok) return NotFound;
   const userJsonData = await userData.json();
-  const{users}=userJsonData;
+  const { users } = userJsonData;
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
       <table className="w-full text-sm text-left rtl:text-right text-body">
@@ -20,12 +19,18 @@ async function UserPage() {
               Email
             </th>
             <th scope="col" className="px-2.5 py-3 font-medium">
+              isVerify
+            </th>
+            <th scope="col" className="px-2.5 py-3 font-medium">
+              Role
+            </th>
+            <th scope="col" className="px-2.5 py-3 font-medium">
               Action
             </th>
           </tr>
         </thead>
         <tbody>
-          {users.map((data:userData) => (
+          {users.map((data: userData) => (
             <tr
               key={data._id}
               className="odd:bg-neutral-primary even:bg-neutral-secondary-soft
@@ -36,10 +41,17 @@ async function UserPage() {
             >
               <td className="px-2.5 py-4">{data.name}</td>
               <td className="px-1.5 py-4">{data.email}</td>
-              <td> <RecipeDelete userID={data._id} /></td>
+              <td className="px-1.5 py-4">{`${
+                data.isVerify ? "Verified" : "NotVerified"
+              }`}</td>
+              <td className="px-1.5 py-4">
+                {`${data.isAdmin ? "Admin" : "User"}`}
+              </td>
+              <td>
+                <DeleteData userID={data._id} />
+              </td>
             </tr>
-           ))} 
-
+          ))}
         </tbody>
       </table>
     </div>

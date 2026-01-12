@@ -18,7 +18,7 @@ export async function DELETE(request: NextRequest) {
   await dbConnect();
   try {
     const { userID } = await request.json();
-    await User.findByIdAndDelete(userID);
+    const value=await User.findByIdAndDelete(userID);
     return NextResponse.json(
       { message: "User Deleted successfully" },
       { status: 200 }

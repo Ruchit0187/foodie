@@ -4,11 +4,6 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
 declare module "next-auth" {
-  interface Session {
-    user: {
-      isAdmin: string;
-    } & DefaultSession["user"];
-  }
   interface User {
     isAdmin: string;
   }

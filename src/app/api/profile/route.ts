@@ -1,16 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "@/src/model/userSchema";
 import { dbConnect } from "@/src/lib/dbConnect";
+import bcrypt from "bcryptjs";
 
-export async function POST(request: NextRequest) {
-  await dbConnect()
+export async function GET(request: NextRequest) {
+  await dbConnect();
   try {
     const { email } = await request.json();
-    console.log(email)
-    const user = await User.findOne({ email }).select("-_id -password");
+    console.log(email);
+    const user = await User.findOne({ email });
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json(error, { status: 500 });
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  await dbConnect();
+  try {
+    const { name, password, _id } = await request.json();
+    const hashPassword = bcrypt.hashSync(password, 10);
+    const updateUser = await User.findByIdAndUpdate(_id, {
+      name,
+      password: hashPassword,
+    });
+    return NextResponse.json(
+      { message: "User Data Updated successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "User Update Not Fetched" },
+      { status: 500 }
+    );
   }
 }

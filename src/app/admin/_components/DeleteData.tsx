@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 
-function RecipeDelete({
+function DeleteData({
   recipeID,
   userID,
 }: {
@@ -43,10 +43,10 @@ function RecipeDelete({
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        Do you want to Delete
+        Do you want to Delete Data
       </Modal>
     </>
   );
 }
 
-export default RecipeDelete;
+export default DeleteData;

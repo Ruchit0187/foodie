@@ -5,15 +5,19 @@ import Image from "next/image";
 import LikeButton from "./LikeButton";
 import BookMark from "./BookMark";
 import { useState } from "react";
-import Skeleton from "react-loading-skeleton";
+import Datanot from "./Datanot";
+import Loading from "./Loading";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
-}
+  isLoadingData:boolean}
 
-function RecipeCard({ recipeCardData }: filterRecipes) {
+function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
   const { filterRecipes }: any = recipeCardData;
-  const [imgLoading, setImgLoading] = useState(true);
+  const [imgLoading, setImgLoading] = useState(false);
+  if (filterRecipes.length === 0) {
+    return <Datanot />;
+  }
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
@@ -24,18 +28,12 @@ function RecipeCard({ recipeCardData }: filterRecipes) {
           >
             <Link href={`/recipes/${value._id}`}>
               <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
-                {imgLoading && (
-                  <div className="my-auto h-48 w-full object-cover md:h-full md:w-48">
-                    <Skeleton height={250} width={250} />
-                  </div>
-                )}
                 <Image
                   src={value.image.trimEnd()}
                   width={250}
                   height={250}
                   className="object-cover object-center  h-65  rounded-2xl"
                   alt={value.name}
-                  onLoad={() => setImgLoading(false)}
                 />
               </div>
               <div>
@@ -70,6 +68,7 @@ function RecipeCard({ recipeCardData }: filterRecipes) {
           </li>
         ))}
       </ul>
+      {isLoadingData ? <Loading /> : null}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-export { auth as middleware } from '@/auth'; 
+export { auth as middleware } from "@/auth";
 
 export async function proxy(request: NextRequest) {
   const secret = process.env.JWT_SECRET_KEY;
@@ -10,13 +10,16 @@ export async function proxy(request: NextRequest) {
   const otp = cookie.get("otp");
   const path = request.nextUrl.pathname;
   const token = await getToken({ req: request, secret });
+  if (!token && path.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   if (!otp && path.startsWith("/otpverify")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (token && (path.startsWith("/signin") || path.startsWith("/signup"))) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if(token?.isAdmin==="false" &&(path.startsWith("/admin"))){
+  if (token?.isAdmin === "false" && path.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
@@ -28,6 +31,6 @@ export const config = {
     "/signup",
     "/forgot",
     "/resetpassword",
-    "/admin"
+    "/admin/:path*",
   ],
 };

@@ -5,6 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import BackButton from "@/src/components/BackButton";
+import { auth } from "@/auth";
+import AddRecipe from "@/src/app/admin/addrecipe/page";
+import RecipeDelete from "@/src/app/admin/_components/DeleteData";
+import UpdateRecipe from "@/src/app/admin/_components/UpdateRecipe";
 
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
@@ -16,10 +20,11 @@ async function page(props: Promise<recipeDetails>) {
     `http://localhost:3000/api/recipe/${recipedeatils}`
   );
   const recipeData: recipeDataTypes = recipeIndividualData.data?.recipeDetails;
+  const session = await auth();
   return (
     <>
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
-        <BackButton/>
+        <BackButton />
         <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
           <div className=" max-[950px]:w-full flex flex-col w-1/2 ">
             <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
@@ -66,6 +71,12 @@ async function page(props: Promise<recipeDetails>) {
             </div>
           </div>
           <div className="w-1/2 mt-3.5 max-[950px]:w-full">
+            {session?.user?.isAdmin === "true" ? (
+              <div className="flex  justify-end">
+                <RecipeDelete recipeID={recipedeatils} />
+                <UpdateRecipe value={recipeData} />
+              </div>
+            ) : null}
             <div className="bg-green-200 border-dotted border-2 rounded-2xl mt-2">
               <h2 className=" flex text-xl justify-between  text-orange-400">
                 <div className="px-3 py-2">Units</div>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
+import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 interface formData {
   name: string;
   email: string;
@@ -15,6 +16,7 @@ interface formData {
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(true);
   const signupData = async (data: formData) => {
     const signupData = {
       name: data.name.trim(),
@@ -30,7 +32,7 @@ export default function Signup() {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error)
+        toast.error(error.response?.data.error);
       }
       setLoading(false);
     }
@@ -44,7 +46,6 @@ export default function Signup() {
     <>
       <form
         className="flex flex-col w-1/2 mx-auto gap-2 p-8 max-[700px]:w-full"
-        method="post"
         onSubmit={handleSubmit(signupData)}
       >
         <label htmlFor="Name" className="text-2xl">
@@ -75,13 +76,24 @@ export default function Signup() {
         <label htmlFor="Password" className="text-2xl">
           Password
         </label>
-        <input
-          type="password"
-          {...register("password", { required: true, min: 5 })}
-          className="border-2  p-1.5 rounded-2xl"
-          id="Password"
-          placeholder="Enter your Password"
-        />
+        <div className="relative inline-block w-full">
+          <input
+            type={`${showPassword?"password":"text"}`}
+            {...register("password", { required: true, min: 5 })}
+            className="border-2  p-1.5 rounded-2xl w-full"
+            id="Password"
+            placeholder="Enter your Password"
+          />
+          <span
+            onClick={(event) => {
+              event.preventDefault();
+              setShowPassword((prev) => !prev);
+            }}
+            className="absolute text-2xl top-[50%] translate-y-[-50%] translate-x-full right-10 cursor-pointer"
+          >
+            {showPassword ? <IoEyeOffSharp /> : <IoEye />}
+          </span>
+        </div>
         {errors.password && <p className="text-red-500">Enter the password</p>}
         {loading ? (
           <button className="block mx-auto bg-black text-white rounded-2xl p-2">

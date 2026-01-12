@@ -19,11 +19,12 @@ export async function POST(request: NextRequest) {
     const search = searchParams.get("search");
     const difficulty = searchParams.get("difficulty");
     const category = searchParams.get("category");
+    const limit=Number(searchParams.get("limit"))
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
     if (difficulty) query.difficulty = difficulty;
     if (category) query.category = category;
-    const filterRecipes = await Recipes.find(query);
+    const filterRecipes = await Recipes.find(query).limit(limit*6);
     // const filterRecipes = await Recipes.find({
     //   $or: [{ name: search }, { difficulty }],
     // });

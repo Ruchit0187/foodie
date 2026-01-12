@@ -1,25 +1,18 @@
 "use client";
 import { recipeDataTypes } from "@/src/types";
 import axios from "axios";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
+import { BiAddToQueue } from "react-icons/bi";
 function AddRecipe() {
+  const [ingredientsArray, setIngredientsArray] = useState<number>(3);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<recipeDataTypes>({
-    defaultValues: {
-      name: "",
-      category: "",
-      cookingTimeMinutes: undefined,
-      image: "",
-      ingredients: Array.from({ length: 5 }, () => ({
-        name: "",
-        quantity: "",
-      })),
-    },
-  });
+    reset,
+  } = useForm<recipeDataTypes>();
   const onSubmit: SubmitHandler<recipeDataTypes> = async (data) => {
     const filterIngredients = data.ingredients.filter(
       (value) => !(value.quantity === "" && value.name === "")
@@ -30,7 +23,7 @@ function AddRecipe() {
         ingredients: filterIngredients,
       });
       if (value.status === 200) {
-        toast.success(value.data.message);
+        reset();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -38,7 +31,7 @@ function AddRecipe() {
       }
     }
   };
-  const lines = Array.from({ length: 5 });
+  const lines = Array.from({ length: ingredientsArray });
 
   return (
     <form
@@ -120,6 +113,12 @@ function AddRecipe() {
             className="p-2 border-2 rounded-2xl w-fit"
             placeholder="Enter Ingredients quantity"
           />
+          {ingredientsArray - 1 === index ? (
+            <BiAddToQueue
+              onClick={() => setIngredientsArray((prev) => prev + 1)}
+              className="cursor-pointer relative  right-8 -top-8 text-2xl"
+            />
+          ) : null}
         </div>
       ))}
       <button className="block mx-auto bg-black text-white p-2 cursor-pointer rounded-2xl mt-2">

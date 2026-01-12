@@ -1,14 +1,16 @@
 function Datanot() {
   return (
-    <div className="min-h-60 flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl">
-  <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
-    <div className="flex justify-center">
-      <div className="animate-spin inline-block size-6 border-3 border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
-        <span className="sr-only">Loading...</span>
+    <div className="md:min-h-[80vh] flex justify-start  items-start pl-2.5 min-h-screen">
+      <div>
+        <h1 className="text-2xl md:text-4xl font-extrabold">Oooops...</h1>
+        <h2 className="text-xl md:text-2xl font-extrabold">
+          Looks like the Data could not be found!
+        </h2>
+        <div className="relative inline-flex items-center gap-x-4 group">
+          <h2 className="text-xl md:text-2xl font-extrabold">Go back to</h2>
+        </div>
       </div>
     </div>
-  </div>
-</div>
   );
 }
 

@@ -1,7 +1,7 @@
 import { SessionProvider } from "next-auth/react";
 import "../globals.css";
-import Navbar from "./_components/Navbar";
 import type { Metadata } from "next";
+import Navbar from "@/src/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Admin Panel",
