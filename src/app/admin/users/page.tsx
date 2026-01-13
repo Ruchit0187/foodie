@@ -7,6 +7,7 @@ async function UserPage() {
   if (!userData.ok) return NotFound;
   const userJsonData = await userData.json();
   const { users } = userJsonData;
+  console.log(userJsonData);
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
       <table className="w-full text-sm text-left rtl:text-right text-body">
@@ -19,7 +20,7 @@ async function UserPage() {
               Email
             </th>
             <th scope="col" className="px-2.5 py-3 font-medium">
-              isVerify
+              Email Verified
             </th>
             <th scope="col" className="px-2.5 py-3 font-medium">
               Role

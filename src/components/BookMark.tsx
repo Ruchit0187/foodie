@@ -7,8 +7,10 @@ import { FaBookmark } from "react-icons/fa";
 function BookMark({
   recipeID,
   bookmarkValue,
+  blogID,
 }: {
-  recipeID: string;
+  recipeID?: string;
+  blogID?:string
   bookmarkValue: string[];
 }) {
   const { data: sessionData } = useSession();

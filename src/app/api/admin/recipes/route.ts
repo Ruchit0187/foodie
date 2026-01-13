@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   await dbConnect();
   try {
-    const allRecipes = await Recipes.find().select("-likes -bookmark");
+    const allRecipes = await Recipes.find();
     return NextResponse.json(allRecipes, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Data not fetch" }, { status: 500 });
@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
       image,
     };
     const value = await Recipes.insertOne(insetValue);
-    console.log(value);
     return NextResponse.json(
       { message: "Data add Successfully" },
       { status: 200 }

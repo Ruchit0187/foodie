@@ -1,4 +1,5 @@
 import { dbConnect } from "@/src/lib/dbConnect";
+import { Blogs } from "@/src/model/blogSchema";
 import { Recipes } from "@/src/model/recipeSchema";
 import { ObjectId } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";

@@ -8,9 +8,11 @@ import { MdDelete } from "react-icons/md";
 function DeleteData({
   recipeID,
   userID,
+  blogID,
 }: {
   recipeID?: string;
   userID?: string;
+  blogID?: string;
 }) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +27,10 @@ function DeleteData({
     if (userID) {
       await axios.delete("/api/admin/users", { data: { userID } });
     }
-    router.refresh();
+    if (blogID) {
+      await axios.delete("/api/blogs", { data: { blogID } });
+    }
+    router.back();
     setIsModalOpen(false);
   };
   const handleCancel = () => {

@@ -6,8 +6,8 @@ import bcrypt from "bcryptjs";
 export async function GET(request: NextRequest) {
   await dbConnect();
   try {
-    const { email } = await request.json();
-    console.log(email);
+    const { searchParams } = request.nextUrl;
+    const email = searchParams.get("email");
     const user = await User.findOne({ email });
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
@@ -20,8 +20,24 @@ export async function PATCH(request: NextRequest) {
   await dbConnect();
   try {
     const { name, password, _id } = await request.json();
+    if (name && !password) {
+      const value = await User.findByIdAndUpdate(_id, { name });
+      return NextResponse.json(
+        { message: "User Name Updated successfully" },
+        { status: 200 }
+      );
+    }
     const hashPassword = bcrypt.hashSync(password, 10);
-    const updateUser = await User.findByIdAndUpdate(_id, {
+    if (!name && password) {
+      const value = await User.findByIdAndUpdate(_id, {
+        password: hashPassword,
+      });
+      return NextResponse.json(
+        { message: "User Password Updated successfully" },
+        { status: 200 }
+      );
+    }
+    const updateUser = await User.findByIdAndUpdate(_id,{
       name,
       password: hashPassword,
     });

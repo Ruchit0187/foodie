@@ -6,9 +6,7 @@ function Datanot() {
         <h2 className="text-xl md:text-2xl font-extrabold">
           Looks like the Data could not be found!
         </h2>
-        <div className="relative inline-flex items-center gap-x-4 group">
-          <h2 className="text-xl md:text-2xl font-extrabold">Go back to</h2>
-        </div>
+        
       </div>
     </div>
   );

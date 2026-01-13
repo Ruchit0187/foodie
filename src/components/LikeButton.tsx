@@ -2,6 +2,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { MouseEvent, useEffect, useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import LikePopUp from "./LikePopUp";
 
 interface likeButtonProps {
   recipeId: string;
@@ -42,7 +43,7 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
   };
   return (
     <div className="mt-4 mb-2 text-sm text-body">
-      {sessionData?.user && (
+      {sessionData?.user?  (
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 
@@ -57,7 +58,7 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
             {likeRecipe}
           </p>
         </div>
-      )}
+      ):<LikePopUp/>}
     </div>
   );
 }

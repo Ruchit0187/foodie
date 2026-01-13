@@ -1,8 +1,9 @@
-"use client"
+"use client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { MouseEvent, useEffect, useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import LikePopUp from "./LikePopUp";
 
 interface blogLikeProps {
   bloglikes: string[];
@@ -37,7 +38,7 @@ function BlogLike({ bloglikes, blogID }: blogLikeProps) {
   };
   return (
     <div className="mt-4 mb-2 text-sm text-body">
-      {sessionData?.user && (
+      {sessionData?.user ? (
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 
@@ -49,6 +50,8 @@ function BlogLike({ bloglikes, blogID }: blogLikeProps) {
             {likecontrol ? <FcLike /> : <FcLikePlaceholder />}
           </button>
         </div>
+      ) : (
+        <LikePopUp />
       )}
     </div>
   );

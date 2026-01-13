@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import DeleteData from "@/src/app/admin/_components/DeleteData";
 import BackButton from "@/src/components/BackButton";
 import { individualBlog } from "@/src/types";
 import Image from "next/image";
@@ -11,14 +13,16 @@ interface blogProps {
 
 async function BlogDetails(props: blogProps) {
   const { blogdetails } = await props.params;
+  const session=await auth()
   const blogData = await fetch(
-    `${process.env.BASE_URL}/api/blogs/${blogdetails}`
+    `${process.env.BASE_URL}/api/blogs/${blogdetails}`,
+    { cache: "no-cache" }
   );
   if (!blogData.ok) return notFound();
   const blogJsonData: individualBlog = await blogData.json();
   return (
     <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
-      <BackButton/>
+      <BackButton />
       <div className="flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
         <div className="flex flex-col w-1/2 max-[950px]:w-full">
           <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
@@ -37,7 +41,14 @@ async function BlogDetails(props: blogProps) {
               </span>
               <span>{blogJsonData.date}</span>
             </div>
-            <p className="text-xl font-light mt-2">{blogJsonData.title}</p>
+            <div className=" flex">
+              <p className="text-xl font-light mt-2">{blogJsonData.title}</p>
+              {session?.user?.isAdmin === "true" ? (
+              <div className="flex  justify-end">
+                <DeleteData blogID={blogdetails} />
+              </div>
+            ) : null}
+            </div>
           </div>
         </div>
         <div className="w-1/2 mt-3.5 p-5 max-[950px]:w-full flex flex-col justify-between ">

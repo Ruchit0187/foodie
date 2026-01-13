@@ -16,7 +16,12 @@ export async function proxy(request: NextRequest) {
   if (!otp && path.startsWith("/otpverify")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (token && (path.startsWith("/signin") || path.startsWith("/signup"))) {
+  if (
+    token &&
+    (path.startsWith("/signin") ||
+      path.startsWith("/signup") ||
+      path.startsWith("/otpverify"))
+  ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (token?.isAdmin === "false" && path.startsWith("/admin")) {
