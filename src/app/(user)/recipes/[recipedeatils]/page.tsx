@@ -7,8 +7,8 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import BackButton from "@/src/components/BackButton";
 import { auth } from "@/auth";
 import AddRecipe from "@/src/app/admin/addrecipe/page";
-import RecipeDelete from "@/src/app/admin/_components/DeleteData";
-import UpdateRecipe from "@/src/app/admin/_components/UpdateRecipe";
+import RecipeDelete from "@/src/components/DeleteData";
+import UpdateRecipe from "@/src/components/UpdateRecipe";
 
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;

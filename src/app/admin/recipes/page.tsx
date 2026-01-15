@@ -1,8 +1,8 @@
 import { recipeDataTypes } from "@/src/types";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import DeleteData from "../_components/DeleteData";
-import UpdateRecipe from "../_components/UpdateRecipe";
+import DeleteData from "../../../components/DeleteData";
+import UpdateRecipe from "../../../components/UpdateRecipe";
 
 async function page() {
   const recipeAdminData = await fetch(

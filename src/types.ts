@@ -28,6 +28,7 @@ export interface blogData {
   quick_summary: string;
   health_benefits: string[];
   blog_likes: string[];
+  description: string;
 }
 
 export interface individualBlog {

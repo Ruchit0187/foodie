@@ -1,13 +1,12 @@
 import { userData } from "@/src/types";
 import NotFound from "../recipes/not-found";
-import DeleteData from "../_components/DeleteData";
+import DeleteData from "../../../components/DeleteData";
 
 async function UserPage() {
   const userData = await fetch(`${process.env.BASE_URL}/api/admin/users`);
   if (!userData.ok) return NotFound;
   const userJsonData = await userData.json();
   const { users } = userJsonData;
-  console.log(userJsonData);
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
       <table className="w-full text-sm text-left rtl:text-right text-body">

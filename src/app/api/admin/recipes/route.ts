@@ -59,12 +59,10 @@ export async function PATCH(request: NextRequest) {
     if (cookingTimeMinutes) query.cookingTimeMinutes = cookingTimeMinutes;
     if (image) query.image = image;
     if (ingredients) query.ingredients = ingredients;
-    if (
-      !(name && category && difficulty && cookingTimeMinutes && ingredients)
-    ) {
+    if (Object.keys(query).length === 0) {
       return NextResponse.json({ message: "No Update Found" });
     }
-    await Recipes.findByIdAndUpdate(recipeID, query);
+    await Recipes.findByIdAndUpdate(recipeID, { $set: query });
     return NextResponse.json(
       { message: "Recipe Details update successfully" },
       { status: 200 }

@@ -1,4 +1,4 @@
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 import { FcLikePlaceholder } from "react-icons/fc";
@@ -8,16 +8,19 @@ function LikePopUp() {
 
   const showModal = (event: MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation();
     setIsModalOpen(true);
   };
 
   const handleOk = (event: MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation();
     setIsModalOpen(false);
   };
 
   const handleCancel = (event: MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation();
     setIsModalOpen(false);
   };
 
@@ -39,7 +42,7 @@ function LikePopUp() {
           <span className="text-xl font-medium">
             Please login to like the recipe
           </span>
-          <span className="bg-[#c17d42] border-2 text-xl p-3 rounded-2xl ">
+          <span className="bg-[#c14242] border-2 text-xl p-3 rounded-2xl ">
             <Link
               href={"/signup"}
               style={{ color: "white", fontWeight: "bold" }}

@@ -1,11 +1,10 @@
 import { auth } from "@/auth";
-import DeleteData from "@/src/app/admin/_components/DeleteData";
+import DeleteData from "@/src/components/DeleteData";
 import BackButton from "@/src/components/BackButton";
-import { individualBlog } from "@/src/types";
+import UpdateBlog from "@/src/components/UpdateBlog";
+import { blogData } from "@/src/types";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface blogProps {
   params: Promise<{ blogdetails: string }>;
@@ -13,13 +12,13 @@ interface blogProps {
 
 async function BlogDetails(props: blogProps) {
   const { blogdetails } = await props.params;
-  const session=await auth()
+  const session = await auth();
   const blogData = await fetch(
     `${process.env.BASE_URL}/api/blogs/${blogdetails}`,
     { cache: "no-cache" }
   );
   if (!blogData.ok) return notFound();
-  const blogJsonData: individualBlog = await blogData.json();
+  const blogJsonData: blogData = await blogData.json();
   return (
     <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
       <BackButton />
@@ -41,13 +40,14 @@ async function BlogDetails(props: blogProps) {
               </span>
               <span>{blogJsonData.date}</span>
             </div>
-            <div className=" flex">
+            <div className=" flex justify-between">
               <p className="text-xl font-light mt-2">{blogJsonData.title}</p>
               {session?.user?.isAdmin === "true" ? (
-              <div className="flex  justify-end">
-                <DeleteData blogID={blogdetails} />
-              </div>
-            ) : null}
+                <div className="flex  gap-2 ">
+                  <UpdateBlog value={blogJsonData} />
+                  <DeleteData blogID={blogdetails} />
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -73,9 +73,7 @@ async function BlogDetails(props: blogProps) {
             <ul>
               <span className="text-2xl font-bold underline">BeneFits:</span>
               {blogJsonData.health_benefits.map((value, index) => (
-                <li key={index} className="">
-                  {value}
-                </li>
+                <li key={index}>{value}</li>
               ))}
             </ul>
           </div>

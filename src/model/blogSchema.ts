@@ -8,7 +8,6 @@ interface Iblog extends Document {
   quick_summary: string;
   health_benefits: string[];
   blog_likes: Types.ObjectId[];
-  bookmark:Types.ObjectId[]
   description: string;
 }
 const blogSchema: Schema<Iblog> = new Schema({
@@ -21,7 +20,7 @@ const blogSchema: Schema<Iblog> = new Schema({
   health_benefits: [],
   blog_likes: [],
   description: String,
-  bookmark:[]
+ 
 });
 export const Blogs: Model<Iblog> =
   mongoose.models.blogs || mongoose.model("blogs", blogSchema);

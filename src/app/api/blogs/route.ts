@@ -48,7 +48,7 @@ export async function DELETE(request: NextRequest) {
   await dbConnect();
   try {
     const { blogID } = await request.json();
-    console.log(blogID)
+    console.log(blogID);
     const value = await Blogs.findByIdAndDelete(blogID);
     if (!value) {
       return NextResponse.json({ message: "Enter the valid BlogID" });
@@ -75,6 +75,7 @@ export async function PATCH(request: NextRequest) {
       description,
       health_benefits,
     } = await request.json();
+    console.log(blogID);
     const query: Record<string, any> = {};
     if (name) query.name = name;
     if (category) query.category = category.toLowerCase();
@@ -84,23 +85,12 @@ export async function PATCH(request: NextRequest) {
     if (quick_summary) query.quick_summary = quick_summary;
     if (description) query.description = description;
     if (health_benefits) query.health_benefits = health_benefits;
-    if (
-      !(
-        name &&
-        category &&
-        title &&
-        date &&
-        image &&
-        quick_summary &&
-        description &&
-        health_benefits
-      )
-    ) {
+    if (Object.keys(query).length === 0) {
       return NextResponse.json({ message: "No Update Found" });
     }
-    await Blogs.findByIdAndUpdate(blogID, query);
+    const value = await Blogs.findByIdAndUpdate(blogID, { $set: query });
     return NextResponse.json(
-      { message: "Recipe Details update successfully" },
+      { message: "Recipe Details update successfully", value },
       { status: 200 }
     );
   } catch (error) {
