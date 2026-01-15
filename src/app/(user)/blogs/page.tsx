@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 const blogDataFetch = async () => {
   try {
-    const blogResponse = await fetch(`${process.env.BASE_URL}/api/blogs`, {
+    const blogResponse = await fetch(`${process.env.BASE_URL}/api/blogs?limit=${1}`, {
       next: { revalidate: 5 },
     });
     if (!blogResponse.ok) return notFound();

@@ -7,6 +7,7 @@ interface IUser extends Document {
   verifyToken: string | undefined;
   verifyTokenExpiry: Date | undefined;
   isAdmin: boolean;
+  isOwner: boolean;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -34,6 +35,10 @@ const userSchema: Schema<IUser> = new Schema({
   },
   verifyToken: String,
   verifyTokenExpiry: Date,
+  isOwner: {
+    type: Boolean,
+    default: false,
+  },
 });
 export const User: Model<IUser> =
   mongoose.models.users || mongoose.model<IUser>("users", userSchema);

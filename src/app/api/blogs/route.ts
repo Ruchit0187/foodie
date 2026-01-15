@@ -2,10 +2,12 @@ import { dbConnect } from "@/src/lib/dbConnect";
 import { Blogs } from "@/src/model/blogSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   await dbConnect();
   try {
-    const blogData = await Blogs.find();
+    const { searchParams } = request.nextUrl;
+    const limit = Number(searchParams.get("limit"));
+    const blogData = await Blogs.find().limit(6*limit);
     return NextResponse.json(blogData, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className="antialiased">
         <SessionProvider session={session}>
           <Navbar />
-          <ToastContainer />
+          <ToastContainer autoClose={2000}/>
           {children}
         </SessionProvider>
       </body>

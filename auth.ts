@@ -1,16 +1,17 @@
 import NextAuth, { type DefaultSession } from "next-auth";
-
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
 declare module "next-auth" {
   interface User {
     isAdmin: string;
+    isOwner:string
   }
 }
 declare module "next-auth/jwt" {
   interface JWT {
     isAdmin: string ;
+    isOwner:string
   }
 }
 
@@ -37,6 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: credentials.email,
             id: credentials._id,
             isAdmin: credentials.isAdmin,
+            isOwner:credentials.isOwner
           };
         } catch (error) {
           console.log(error);
@@ -50,6 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.isAdmin = user.isAdmin;
+        token.isOwner=user.isOwner;
       }
       return token;
     },
@@ -57,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.id = token.id as string;
         session.user.isAdmin = token.isAdmin ;
+        session.user.isOwner=token.isOwner;
       }
       return session;
     },

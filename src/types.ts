@@ -49,4 +49,5 @@ export interface userData {
   password: string;
   isVerify: boolean;
   isAdmin: boolean;
+  isOwner:boolean
 }

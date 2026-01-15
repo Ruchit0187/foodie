@@ -1,9 +1,13 @@
 import { userData } from "@/src/types";
 import NotFound from "../recipes/not-found";
 import DeleteData from "../../../components/DeleteData";
+import { auth } from "@/auth";
+import RoleUpdate from "@/src/components/RoleUpdate";
+
 
 async function UserPage() {
-  const userData = await fetch(`${process.env.BASE_URL}/api/admin/users`);
+  const session = await auth();
+  const userData = await fetch(`${process.env.BASE_URL}/api/admin/users?session=${session?.user?.isOwner}`);
   if (!userData.ok) return NotFound;
   const userJsonData = await userData.json();
   const { users } = userJsonData;
@@ -27,6 +31,11 @@ async function UserPage() {
             <th scope="col" className="px-2.5 py-3 font-medium">
               Action
             </th>
+            {session?.user?.isOwner === "true" ? (
+              <th scope="col" className="px-2.5 py-3 font-medium">
+                Admin
+              </th>
+            ) : null}
           </tr>
         </thead>
         <tbody>
@@ -47,9 +56,15 @@ async function UserPage() {
               <td className="px-1.5 py-4">
                 {`${data.isAdmin ? "Admin" : "User"}`}
               </td>
-              <td>
+
+              <td className="px-1.5 py-4">
                 <DeleteData userID={data._id} />
               </td>
+              {session?.user?.isOwner === "true" ? (
+                <td scope="col" className="px-2.5 py-3 w-fit">
+                 <RoleUpdate userData={data}/>
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>

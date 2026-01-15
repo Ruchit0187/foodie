@@ -18,7 +18,7 @@ function page() {
           className="group flex items-center justify-center h-40 w-64 rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
         >
           <span className="text-lg font-semibold text-gray-700 group-hover:text-indigo-600">
-            Blog Page
+            Add Blog 
           </span>
         </Link>
 

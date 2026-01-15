@@ -14,7 +14,6 @@ interface userFormData extends userData {
 function UpdateProfile({ userData }: { userData: userData }) {
   const [editPassword, setEditPassword] = useState<boolean>(false);
   const [editName, setEditName] = useState<boolean>(false);
-  const router = useRouter();
   const {
     register,
     handleSubmit,
