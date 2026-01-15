@@ -7,7 +7,8 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const limit = Number(searchParams.get("limit"));
-    const blogData = await Blogs.find().limit(6*limit);
+    const blogData = await Blogs.find().limit(6).skip(limit*6-6);
+    
     return NextResponse.json(blogData, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

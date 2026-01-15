@@ -52,7 +52,7 @@ function RecipeDetails() {
             <option value="non-veg">Non-veg</option>
           </select>
           <select
-            className="border-2  rounded-2xl py-2 px-5"
+            className="border-2 rounded-2xl py-2 px-5"
             onChange={(e) => setDifficulty(e.target.value)}
           >
             <option value="">Difficulty</option>

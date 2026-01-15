@@ -1,14 +1,48 @@
+"use client";
 import Image from "next/image";
 import { blogData } from "../types";
 import Link from "next/link";
 import BlogLike from "./BlogLike";
+import { useCallback, useEffect, useState } from "react";
+import Loading from "./Loading";
 
 function BlogData({ blogData }: { blogData: blogData[] }) {
-  
+  const [previousBlogData, setPreviousBlogData] =
+    useState<blogData[]>(blogData);
+  const [bottomValue, setBottomValue] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [limit, setLimit] = useState<number>(1);
+  const [newBlogData, setNewBlogData] = useState<blogData[]>(blogData);
+  const handleScroll = useCallback(() => {
+    const bottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 1;
+    if (bottom) {
+      setBottomValue(bottom);
+      setLimit((prev) => prev + 1);
+    }
+  }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+  useEffect(() => {
+    if (limit === 1) return;
+    if (newBlogData.length === 0) return;
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await fetch(`/api/blogs?limit=${limit}`);
+      const blogJsonData = await data.json();
+      setPreviousBlogData((prev) => [...prev, ...blogJsonData]);
+      setNewBlogData(blogJsonData);
+      setLoading(false);
+    };
+    fetchData();
+  }, [limit]);
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
-        {blogData?.map((blogvalue) => (
+        {previousBlogData?.map((blogvalue) => (
           <li
             className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
             key={String(blogvalue._id)}
@@ -41,6 +75,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
           </li>
         ))}
       </ul>
+      {loading ? <Loading /> : null}
     </div>
   );
 }
