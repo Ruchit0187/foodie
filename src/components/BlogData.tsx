@@ -65,7 +65,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                       blogID={blogvalue._id}
                     />
                   </span>
-                  <span className="">{blogvalue.date}</span>
+                  <span>{blogvalue.date}</span>
                 </div>
                 <div className=" p-1.5 text-left italic font-bold ">
                   {blogvalue.title}

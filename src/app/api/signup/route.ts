@@ -3,6 +3,7 @@ import { dbConnect } from "@/src/lib/dbConnect";
 import { User } from "@/src/model/userSchema";
 import bcrypt from "bcryptjs";
 import { sendMail } from "@/src/helper/mailer";
+import { Provider } from "@/src/model/provider";
 
 export async function POST(request: NextRequest) {
   await dbConnect();
@@ -12,6 +13,13 @@ export async function POST(request: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         { error: "User already Registered" },
+        { status: 409 }
+      );
+    }
+    const googleUser = await Provider.findOne({ email });
+    if (googleUser) {
+      return NextResponse.json(
+        { error: "Please Signup With the Google" },
         { status: 409 }
       );
     }

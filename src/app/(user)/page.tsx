@@ -12,7 +12,7 @@ function HomePage() {
           height={1000}
           width={1000}
           className="w-full h-[87vh] object-cover"
-          quality={40}
+          quality={75}
         />
       </div>
       <div className="relative  translate-x-2/3relative inline-block  left-1/3  text-center translate-x-1/2 translate-y-full p-10 bg-white rounded-2xl mt-20 ">

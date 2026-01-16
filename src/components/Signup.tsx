@@ -27,7 +27,7 @@ export default function Signup() {
     try {
       const userSignupData = await axios.post("/api/signup", signupData);
       if (userSignupData.status === 200) {
-        setLoading(true);
+        setLoading(false);
         router.push("/signin");
       }
     } catch (error) {
@@ -45,10 +45,10 @@ export default function Signup() {
   return (
     <>
       <form
-        className="flex flex-col w-1/2 mx-auto gap-2 p-8 max-[700px]:w-full"
+        className="flex flex-col gap-4 w-full sm:w-11/12 md:w-3/4 lg:w-1/2 mx-auto p-4 sm:p-6 md:p-8"
         onSubmit={handleSubmit(signupData)}
       >
-        <label htmlFor="Name" className="text-2xl">
+        <label htmlFor="Name" className="text-2xl font-semibold">
           Name
         </label>
         <input
@@ -57,8 +57,10 @@ export default function Signup() {
           className="border-2  p-1.5 block rounded-2xl"
           placeholder="Enter your Name"
         />
-        {errors.name && <p className="text-red-500">Enter the Name</p>}
-        <label htmlFor="Email" className="text-2xl">
+        {errors.name && (
+          <p className="text-red-500">Please provide your name to continue.</p>
+        )}
+        <label htmlFor="Email" className="text-2xl font-semibold">
           Email
         </label>
         <input
@@ -71,14 +73,16 @@ export default function Signup() {
           className="border-2 p-1.5 rounded-2xl"
         />
         {errors.email && (
-          <p className="text-red-500">Enter the Valid Email id</p>
+          <p className="text-red-500">
+            Oops! Please provide a valid email address.
+          </p>
         )}
-        <label htmlFor="Password" className="text-2xl">
+        <label htmlFor="Password" className="text-2xl font-semibold">
           Password
         </label>
         <div className="relative inline-block w-full">
           <input
-            type={`${showPassword?"password":"text"}`}
+            type={`${showPassword ? "password" : "text"}`}
             {...register("password", { required: true, min: 5 })}
             className="border-2  p-1.5 rounded-2xl w-full"
             id="Password"
@@ -94,20 +98,19 @@ export default function Signup() {
             {showPassword ? <IoEyeOffSharp /> : <IoEye />}
           </span>
         </div>
-        {errors.password && <p className="text-red-500">Enter the password</p>}
+        {errors.password && <p className="text-red-500">Password cannot be empty.</p>}
         {loading ? (
           <button className="block mx-auto bg-black text-white rounded-2xl p-2">
             Loading
           </button>
         ) : (
-          <button className="block mx-auto bg-black text-white rounded-2xl p-2">
+          <button className="block mx-auto bg-black text-white rounded-2xl p-2 cursor-pointer">
             Sign Up
           </button>
         )}
       </form>
-
       <button
-        className="bg-black text-white flex justify-center items-center gap-2 p-2 rounded-2xl mx-auto"
+        className="bg-black text-white flex justify-center items-center gap-2 p-2 rounded-2xl mx-auto cursor-pointer"
         onClick={() => signIn("google")}
       >
         <FcGoogle />

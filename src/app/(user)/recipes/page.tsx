@@ -16,7 +16,7 @@ function RecipeDetails() {
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["recipe", difficulty, category, searchName, limit],
     queryFn: async () => {
-      const value = await axios.post(
+      const value = await axios.get(
         `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}&limit=${limit}`
       );
       setRecipeData(value.data);

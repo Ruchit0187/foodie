@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { User } from "@/src/model/userSchema";
 import { dbConnect } from "@/src/lib/dbConnect";
 import bcrypt from "bcryptjs";
+import { Provider } from "@/src/model/provider";
 
 export async function GET(request: NextRequest) {
   await dbConnect();

@@ -1,17 +1,20 @@
 import NextAuth, { type DefaultSession } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import { Provider } from "./src/model/provider";
+import { User } from "./src/model/userSchema";
+import { dbConnect } from "./src/lib/dbConnect";
 
 declare module "next-auth" {
   interface User {
     isAdmin: string;
-    isOwner:string
+    isOwner: string;
   }
 }
 declare module "next-auth/jwt" {
   interface JWT {
-    isAdmin: string ;
-    isOwner:string
+    isAdmin: string;
+    isOwner: string;
   }
 }
 
@@ -38,7 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: credentials.email,
             id: credentials._id,
             isAdmin: credentials.isAdmin,
-            isOwner:credentials.isOwner
+            isOwner: credentials.isOwner,
           };
         } catch (error) {
           console.log(error);
@@ -48,25 +51,51 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user, credentials }) {
+      if (credentials === undefined) {
+        await dbConnect();
+        try {
+          const value = await User.findOne({ email: user.email });
+          const googleExistingUser = await Provider.findOne({
+            email: user.email,
+          });
+          if (!value && !googleExistingUser) {
+            const googleUser = await Provider.create({
+              email: `${user.email}`,
+              name: `${user.name}`,
+            });
+            user.id = String(googleUser._id);
+            return true;
+          }
+        } catch (error) {
+          return false;
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.isAdmin = user.isAdmin;
-        token.isOwner=user.isOwner;
+        token.isOwner = user.isOwner;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
-        session.user.isAdmin = token.isAdmin ;
-        session.user.isOwner=token.isOwner;
+        session.user.isAdmin = token.isAdmin;
+        session.user.isOwner = token.isOwner;
       }
       return session;
     },
   },
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60,
   },
   secret: process.env.JWT_SECRET_KEY!,
+  pages: {
+    error: "/error",
+  },
 });

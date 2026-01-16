@@ -53,11 +53,11 @@ function AddRecipe() {
           <label className="text-2xl font-medium mr-2.5">Category</label>
           <select
             {...register("category", { required: true })}
-            className="border-2 rounded-2xl w-fit p-3"
+            className="border-2 rounded-2xl w-fit p-3 cursor-pointer"
           >
             <option value=""> Category</option>
-            <option value="vegetarian">veg</option>
-            <option value="vegan">non-veg</option>
+            <option value="vegetarian" >Veg</option>
+            <option value="vegan">Vegan</option>
             <option value="non-veg">Non-veg</option>
           </select>
         </p>

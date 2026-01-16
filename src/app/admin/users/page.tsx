@@ -4,10 +4,11 @@ import DeleteData from "../../../components/DeleteData";
 import { auth } from "@/auth";
 import RoleUpdate from "@/src/components/RoleUpdate";
 
-
 async function UserPage() {
   const session = await auth();
-  const userData = await fetch(`${process.env.BASE_URL}/api/admin/users?session=${session?.user?.isOwner}`);
+  const userData = await fetch(
+    `${process.env.BASE_URL}/api/admin/users?session=${session?.user?.isOwner}`
+  );
   if (!userData.ok) return NotFound;
   const userJsonData = await userData.json();
   const { users } = userJsonData;
@@ -62,7 +63,7 @@ async function UserPage() {
               </td>
               {session?.user?.isOwner === "true" ? (
                 <td scope="col" className="px-2.5 py-3 w-fit">
-                 <RoleUpdate userData={data}/>
+                  <RoleUpdate userData={data} />
                 </td>
               ) : null}
             </tr>

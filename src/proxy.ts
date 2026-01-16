@@ -20,13 +20,19 @@ export async function proxy(request: NextRequest) {
     token &&
     (path.startsWith("/signin") ||
       path.startsWith("/signup") ||
-      path.startsWith("/otpverify"))
+      path.startsWith("/otpverify")||
+      path.startsWith("/forgot")
+    )
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (token?.isAdmin === "false" && path.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+  if(!token && (path.startsWith("/profile"))){
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+  
 }
 export const config = {
   matcher: [
@@ -37,5 +43,6 @@ export const config = {
     "/forgot",
     "/resetpassword",
     "/admin/:path*",
+    "/profile"
   ],
 };

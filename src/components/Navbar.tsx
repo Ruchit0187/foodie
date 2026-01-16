@@ -8,14 +8,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
-
   const [adminStatus, setAdminStatus] = useState<string>("true");
   const router = useRouter();
   const { data: session, status } = useSession();
   // if (status === "loading") return "Loading...";
   useEffect(() => {
     const value = session?.user?.isAdmin!;
-    setAdminStatus(value)
+    setAdminStatus(value);
   }, [session]);
   return (
     <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-1">
@@ -57,7 +56,7 @@ export default function Navbar() {
                 AboutUs
               </Link>
             </li>
-            <li className={`${adminStatus==="true"?"inline":"hidden"}`}>
+            <li className={`${adminStatus === "true" ? "inline" : "hidden"}`}>
               <Link
                 href={`/admin`}
                 className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"

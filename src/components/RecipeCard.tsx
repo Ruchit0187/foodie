@@ -10,18 +10,18 @@ import Loading from "./Loading";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
-  isLoadingData:boolean}
+  isLoadingData: boolean;
+}
 
 function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
-  const { filterRecipes }: any = recipeCardData;
   const [imgLoading, setImgLoading] = useState(false);
-  if (filterRecipes.length === 0) {
+  if (recipeCardData.length === 0) {
     return <Datanot />;
   }
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
-        {filterRecipes?.map((value: recipeDataTypes) => (
+        {recipeCardData?.map((value: recipeDataTypes) => (
           <li
             className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
             key={String(value._id)}

@@ -2,13 +2,12 @@ import { recipeDataTypes } from "@/src/types";
 import { IoMdTime } from "react-icons/io";
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import BackButton from "@/src/components/BackButton";
 import { auth } from "@/auth";
-import AddRecipe from "@/src/app/admin/addrecipe/page";
 import RecipeDelete from "@/src/components/DeleteData";
 import UpdateRecipe from "@/src/components/UpdateRecipe";
+import { Suspense } from "react";
+import Loading from "@/src/components/Loading";
 
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
@@ -17,12 +16,12 @@ async function page(props: Promise<recipeDetails>) {
   const { params } = await props;
   const { recipedeatils } = await params;
   const recipeIndividualData = await axios.get(
-    `http://localhost:3000/api/recipe/${recipedeatils}`
+    `${process.env.BASE_URL}/api/recipe/${recipedeatils}`
   );
   const recipeData: recipeDataTypes = recipeIndividualData.data?.recipeDetails;
   const session = await auth();
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
         <BackButton />
         <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
@@ -98,7 +97,7 @@ async function page(props: Promise<recipeDetails>) {
           </div>
         </div>
       </div>
-    </>
+    </Suspense>
   );
 }
 

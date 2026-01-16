@@ -5,7 +5,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 function BackButton() {
 const router=useRouter()
   return (
-    <button onClick={()=>router.back()} className="mx-5 text-2xl cursor-pointer">
+    <button onClick={()=>router.back()} className="mx-5 text-2xl cursor-pointer w-fit">
         <IoMdArrowRoundBack/>
     </button>
   )

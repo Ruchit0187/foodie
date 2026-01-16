@@ -116,7 +116,7 @@ export default function Signin() {
         onClick={() => signIn("google")}
       >
         <FcGoogle />
-        Signup with Google
+        SignIn with Google
       </button>
     </>
   );

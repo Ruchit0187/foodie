@@ -37,8 +37,10 @@ function LikePopUp() {
         footer={null}
         closable={false}
         width={324}
+        mask={true}
       >
-        <div className="w-full flex flex-col text-center justify-center items-center gap-5 py-9">
+        <div className="w-full flex flex-col text-center justify-center items-center gap-5 py-9" 
+         onClick={(event)=>event.stopPropagation()}>
           <span className="text-xl font-medium">
             Please login to like the recipe
           </span>
