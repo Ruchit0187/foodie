@@ -1,8 +1,9 @@
 function Loading({ margin = 5 }: { margin?: number }) {
+  console.log(margin)
   return (
     <div className="w-[95vw] flex justify-center items-center">
       <div
-        className={`w-12 h-12 border-4 mt-${margin} mt-5 border-blue-500 border-t-transparent border-solid rounded-full animate-spin`}
+        className={`w-12 h-12 border-4 mt-${margin} border-blue-500 border-t-transparent border-solid rounded-full animate-spin`}
       ></div>
     </div>
   );

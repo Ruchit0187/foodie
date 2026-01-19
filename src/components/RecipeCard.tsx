@@ -16,7 +16,6 @@ interface filterRecipes {
 
 function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
-  console.log({ recipeCardData });
   if (!recipeCardData.length && !isLoadingData) {
     return <Datanot />;
   }

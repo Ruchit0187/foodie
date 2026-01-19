@@ -17,6 +17,7 @@ export interface recipeDataTypes {
 }
 export interface recipeRoute {
   filterRecipes: recipeDataTypes[];
+  recipeTotalCount:number
 }
 export interface blogData {
   _id: string;

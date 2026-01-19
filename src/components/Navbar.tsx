@@ -4,18 +4,15 @@ import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import Profile from "./Profile";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [adminStatus, setAdminStatus] = useState<string>("true");
-  const router = useRouter();
   const { data: session, status } = useSession();
-  // if (status === "loading") return "Loading...";
   useEffect(() => {
     const value = session?.user?.isAdmin!;
     setAdminStatus(value);
-  }, [session]);
+  }, [status]);
   return (
     <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-1">
       <div className="flex w-[80%] p-2">
@@ -56,14 +53,16 @@ export default function Navbar() {
                 AboutUs
               </Link>
             </li>
-            <li className={`${adminStatus === "true" ? "inline" : "hidden"}`}>
-              <Link
-                href={`/admin`}
-                className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
-              >
-                Admin
-              </Link>
-            </li>
+            {adminStatus === "true" ? (
+              <li className={`${adminStatus === "true" ? "" : "hidden"}`}>
+                <Link
+                  href={`/admin`}
+                  className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
+                >
+                  Admin
+                </Link>
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>

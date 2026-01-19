@@ -4,6 +4,7 @@ import "../globals.css";
 import type { Session } from "next-auth";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
+import AuthLoading from "@/src/components/AuthLoading";
 
 export const metadata: Metadata = {
   title: "Foodie",
@@ -21,8 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <SessionProvider session={session}>
+          <AuthLoading />
           <Navbar />
-          <ToastContainer autoClose={2000}/>
+          <ToastContainer autoClose={2000} />
           {children}
         </SessionProvider>
       </body>

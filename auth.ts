@@ -65,7 +65,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               name: `${user.name}`,
             });
             user.id = String(googleUser._id);
+            user.isAdmin = String(googleUser.isAdmin);
+            user.isOwner = String(googleUser.isOwner);
             return true;
+          } else if (googleExistingUser) {
+            user.id = String(googleExistingUser._id);
+            user.isAdmin = String(googleExistingUser.isAdmin);
+            user.isOwner = String(googleExistingUser.isOwner);
+            return true
           }
         } catch (error) {
           return false;

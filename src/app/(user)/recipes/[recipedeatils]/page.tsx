@@ -7,7 +7,8 @@ import { auth } from "@/auth";
 import RecipeDelete from "@/src/components/DeleteData";
 import UpdateRecipe from "@/src/components/UpdateRecipe";
 import { Suspense } from "react";
-import Loading from "@/src/components/Loading";
+import Loading from "../../blogs/loading";
+
 
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
@@ -21,7 +22,7 @@ async function page(props: Promise<recipeDetails>) {
   const recipeData: recipeDataTypes = recipeIndividualData.data?.recipeDetails;
   const session = await auth();
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading/>}>
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
         <BackButton />
         <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">

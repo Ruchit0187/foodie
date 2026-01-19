@@ -4,8 +4,8 @@ import RecipeCard from "@/src/components/RecipeCard";
 import axios from "axios";
 import { useDebounceCallback } from "usehooks-ts";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "@/src/components/Loading";
 import { recipeDataTypes } from "@/src/types";
+import Loading from "../blogs/loading";
 
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
@@ -13,25 +13,31 @@ function RecipeDetails() {
   const [stopFetch, setStopFetch] = useState<recipeDataTypes[]>([]);
   const [category, setCategory] = useState<string>("");
   const [recipeData, setRecipeData] = useState<recipeDataTypes[]>([]);
+  const [hashMoreData, setHasmoreData] = useState<boolean>(true);
   const debounce = useDebounceCallback(setSearchName, 1000);
   const [limit, setLimit] = useState<number>(1);
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["recipe", difficulty, category, searchName, limit],
     queryFn: async () => {
       const value = await axios.get(
-        `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}&limit=${limit}`
+        `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}&limit=${limit}`,
       );
-      setRecipeData(value.data);
+      const { filterRecipes, recipeTotalCount } = value.data;
+      setRecipeData(filterRecipes);
+      if (recipeData.length === recipeTotalCount) {
+        setHasmoreData(false);
+      }
       return true;
     },
     gcTime: 4000,
   });
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const handleScroll = useCallback(() => {
     const bottom =
       window.innerHeight + window.scrollY >=
       document.documentElement.scrollHeight - 1;
-    if (bottom && !isFetching) {
+    if (bottom && hashMoreData) {
       setLimit((prev) => prev + 1);
     }
   }, [isFetching]);
@@ -49,7 +55,7 @@ function RecipeDetails() {
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Category</option>
-            <option value="vegetarian" className="">
+            <option value="vegetarian">
               Veg
             </option>
             <option value="vegan">Vegan</option>
@@ -73,8 +79,8 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-      {recipeData.length < 1 && isFetching ? (
-        <Loading margin={70} />
+      { isFetching && recipeData.length < 1 ? (
+        <Loading/>
       ) : (
         <RecipeCard recipeCardData={recipeData} isLoadingData={isLoading} />
       )}

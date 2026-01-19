@@ -41,7 +41,9 @@ function Profile({ sessionValue }: any) {
           >
             Sign out
           </button>
-          <Link href={"/profile"}>Change Details</Link>
+          {sessionValue.user.image ? null : (
+            <Link href={"/profile"}>Change Details</Link>
+          )}
         </div>
       </Modal>
     </>
