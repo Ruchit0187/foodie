@@ -116,7 +116,7 @@ function UpdateBlog({ value }: { value: blogData }) {
           />
 
           <label className="text-xl font-bold">health Benefits:</label>
-          {value.health_benefits.map((data, index) => (
+          {value.health_benefits.map((_, index) => (
             <div key={index} className="grid grid-cols-2">
               <input
                 {...register(`health_benefits.${index}`)}

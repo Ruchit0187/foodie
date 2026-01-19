@@ -7,8 +7,13 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const limit = Number(searchParams.get("limit"));
-    const blogData = await Blogs.find().limit(6).skip(limit*6-6);
-    
+    const search = searchParams.get("search")?.trim();
+    const query: Record<string, any> = {};
+    console.log({ search });
+    if (search) query.name = { $regex: search, $options: "i" };
+    console.log(await Blogs.find(query), "sdlfkjdfhkj");
+    const blogData = await Blogs.find(query).limit(6*limit);
+    // .skip(limit * 6 - 6);
     return NextResponse.json(blogData, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

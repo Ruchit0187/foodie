@@ -4,9 +4,11 @@ import { Flex, Input, Typography } from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
 const { Title } = Typography;
 const OtpVerify: React.FC = () => {
+  const {data,status}=useSession()
   const [otp, setOtp] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
@@ -18,7 +20,12 @@ const OtpVerify: React.FC = () => {
         const value = await axios.post("/api/otpverify", checkMailOtp);
         if (value.status === 200 && otp.length === 5) {
           toast.success("otp Verify successfully");
-          router.push("/resetpassword");
+          if(status==="unauthenticated"){
+            router.push("/resetpassword")
+          }
+          else{
+            router.push("/");
+          }
         }
       } catch (error) {
         if (axios.isAxiosError(error) && otp.length) {
@@ -52,4 +59,3 @@ const OtpVerify: React.FC = () => {
 };
 
 export default OtpVerify;
-

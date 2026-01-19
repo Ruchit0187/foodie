@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 function HomePage() {
-  // if(!data) return "Loading..."
   return (
     <>
       <div className="w-full h-fit absolute">

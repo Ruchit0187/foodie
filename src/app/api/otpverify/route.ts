@@ -1,33 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { auth } from "@/auth";
+import { User } from "@/src/model/userSchema";
+import { userData } from "@/src/types";
 
-interface Itoken {
-  name: string;
-  value: string;
-  path: string;
-}
-interface Ijwt {
+interface userOtpData extends userData {
   otp: number;
-  iat: number;
-  exp: number;
+  otpExpiry: Date;
 }
 export async function POST(request: NextRequest) {
-  const { mailOtp } = await request.json();
+  const session = await auth();
   const cookie = await cookies();
-  const token = cookie.get("otp") as Itoken;
-  if (!token) {
-    return NextResponse.json({ error: "Time is Expiry" }, { status: 400 });
+  const { mailOtp } = await request.json();
+  const email = cookie.get("email");
+  const userEmail = session ? session.user?.email : email?.value;
+  const databaseUser = (await User.findOne({
+    email: userEmail,
+  })) as userOtpData;
+  if (databaseUser?.otpExpiry < new Date() || !databaseUser) {
+    return NextResponse.json({ error: "Time is Over" }, { status: 400 });
   }
-  const decode = jwt.verify(String(token.value), process.env.JWT_SECRET_KEY!) as Ijwt;
-  if (decode.otp === mailOtp) {
-    cookie.set("otp", "");
-    cookie.delete("otp");
-    return NextResponse.json(
-      { message: "OTP verify Successfully" },
-      { status: 200 }
-    );
-  } else {
-    return NextResponse.json({ error: "Enter the valid OTP" }, { status: 400 });
+  if (databaseUser.otp !== mailOtp) {
+    return NextResponse.json({ error: "Otp Does not Match" }, { status: 400 });
   }
+  cookie.delete("email");
+  await User.findOneAndUpdate({ email: userEmail }, { otp: 0 });
+  return NextResponse.json(
+    { message: "Otp Verify Successfully" },
+    { status: 200 }
+  );
 }

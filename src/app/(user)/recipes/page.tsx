@@ -5,12 +5,14 @@ import axios from "axios";
 import { useDebounceCallback } from "usehooks-ts";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/src/components/Loading";
+import { recipeDataTypes } from "@/src/types";
 
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
+  const [stopFetch, setStopFetch] = useState<recipeDataTypes[]>([]);
   const [category, setCategory] = useState<string>("");
-  const [recipeData, setRecipeData] = useState([]);
+  const [recipeData, setRecipeData] = useState<recipeDataTypes[]>([]);
   const debounce = useDebounceCallback(setSearchName, 1000);
   const [limit, setLimit] = useState<number>(1);
   const { data, isLoading, isFetching } = useQuery({
@@ -20,9 +22,9 @@ function RecipeDetails() {
         `/api/recipe?search=${searchName}&difficulty=${difficulty}&category=${category}&limit=${limit}`
       );
       setRecipeData(value.data);
-      return value.data;
+      return true;
     },
-    gcTime: 40000,
+    gcTime: 4000,
   });
 
   const handleScroll = useCallback(() => {
@@ -47,10 +49,13 @@ function RecipeDetails() {
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Category</option>
-            <option value="vegetarian">Veg</option>
+            <option value="vegetarian" className="">
+              Veg
+            </option>
             <option value="vegan">Vegan</option>
             <option value="non-veg">Non-veg</option>
           </select>
+
           <select
             className="border-2 rounded-2xl py-2 px-5"
             onChange={(e) => setDifficulty(e.target.value)}
@@ -68,8 +73,8 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-      {recipeData.length < 1 ? (
-        <Loading />
+      {recipeData.length < 1 && isFetching ? (
+        <Loading margin={70} />
       ) : (
         <RecipeCard recipeCardData={recipeData} isLoadingData={isLoading} />
       )}

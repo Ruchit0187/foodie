@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         { status: 200 }
       );
     }
-    const googleUsers = await Provider.find({ isOwner: false });
+    const googleUsers = await Provider.find({ isAdmin: false });
     const normalUsers = await User.find({ isAdmin: false });
     const users = [...googleUsers, ...normalUsers];
     return NextResponse.json(
@@ -52,7 +52,7 @@ export async function PATCH(request: NextRequest) {
       $set: { isAdmin: !isAdmin },
     });
     if (!user) {
-       await Provider.findByIdAndUpdate(id, {
+      await Provider.findByIdAndUpdate(id, {
         $set: { isAdmin: !isAdmin },
       });
     }

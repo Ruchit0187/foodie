@@ -26,11 +26,15 @@ export default function Signin() {
         ...signInApiResponse.data?.user,
         redirect: false,
       });
-      toast.success(signInApiResponse.data.message);
-      if (signInApiResponse.data.user.isAdmin) {
-        router.push("/admin");
-      } else {
-        router.push("/");
+      const email = userSignData.email;
+
+      if (signInApiResponse.status === 200) {
+        try {
+          await axios.post("/api/forgot", { email });
+          router.push("/otpverify");
+        } catch (error) {
+          console.log("Error Generated");
+        }
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -80,7 +84,7 @@ export default function Signin() {
           </label>
           <div className="relative inline-block w-full">
             <input
-              type={`${showPassword?"password":"text"}`}
+              type={`${showPassword ? "password" : "text"}`}
               id="password"
               className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block  px-3 py-2.5 shadow-xs placeholder:text-body w-full "
               placeholder="Enter the password"
@@ -96,7 +100,7 @@ export default function Signin() {
               }}
               className="cursor-pointer absolute text-2xl top-[50%] translate-y-[-50%] translate-x-full right-10"
             >
-              {showPassword ? <IoEyeOffSharp/> : <IoEye />}
+              {showPassword ? <IoEyeOffSharp /> : <IoEye />}
             </span>
           </div>
           {errors.password && (

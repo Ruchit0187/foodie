@@ -45,7 +45,7 @@ export default function Signup() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 w-full sm:w-11/12 md:w-3/4 lg:w-1/2 mx-auto p-4 sm:p-6 md:p-8"
+        className="flex flex-col gap-4 w-fit sm:w-full md:w-[50%] lg:w-[30%] mx-auto p-4 sm:p-6 md:p-8"
         onSubmit={handleSubmit(signupData)}
       >
         <label htmlFor="Name" className="text-2xl font-semibold">

@@ -42,7 +42,7 @@ function DeleteData({
         <MdDelete />
       </button>
       <Modal
-        title="Delete Recipe"
+        title={`Delete ${recipeID ? "Recipe" : blogID ? "Blog" : "User"}`}
         closable={false}
         open={isModalOpen}
         onOk={handleOk}

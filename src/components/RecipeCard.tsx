@@ -4,9 +4,10 @@ import { CiClock2 } from "react-icons/ci";
 import Image from "next/image";
 import LikeButton from "./LikeButton";
 import BookMark from "./BookMark";
-import { useState } from "react";
 import Datanot from "./Datanot";
 import Loading from "./Loading";
+import { useState } from "react";
+import SkeletonEffect from "./Skeleton";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
@@ -14,8 +15,9 @@ interface filterRecipes {
 }
 
 function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
-  const [imgLoading, setImgLoading] = useState(false);
-  if (recipeCardData.length === 0) {
+  const [imageLoading, setImageLoading] = useState<boolean>(true);
+  console.log({ recipeCardData });
+  if (!recipeCardData.length && !isLoadingData) {
     return <Datanot />;
   }
   return (
@@ -28,12 +30,16 @@ function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
           >
             <Link href={`/recipes/${value._id}`}>
               <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
+                {imageLoading && <SkeletonEffect />}
                 <Image
                   src={value.image.trimEnd()}
-                  width={250}
-                  height={250}
-                  className="object-cover object-center  h-65  rounded-2xl"
+                  className={`object-cover object-center  rounded-2xl  ${
+                    imageLoading ? "opacity-0" : "opacity-100  h-65 "
+                  }`}
+                  width={imageLoading ? 0 : 250}
+                  height={imageLoading ? 0 : 250}
                   alt={value.name}
+                  onLoad={() => setImageLoading(false)}
                 />
               </div>
               <div>
