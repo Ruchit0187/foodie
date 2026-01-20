@@ -1,7 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Loading from "../app/(user)/blogs/loading";
+import LoadingLoader from "./Loading";
 
 function AuthLoading() {
   const { status } = useSession();
@@ -10,9 +10,13 @@ function AuthLoading() {
     setAuthStatus(status);
   }, [status]);
   if (authStatus === "loading") {
-    return <Loading />;
+    return (
+      <div className="h-full w-full absolute z-1 bottom-0 ">
+        <LoadingLoader height={"h-[100vh]"} />
+      </div>
+    );
   }
-  return null
+  return null;
 }
 
 export default AuthLoading;

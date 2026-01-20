@@ -10,6 +10,10 @@ export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl;
     const email = searchParams.get("email");
     const user = await User.findOne({ email });
+    if (!user) {
+      const googleUser = await Provider.findOne({ email });
+      return NextResponse.json(googleUser, { status: 200 });
+    }
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -20,36 +24,28 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   await dbConnect();
   try {
-    const { name, password, _id } = await request.json();
-    if (name && !password) {
-      const value = await User.findByIdAndUpdate(_id, { name });
+    const { name, _id } = await request.json();
+    const value = await User.findByIdAndUpdate(_id, { name }, { new: true });
+    if (!value) {
+      const googleUser = await Provider.findByIdAndUpdate(
+        _id,
+        { name },
+        { new: true },
+      );
+      console.log({googleUser})
       return NextResponse.json(
-        { message: "User Name Updated successfully" },
-        { status: 200 }
+        { message: "User Name Updated successfully",googleUser },
+        { status: 200 },
       );
     }
-    const hashPassword = bcrypt.hashSync(password, 10);
-    if (!name && password) {
-      const value = await User.findByIdAndUpdate(_id, {
-        password: hashPassword,
-      });
-      return NextResponse.json(
-        { message: "User Password Updated successfully" },
-        { status: 200 }
-      );
-    }
-    const updateUser = await User.findByIdAndUpdate(_id,{
-      name,
-      password: hashPassword,
-    });
     return NextResponse.json(
-      { message: "User Data Updated successfully" },
-      { status: 200 }
+      { message: "User Name Updated successfully",value },
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
       { error: "User Update Not Fetched" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

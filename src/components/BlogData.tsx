@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import { useDebounceCallback } from "usehooks-ts";
 import SkeletonEffect from "./Skeleton";
 import Datanot from "./Datanot";
+import BookMark from "./BookMark";
 
 function BlogData({ blogData }: { blogData: blogData[] }) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
@@ -98,8 +99,16 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                     </span>
                     <span>{blogvalue.date}</span>
                   </div>
-                  <div className=" p-1.5 text-left italic font-bold ">
-                    {blogvalue.name}
+                  <div className="flex justify-between items-center">
+                    <span className=" p-1.5 text-left italic font-semibold text-xl">
+                      {blogvalue.name}
+                    </span>
+                    <span className="mb-2.5">
+                      <BookMark
+                        blogID={blogvalue._id}
+                        bookmarkValue={blogvalue.bookmark}
+                      />
+                    </span>
                   </div>
                 </div>
               </Link>

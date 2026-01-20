@@ -1,12 +1,11 @@
 function Aboutus() {
-  
   return (
     <div className="text-gray-800">
       {/* Hero Section */}
       <section className="bg-linear-to-r from-orange-500 to-green-500 text-white text-center py-20 px-4">
         <h1 className="text-4xl md:text-5xl font-bold mb-3">About Foodie</h1>
         <p className="text-lg md:text-xl">
-          Delivering happiness, one bite at a time 
+          Delivering happiness, one bite at a time
         </p>
       </section>
       <section className="p-5">
@@ -45,7 +44,7 @@ function Aboutus() {
         </h2>
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-2">🍽 Quality Food</h3>
+            <h3 className="text-xl font-semibold mb-2">Quality Food</h3>
             <p className="text-gray-600">
               We partner with trusted restaurants to ensure quality meals.
             </p>
@@ -56,7 +55,6 @@ function Aboutus() {
               Quick and reliable delivery you can count on.
             </p>
           </div>
-
           <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
             <h3 className="text-xl font-semibold mb-2"> Customer First</h3>
             <p className="text-gray-600">

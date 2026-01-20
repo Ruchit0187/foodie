@@ -1,38 +1,46 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { userData } from "../types";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import ResetPassword from "./ResetPassword";
+import { Session } from "next-auth";
+
 
 interface userFormData extends userData {
   confirmPassword: string;
 }
-
-function UpdateProfile({ userData }: { userData: userData }) {
+function UpdateProfile({
+  userData,
+  session,
+}: {
+  userData: userData;
+  session: Session | null;
+}) {
+  const [updatedValue, setUpdatedValue] = useState<userData>(userData);
   const [editPassword, setEditPassword] = useState<boolean>(false);
   const [editName, setEditName] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<userFormData>({
     defaultValues: {
-      name: userData.name,
+      name: updatedValue.name,
     },
   });
   const onSubmit: SubmitHandler<userFormData> = async (data) => {
     try {
       const updateProfile = await axios.patch("/api/profile", {
         name: data.name.trim(),
-        _id: userData._id,
+        _id: updatedValue._id,
       });
+      console.log(updateProfile)
       if (updateProfile.status === 200) {
         toast.success("User Data Updated Successfully");
-        reset();
+        const { googleUser, value } = updateProfile.data;
+        setUpdatedValue(() => (value ? value : googleUser));
         setEditName(false);
       }
     } catch (error) {
@@ -56,19 +64,23 @@ function UpdateProfile({ userData }: { userData: userData }) {
           Edit Name
         </button>
       </div>
-      <div className="flex mx-auto text-center gap-2 items-center justify-center mt-2">
-        <span className="p-1 text-xl">Change Password</span>
-        <button
-          className=" bg-black text-white mt-3 p-1  rounded-2xl cursor-pointer"
-          onClick={() => {
-            setEditPassword((prev) => !prev);
-            setEditName(false);
-          }}
-        >
-          Edit Password
-        </button>
-      </div>
-      {editPassword && <ResetPassword email={userData.email} />}
+      {!session?.user?.image && (
+        <div className="flex mx-auto text-center gap-2 items-center justify-center mt-2">
+          <span className="p-1 text-xl">Change Password</span>
+          <button
+            className=" bg-black text-white mt-3 p-1  rounded-2xl cursor-pointer"
+            onClick={() => {
+              setEditPassword((prev) => !prev);
+              setEditName(false);
+            }}
+          >
+            Edit Password
+          </button>
+        </div>
+      )}
+      {editPassword && !session?.user?.image && (
+        <ResetPassword email={userData.email} />
+      )}
       {editName && (
         <form
           onSubmit={handleSubmit(onSubmit)}

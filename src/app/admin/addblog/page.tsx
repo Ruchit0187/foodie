@@ -1,4 +1,5 @@
 "use client";
+import BackButton from "@/src/components/BackButton";
 import { individualBlog } from "@/src/types";
 import axios from "axios";
 import { useState } from "react";
@@ -17,7 +18,7 @@ function AddBlog() {
   } = useForm<individualBlog>();
   const onSubmit: SubmitHandler<individualBlog> = async (data) => {
     const filterIngredients = data.health_benefits.filter(
-      (value) => !(value === "")
+      (value) => !(value === ""),
     );
     try {
       const value = await axios.post("/api/blogs", {
@@ -35,6 +36,12 @@ function AddBlog() {
   };
   return (
     <>
+      <div className="text-center w-[33%] mx-auto flex gap-8 items-center my-3.5">
+        <span>
+          <BackButton />
+        </span>
+        <span className="text-3xl underline font-semibold ">Add the Blog</span>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-2.5 w-[33%] mx-auto"

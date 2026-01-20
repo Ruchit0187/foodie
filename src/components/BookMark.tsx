@@ -11,7 +11,7 @@ function BookMark({
   blogID,
 }: {
   recipeID?: string;
-  blogID?:string
+  blogID?: string;
   bookmarkValue: string[];
 }) {
   const { data: sessionData } = useSession();
@@ -19,7 +19,7 @@ function BookMark({
   useEffect(() => {
     if (sessionData?.user?.id) {
       const bookMark: boolean = bookmarkValue.includes(
-        String(sessionData?.user?.id)
+        String(sessionData?.user?.id),
       );
       setBookmarkApi(bookMark);
     }
@@ -31,10 +31,11 @@ function BookMark({
       const markDownValue = await axios.patch("/api/bookmark", {
         userID: sessionData?.user?.id,
         recipeID,
+        blogID
       });
       const bookValue: boolean =
         markDownValue.data.bookmarkValue.bookmark.includes(
-          sessionData?.user?.id
+          sessionData?.user?.id,
         );
       setBookmarkApi(bookValue);
     } catch (error) {
@@ -43,7 +44,7 @@ function BookMark({
   };
   return (
     <div className="mt-4 mb-2 text-sm text-body">
-      {sessionData?.user &&  (
+      {sessionData?.user && (
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 

@@ -24,9 +24,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Otp Does not Match" }, { status: 400 });
   }
   cookie.delete("email");
-  await User.findOneAndUpdate({ email: userEmail }, { otp: 0 });
+  await User.findByIdAndUpdate(databaseUser._id, {
+    $unset: {
+      otp: 0,
+      otpExpiry: "",
+    },
+  });
   return NextResponse.json(
     { message: "Otp Verify Successfully" },
-    { status: 200 }
+    { status: 200 },
   );
 }

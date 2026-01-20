@@ -65,14 +65,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               name: `${user.name}`,
             });
             user.id = String(googleUser._id);
+            user.name = googleUser.name;
             user.isAdmin = String(googleUser.isAdmin);
             user.isOwner = String(googleUser.isOwner);
             return true;
           } else if (googleExistingUser) {
+            user.name = googleExistingUser.name;
             user.id = String(googleExistingUser._id);
             user.isAdmin = String(googleExistingUser.isAdmin);
             user.isOwner = String(googleExistingUser.isOwner);
-            return true
+            return true;
           }
         } catch (error) {
           return false;
@@ -80,11 +82,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user,trigger,session }) {
       if (user) {
         token.id = user.id;
         token.isAdmin = user.isAdmin;
         token.isOwner = user.isOwner;
+        token.name = user.name;
+      }
+      if(trigger==="update" && session?.name){
+        token.name=session.name
       }
       return token;
     },
@@ -93,6 +99,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
         session.user.isAdmin = token.isAdmin;
         session.user.isOwner = token.isOwner;
+        session.user.name = token.name;
       }
       return session;
     },

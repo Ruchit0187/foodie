@@ -1,13 +1,24 @@
 "use client";
 import { signOut } from "next-auth/react";
 import { Modal } from "antd";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
+import { Session } from "next-auth";
+import fetchUserData from "../function/fetchUserData";
+import { userData } from "../types";
 
-function Profile({ sessionValue }: any) {
+function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
   const [open, setOpen] = useState<boolean>(false);
+  const [userNewData, setUserNewData] = useState<userData>();
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await fetchUserData(sessionValue!);
+      setUserNewData(userData);
+    };
+    fetchData();
+  }, [open]);
   return (
     <>
       <button onClick={() => setOpen(true)} className="cursor-pointer">
@@ -33,7 +44,8 @@ function Profile({ sessionValue }: any) {
             <FaRegUserCircle />
           </span>
           <div className="flex flex-col">
-            <span>{sessionValue.user.email}</span>
+            <span className="text-center">{userNewData?.name}</span>
+            <span>{userNewData?.email}</span>
           </div>
           <button
             className="block bg-black text-white mx-auto p-2.5 rounded-2xl cursor-pointer"
@@ -41,9 +53,7 @@ function Profile({ sessionValue }: any) {
           >
             Sign out
           </button>
-          {sessionValue.user.image ? null : (
-            <Link href={"/profile"}>Change Details</Link>
-          )}
+          <Link href={"/profile"}>Change Details</Link>
         </div>
       </Modal>
     </>

@@ -4,15 +4,17 @@ import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import Profile from "./Profile";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
+import AuthLoading from "./AuthLoading";
 
 export default function Navbar() {
-  const [adminStatus, setAdminStatus] = useState<string>("true");
   const { data: session, status } = useSession();
+  const [adminStatus, setAdminStatus] = useState<string>("false");
   useEffect(() => {
     const value = session?.user?.isAdmin!;
     setAdminStatus(value);
-  }, [status]);
+  }, [session]);
+  if (status === "loading") return <AuthLoading />;
   return (
     <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-1">
       <div className="flex w-[80%] p-2">

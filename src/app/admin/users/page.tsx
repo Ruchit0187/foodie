@@ -1,8 +1,8 @@
 import { userData } from "@/src/types";
-import NotFound from "../recipes/not-found";
 import DeleteData from "../../../components/DeleteData";
 import { auth } from "@/auth";
 import RoleUpdate from "@/src/components/RoleUpdate";
+import NotFound from "./not-found";
 
 async function UserPage() {
   const session = await auth();
@@ -57,7 +57,6 @@ async function UserPage() {
               <td className="px-1.5 py-4">
                 {`${data.isAdmin ? "Admin" : "User"}`}
               </td>
-
               <td className="px-1.5 py-4">
                 <DeleteData userID={data._id} />
               </td>

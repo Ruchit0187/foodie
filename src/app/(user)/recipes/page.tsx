@@ -55,9 +55,7 @@ function RecipeDetails() {
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Category</option>
-            <option value="vegetarian">
-              Veg
-            </option>
+            <option value="vegetarian">Veg</option>
             <option value="vegan">Vegan</option>
             <option value="non-veg">Non-veg</option>
           </select>
@@ -79,8 +77,8 @@ function RecipeDetails() {
           onChange={(event) => debounce(event.target.value)}
         />
       </div>
-      { isFetching && recipeData.length < 1 ? (
-        <Loading/>
+      {isFetching && recipeData.length < 1 ? (
+        <Loading />
       ) : (
         <RecipeCard recipeCardData={recipeData} isLoadingData={isLoading} />
       )}

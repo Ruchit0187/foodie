@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema, Types } from "mongoose";
-interface Iblog extends Document {
+export interface Iblog extends Document {
   name: string;
   title: string;
   category: string;
@@ -9,6 +9,7 @@ interface Iblog extends Document {
   health_benefits: string[];
   blog_likes: Types.ObjectId[];
   description: string;
+  bookmark:Types.ObjectId[]
 }
 const blogSchema: Schema<Iblog> = new Schema({
   name: String,
@@ -20,6 +21,7 @@ const blogSchema: Schema<Iblog> = new Schema({
   health_benefits: [],
   blog_likes: [],
   description: String,
+  bookmark:[]
  
 });
 export const Blogs: Model<Iblog> =

@@ -14,20 +14,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "user not found" }, { status: 400 });
     }
     const cookie = await cookies();
-    cookie.set("email",email,{maxAge:3000,httpOnly:true});
+    cookie.set("email", email, { maxAge: 3000, httpOnly: true });
     const randomNumber = Math.floor(Math.random() * 9000 + 10000);
-    user.otp=randomNumber;
-    user.otpExpiry=new Date(Date.now() + 10 * 60 * 1000)
+    user.otp = randomNumber;
+    user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
     await user.save();
     // const jwtToken = Jwt.sign(
     //   { otp: randomNumber },
     //   process.env.JWT_SECRET_KEY!
     // );
     // cookie.set("otp", jwtToken, { maxAge: 3000, httpOnly: true });
-    sendMail(email, randomNumber);
+    
+    // sendMail(email, randomNumber);
     return NextResponse.json({ message: "otp is set" }, { status: 200 });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json({ error: "Otp does not send" });
   }
 }

@@ -5,6 +5,7 @@ import axios from "axios";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import { useState } from "react";
 import bcrypt from "bcryptjs";
+import { useRouter } from "next/router";
 interface IResetPassword {
   email: string;
   password: string;
@@ -16,7 +17,6 @@ function ResetPassword({
 }: {
   email?: string;
 }) {
-
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const {
     register,

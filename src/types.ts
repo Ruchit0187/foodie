@@ -30,6 +30,7 @@ export interface blogData {
   health_benefits: string[];
   blog_likes: string[];
   description: string;
+  bookmark:string[]
 }
 
 export interface individualBlog {
