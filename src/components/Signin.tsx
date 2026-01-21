@@ -8,14 +8,17 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOffSharp } from "react-icons/io5";
-import OtpVerify from "../app/(user)/otpverify/page";
+import OtpVerify from "./OtpVerify";
 import Link from "next/link";
+import { authSignin } from "../types";
 interface Isignin {
   email: string;
   password: string;
 }
 export default function Signin() {
   const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [userSignindata, setUserSignindata] = useState<authSignin>();
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const [otpVerify, setOtpVerify] = useState<boolean>(false);
   const signinData = async (formData: Isignin) => {
@@ -25,15 +28,13 @@ export default function Signin() {
     };
     try {
       const signInApiResponse = await axios.post("/api/signin", userSignData);
-      signIn("credentials", {
-        ...signInApiResponse.data?.user,
-        redirect: false,
-      });
+      setLoading(true);
       const email = userSignData.email;
       if (signInApiResponse.status === 200) {
         try {
           await axios.post("/api/forgot", { email });
           setOtpVerify(true);
+          setUserSignindata(signInApiResponse?.data);
         } catch (error) {
           console.log("Error Generated");
         }
@@ -48,11 +49,13 @@ export default function Signin() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Isignin>();
+  } = useForm<Isignin>({
+    disabled: loading,
+  });
   return (
     <>
       {otpVerify ? (
-        <OtpVerify />
+        <OtpVerify userSigninData={userSignindata} />
       ) : (
         <div>
           <form

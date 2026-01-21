@@ -1,13 +1,13 @@
 "use client";
-import { signOut } from "next-auth/react";
 import { Modal } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import { Session } from "next-auth";
 import fetchUserData from "../function/fetchUserData";
 import { userData } from "../types";
+import SignoutButton from "./Signout";
 
 function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
   const [open, setOpen] = useState<boolean>(false);
@@ -47,12 +47,7 @@ function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
             <span className="text-center">{userNewData?.name}</span>
             <span>{userNewData?.email}</span>
           </div>
-          <button
-            className="block bg-black text-white mx-auto p-2.5 rounded-2xl cursor-pointer"
-            onClick={() => signOut({ redirectTo: "/" })}
-          >
-            Sign out
-          </button>
+         <SignoutButton/>
           <Link href={"/profile"}>Change Details</Link>
         </div>
       </Modal>

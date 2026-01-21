@@ -7,8 +7,15 @@ import { BsPencilSquare } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BiAddToQueue } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
 function UpdateRecipe({ value }: { value: recipeDataTypes }) {
-  const [recipeID,setRecipeID]=useState(value._id);
+  const array = [];
+  const [recipeID, setRecipeID] = useState(value._id);
+  const [ingredientsArray, setIngredientsArray] = useState<number>(
+    value.ingredients.length,
+  );
+  const [ingredients, setIngredients] = useState(value.ingredients);
   const { register, handleSubmit } = useForm<recipeDataTypes>({
     defaultValues: {
       name: value.name,
@@ -16,7 +23,7 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
       difficulty: value.difficulty,
       image: value.image,
       cookingTimeMinutes: value.cookingTimeMinutes,
-      ingredients: value.ingredients
+      ingredients: value.ingredients,
     },
   });
   const router = useRouter();
@@ -31,16 +38,19 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onSubmit = async(data: recipeDataTypes) => {
-      try {
-        const value=await axios.patch("/api/admin/recipes",{...data,recipeID});
-        if(value.status===200){
-          router.refresh();
-        }
-      } catch (error) {
-        toast.error("Recipe Details not updated");
-        console.log(error);
+  const onSubmit = async (data: recipeDataTypes) => {
+    try {
+      const value = await axios.patch("/api/admin/recipes", {
+        ...data,
+        recipeID,
+      });
+      if (value.status === 200) {
+        router.refresh();
       }
+    } catch (error) {
+      toast.error("Recipe Details not updated");
+      console.log(error);
+    }
   };
 
   return (
@@ -94,18 +104,41 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
           <label htmlFor="ingredients" className="text-xl font-bold">
             Ingredients:
           </label>
-          {value.ingredients.map((data, index) => (
-            <div key={index} className="grid grid-cols-2">
+          {ingredients.map((_, index) => (
+            <div key={index} className="grid grid-cols-2 px-2">
               <input
                 {...register(`ingredients.${index}.name`)}
-                className="border-2 p-2 rounded-2xl w-2/3"
+                className="border-2 p-2 rounded-2xl w-fit"
                 id="ingredients"
+                placeholder="Enter the Ingredients Name"
               />
               <input
                 {...register(`ingredients.${index}.quantity`)}
-                className="border-2 p-2 rounded-2xl w-2/3"
+                className="border-2 p-2 rounded-2xl w-fit"
                 id="ingredients"
+                placeholder="Enter the Ingredients Quantity"
               />
+              {ingredientsArray - 1 === index ? (
+                <BiAddToQueue
+                  onClick={() => {
+                    setIngredients((prev) => [
+                      ...prev,
+                      { name: "", quantity: "" },
+                    ]);
+                    setIngredientsArray((prev) => prev + 1);
+                  }}
+                  className="cursor-pointer relative right-6 -top-8 text-xl "
+                />
+              ) : null}
+              {ingredientsArray > 2 && ingredientsArray - 1 === index ? (
+                <AiOutlineDelete
+                  onClick={() => {
+                    setIngredientsArray((prev) => prev - 1);
+                    ingredients.pop();
+                  }}
+                  className="cursor-pointer relative  translate-x-34 -right-12 -top-8 text-2xl"
+                />
+              ) : null}
             </div>
           ))}
           <label htmlFor="image" className="text-xl font-bold">

@@ -7,6 +7,8 @@ import { BsPencilSquare } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BiAddToQueue } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
 function UpdateBlog({ value }: { value: blogData }) {
   const [blogID, setBlogID] = useState(value._id);
   const { register, handleSubmit } = useForm<blogData>({
@@ -18,11 +20,15 @@ function UpdateBlog({ value }: { value: blogData }) {
       quick_summary: value.quick_summary,
       health_benefits: value.health_benefits,
       date: value.date,
-      description:value.description
+      description: value.description,
     },
   });
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [blogBenefitsCount, setHealthBenefitCount] = useState<number>(
+    value.health_benefits.length,
+  );
+  const [healthBenefits, setHealthBenefit] = useState(value.health_benefits);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -98,7 +104,7 @@ function UpdateBlog({ value }: { value: blogData }) {
             type="date"
             id="date"
           />
-           <label className="text-xl font-bold" htmlFor="summery">
+          <label className="text-xl font-bold" htmlFor="summery">
             Summery:
           </label>
           <textarea
@@ -106,7 +112,7 @@ function UpdateBlog({ value }: { value: blogData }) {
             className="border-2 p-2 rounded-2xl"
             id="summery"
           />
-           <label className="text-xl font-bold" htmlFor="description">
+          <label className="text-xl font-bold" htmlFor="description">
             Description:
           </label>
           <textarea
@@ -116,12 +122,33 @@ function UpdateBlog({ value }: { value: blogData }) {
           />
 
           <label className="text-xl font-bold">health Benefits:</label>
-          {value.health_benefits.map((_, index) => (
+          {healthBenefits.map((_, index) => (
             <div key={index} className="grid grid-cols-2">
               <input
                 {...register(`health_benefits.${index}`)}
                 className="border-2 p-2 rounded-2xl w-2/3"
               />
+              {blogBenefitsCount - 1 === index ? (
+                <BiAddToQueue
+                  onClick={() => {
+                    setHealthBenefit((prev) => [
+                      ...prev,
+                      ""
+                    ]);
+                    setHealthBenefitCount((prev) => prev + 1);
+                  }}
+                  className="cursor-pointer relative right-6 -top-8 text-xl "
+                />
+              ) : null}
+              {blogBenefitsCount > 2 && blogBenefitsCount - 1 === index ? (
+                <AiOutlineDelete
+                  onClick={() => {
+                    setHealthBenefitCount((prev) => prev - 1);
+                    healthBenefits.pop();
+                  }}
+                  className="cursor-pointer relative  translate-x-34 -right-12 -top-8 text-2xl"
+                />
+              ) : null}
             </div>
           ))}
           <label htmlFor="image" className="text-xl font-bold">

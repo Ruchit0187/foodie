@@ -5,7 +5,9 @@ import axios from "axios";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import { useState } from "react";
 import bcrypt from "bcryptjs";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
 interface IResetPassword {
   email: string;
   password: string;
@@ -17,11 +19,14 @@ function ResetPassword({
 }: {
   email?: string;
 }) {
+  const {status}=useSession()
   const [showPassword, setShowPassword] = useState<boolean>(true);
+  const router=useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<IResetPassword>({
     defaultValues: {
       email: email,
@@ -44,6 +49,10 @@ function ResetPassword({
       );
       if (passwordChange.status === 200) {
         toast.success("Password change Successfully");
+        if(status==="unauthenticated"){
+          router.push("/");
+        }
+        reset()
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

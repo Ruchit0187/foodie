@@ -35,6 +35,9 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const data = await fetch(`/api/blogs?limit=${limit}&search=${search}`);
@@ -97,7 +100,9 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                         blogID={blogvalue._id}
                       />
                     </span>
-                    <span>{blogvalue.date}</span>
+                    <span>
+                      {new Date(blogvalue.date).toLocaleDateString("en-GB")}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className=" p-1.5 text-left italic font-semibold text-xl">

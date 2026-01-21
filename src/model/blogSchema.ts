@@ -3,7 +3,7 @@ export interface Iblog extends Document {
   name: string;
   title: string;
   category: string;
-  date: string;
+  date: Date;
   image: string;
   quick_summary: string;
   health_benefits: string[];
@@ -15,7 +15,10 @@ const blogSchema: Schema<Iblog> = new Schema({
   name: String,
   title: String,
   category: String,
-  date: String,
+  date: {
+    type:Date,
+    default:Date.now
+  },
   image: String,
   quick_summary: String,
   health_benefits: [],

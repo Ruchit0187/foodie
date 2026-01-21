@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
       name,
       title,
       category,
-      date,
       image,
       quick_summary,
       description,
@@ -35,16 +34,14 @@ export async function POST(request: NextRequest) {
       name,
       title,
       category,
-      date,
       image,
       quick_summary,
       description,
       health_benefits,
     };
     const value = await Blogs.insertOne(insertValue);
-    console.log(value);
     return NextResponse.json(
-      { message: "Data add Successfully" },
+      { message: "Blog add Successfully" },
       { status: 200 }
     );
   } catch (error) {

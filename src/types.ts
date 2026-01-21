@@ -20,11 +20,12 @@ export interface recipeRoute {
   recipeTotalCount:number
 }
 export interface blogData {
+  toDateString(): import("react").ReactNode;
   _id: string;
   name: string;
   title: string;
   category: string;
-  date: string;
+  date: Date;
   image: string;
   quick_summary: string;
   health_benefits: string[];
@@ -52,4 +53,18 @@ export interface userData {
   isVerify: boolean;
   isAdmin: boolean;
   isOwner:boolean
+}
+
+
+export interface authSignin{
+  message:string ,
+  user:{
+    email:string,
+    isAdmin:boolean,
+    isVerify:boolean,
+    name:string
+    password:string
+    _id:string,
+    _v:number
+  }
 }

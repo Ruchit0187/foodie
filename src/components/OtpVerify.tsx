@@ -4,11 +4,12 @@ import { Flex, Input, Typography } from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { authSignin } from "@/src/types";
 
 const { Title } = Typography;
-const OtpVerify: React.FC = () => {
-  const {data,status}=useSession()
+const OtpVerify = ({ userSigninData }: { userSigninData?: authSignin }) => {
+  const { data, status } = useSession();
   const [otp, setOtp] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
@@ -20,11 +21,14 @@ const OtpVerify: React.FC = () => {
         const value = await axios.post("/api/otpverify", checkMailOtp);
         if (value.status === 200 && otp.length === 5) {
           toast.success("otp Verify successfully");
-          if(status==="unauthenticated"){
-            router.push("/resetpassword")
-          }
-          else{
+          if (userSigninData) {
+            signIn("credentials", {
+              ...userSigninData.user,
+              redirect: false,
+            });
             router.push("/");
+          } else {
+            router.push("/resetpassword");
           }
         }
       } catch (error) {

@@ -12,6 +12,8 @@ interface blogLikeProps {
 function BlogLike({ bloglikes, blogID }: blogLikeProps) {
   const { data: sessionData } = useSession();
   const [likecontrol, setLikeControl] = useState(false);
+  const [bloglikeCount,setBlogLikeCount]=useState<number>(bloglikes.length);
+
   useEffect(() => {
     if (sessionData?.user?.id) {
       const liked = bloglikes.includes(String(sessionData.user.id));
@@ -31,6 +33,7 @@ function BlogLike({ bloglikes, blogID }: blogLikeProps) {
           sessionData?.user?.id
         );
         setLikeControl(bookValue);
+        setBlogLikeCount((prev)=>bookValue?prev+1:prev-1);
       }
     } catch (error) {
       console.log(error);
@@ -49,6 +52,7 @@ function BlogLike({ bloglikes, blogID }: blogLikeProps) {
           >
             {likecontrol ? <FcLike /> : <FcLikePlaceholder />}
           </button>
+          <span className="ml-2">{bloglikeCount}</span>
         </div>
       ) : (
         <LikePopUp />

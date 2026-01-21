@@ -25,6 +25,7 @@ function AddRecipe() {
         ingredients: filterIngredients,
       });
       if (value.status === 200) {
+        toast.success(value.data.message)
         reset();
       }
     } catch (error) {
@@ -130,7 +131,7 @@ function AddRecipe() {
                 className="cursor-pointer relative  right-8 -top-8 text-2xl"
               />
             ) : null}
-            {ingredientsArray - 1 === index ? (
+            {ingredientsArray>2&&ingredientsArray - 1 === index ? (
               <AiOutlineDelete
                 onClick={() => setIngredientsArray((prev) => prev - 1)}
                 className="cursor-pointer relative  translate-x-40 -right-12 -top-8 text-2xl"

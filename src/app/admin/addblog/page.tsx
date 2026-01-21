@@ -8,9 +8,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BiAddToQueue } from "react-icons/bi";
 import { toast } from "react-toastify";
 function AddBlog() {
-  const [ingredientsArray, setIngredientsArray] = useState<number>(2);
-  const lines = Array.from({ length: ingredientsArray });
-
+  const [blogArray, setBlogArray] = useState<number>(3);
+  const lines = Array.from({ length: blogArray });
   const {
     register,
     handleSubmit,
@@ -27,6 +26,7 @@ function AddBlog() {
         health_benefits: filterIngredients,
       });
       if (value.status === 200) {
+        toast.success(value.data.message);
         reset();
       }
     } catch (error) {
@@ -111,16 +111,6 @@ function AddBlog() {
           placeholder="Enter the Image "
         />
         {errors.image && <p className="text-red-400">Enter the Image Link</p>}
-        <label htmlFor="date" className="text-2xl font-medium mr-2.5">
-          Date
-        </label>
-        <input
-          {...register("date", { required: true })}
-          className="p-2 border-2 rounded-2xl"
-          id="date"
-          type="date"
-        />
-        {errors.date && <p className="text-red-400">Enter the Date</p>}
         <label className="text-2xl font-medium mr-2.5">Health Benefits</label>
         {lines.map((_, index) => (
           <div key={index} className="grid grid-cols-2">
@@ -129,15 +119,15 @@ function AddBlog() {
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Benefits"
             />
-            {ingredientsArray - 1 === index ? (
+            {blogArray - 1 === index ? (
               <BiAddToQueue
-                onClick={() => setIngredientsArray((prev) => prev + 1)}
-                className="cursor-pointer relative left-10 -translate-x-52  top-2 text-2xl"
+                onClick={() => setBlogArray((prev) => prev + 1)}
+                className="cursor-pointer relative left-0 -translate-x-72  top-2 text-2xl"
               />
             ) : null}
-            {ingredientsArray - 1 === index ? (
+            {blogArray > 2 && blogArray - 1 === index ? (
               <AiOutlineDelete
-                onClick={() => setIngredientsArray((prev) => prev - 1)}
+                onClick={() => setBlogArray((prev) => prev - 1)}
                 className="cursor-pointer relative  translate-x-40 -right-12 -top-8 text-2xl"
               />
             ) : null}

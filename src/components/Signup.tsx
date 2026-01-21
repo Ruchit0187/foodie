@@ -41,7 +41,9 @@ export default function Signup() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formData>();
+  } = useForm<formData>({
+    disabled:loading
+  });
   return (
     <>
       <form

@@ -16,7 +16,6 @@ export const blogDataFetch = async (limit: number) => {
     console.log(error);
   }
 };
-
 async function Blog() {
   const blogValue = await blogDataFetch(1);
   return (

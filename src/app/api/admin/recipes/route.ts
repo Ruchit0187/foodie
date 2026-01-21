@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     };
     const value = await Recipes.insertOne(insetValue);
     return NextResponse.json(
-      { message: "Data add Successfully" },
+      { message: "Recipe add Successfully" },
       { status: 200 }
     );
   } catch (error) {
