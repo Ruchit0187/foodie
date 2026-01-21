@@ -10,14 +10,18 @@ export async function proxy(request: NextRequest) {
   const email = cookie.get("email");
   const path = request.nextUrl.pathname;
   const token = await getToken({ req: request, secret });
-  console.log(email);
   if (!email && path.startsWith("/resetpassword")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (!token && path.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (token && (path.startsWith("/signup") || path.startsWith("/forgot"))) {
+  if (
+    token &&
+    (path.startsWith("/signup") ||
+      path.startsWith("/forgot") ||
+      path.startsWith("/signin"))
+  ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (token?.isAdmin === "false" && path.startsWith("/admin")) {
