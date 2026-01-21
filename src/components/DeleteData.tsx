@@ -23,14 +23,15 @@ function DeleteData({
   const handleOk = async () => {
     if (recipeID) {
       await axios.delete("/api/admin/recipes", { data: { recipeID } });
+      router.back();
     }
     if (userID) {
       await axios.delete("/api/admin/users", { data: { userID } });
     }
     if (blogID) {
       await axios.delete("/api/blogs", { data: { blogID } });
+      router.back();
     }
-    router.back();
     setIsModalOpen(false);
   };
   const handleCancel = () => {

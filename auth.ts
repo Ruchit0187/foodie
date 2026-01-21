@@ -1,4 +1,4 @@
-import NextAuth, { type DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "./src/model/provider";
@@ -88,9 +88,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.isAdmin = user.isAdmin;
         token.isOwner = user.isOwner;
         token.name = user.name;
-      }
-      if(trigger==="update" && session?.name){
-        token.name=session.name
       }
       return token;
     },

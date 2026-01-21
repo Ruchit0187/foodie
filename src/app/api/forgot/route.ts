@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     // );
     // cookie.set("otp", jwtToken, { maxAge: 3000, httpOnly: true });
     
-    // sendMail(email, randomNumber);
+    sendMail(email, randomNumber);
     return NextResponse.json({ message: "otp is set" }, { status: 200 });
   } catch (error) {
     console.log(error);

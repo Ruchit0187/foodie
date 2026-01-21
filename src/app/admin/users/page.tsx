@@ -3,6 +3,7 @@ import DeleteData from "../../../components/DeleteData";
 import { auth } from "@/auth";
 import RoleUpdate from "@/src/components/RoleUpdate";
 import NotFound from "./not-found";
+import BackButton from "@/src/components/BackButton";
 
 async function UserPage() {
   const session = await auth();
@@ -14,6 +15,7 @@ async function UserPage() {
   const { users } = userJsonData;
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+       <BackButton/>
       <table className="w-full text-sm text-left rtl:text-right text-body">
         <thead className="bg-neutral-secondary-soft border-b border-default">
           <tr className="text-xl">
