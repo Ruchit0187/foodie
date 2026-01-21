@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     if (difficulty) query.difficulty = difficulty;
     if (category) query.category = category;
     const filterRecipes = await Recipes.find(query).limit(limit * 6);
-    const recipeTotalCount = await Recipes.countDocuments();
+    const recipeTotalCount = await Recipes.countDocuments(query);
     // const filterRecipes = await Recipes.find({
     //   $or: [{ name: search }, { difficulty }],
     // });

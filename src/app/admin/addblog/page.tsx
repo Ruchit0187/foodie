@@ -4,6 +4,7 @@ import { individualBlog } from "@/src/types";
 import axios from "axios";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { AiOutlineDelete } from "react-icons/ai";
 import { BiAddToQueue } from "react-icons/bi";
 import { toast } from "react-toastify";
 function AddBlog() {
@@ -131,7 +132,13 @@ function AddBlog() {
             {ingredientsArray - 1 === index ? (
               <BiAddToQueue
                 onClick={() => setIngredientsArray((prev) => prev + 1)}
-                className="cursor-pointer relative -left-10   top-2 text-2xl"
+                className="cursor-pointer relative left-10 -translate-x-52  top-2 text-2xl"
+              />
+            ) : null}
+            {ingredientsArray - 1 === index ? (
+              <AiOutlineDelete
+                onClick={() => setIngredientsArray((prev) => prev - 1)}
+                className="cursor-pointer relative  translate-x-40 -right-12 -top-8 text-2xl"
               />
             ) : null}
           </div>

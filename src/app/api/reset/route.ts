@@ -1,17 +1,20 @@
 import { dbConnect } from "@/src/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "@/src/model/userSchema";
+import { cookies } from "next/headers";
 
 
 export async function PATCH(request: NextRequest) {
   await dbConnect();
   try {
     const { email, password } = await request.json();
+    const cookie=await cookies()
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "User not Found" }, { status: 401 });
     }
     await User.findByIdAndUpdate(user?._id, { password});
+    cookie.delete("email");
     return NextResponse.json(
       { message: "Password change Successfully" },
       { status: 200 }

@@ -3,6 +3,7 @@ import { User } from "@/src/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { Provider } from "@/src/model/provider";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   await dbConnect();
@@ -10,6 +11,7 @@ export async function POST(request: NextRequest) {
     const { email, password } = await request.json();
     const user = await User.findOne({ email });
     const googleUser=await Provider.findOne({email});
+    const cookie=await cookies()
      if (googleUser) {
       return NextResponse.json({ error: "Please Signin With Google" }, { status: 404 });
     }
@@ -29,6 +31,7 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
+    cookie.set("email",email);
     return NextResponse.json(
       { message: "User SignIn Successfully", user },
       { status: 200 }

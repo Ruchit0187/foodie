@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
   if (databaseUser.otp !== mailOtp) {
     return NextResponse.json({ error: "Otp Does not Match" }, { status: 400 });
   }
-  cookie.delete("email");
   await User.findByIdAndUpdate(databaseUser._id, {
     $unset: {
       otp: 0,

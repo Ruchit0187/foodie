@@ -7,17 +7,17 @@ export { auth as middleware } from "@/auth";
 export async function proxy(request: NextRequest) {
   const secret = process.env.JWT_SECRET_KEY;
   const cookie = await cookies();
+  const email = cookie.get("email");
   const path = request.nextUrl.pathname;
   const token = await getToken({ req: request, secret });
+  console.log(email);
+  if (!email && path.startsWith("/resetpassword")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   if (!token && path.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (
-    token &&
-    (path.startsWith("/signin") ||
-      path.startsWith("/signup") ||
-      path.startsWith("/forgot"))
-  ) {
+  if (token && (path.startsWith("/signup") || path.startsWith("/forgot"))) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (token?.isAdmin === "false" && path.startsWith("/admin")) {
@@ -36,6 +36,6 @@ export const config = {
     "/forgot",
     "/resetpassword",
     "/admin/:path*",
-    "/profile"
+    "/profile",
   ],
 };

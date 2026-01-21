@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
 import BackButton from "@/src/components/BackButton";
+import { AiOutlineDelete } from "react-icons/ai";
 function AddRecipe() {
   const [ingredientsArray, setIngredientsArray] = useState<number>(3);
   const {
@@ -40,7 +41,9 @@ function AddRecipe() {
         <span>
           <BackButton />
         </span>
-        <span className="text-3xl underline font-semibold ">Add the Blog</span>
+        <span className="text-3xl underline font-semibold ">
+          Add the Recipe
+        </span>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -125,6 +128,12 @@ function AddRecipe() {
               <BiAddToQueue
                 onClick={() => setIngredientsArray((prev) => prev + 1)}
                 className="cursor-pointer relative  right-8 -top-8 text-2xl"
+              />
+            ) : null}
+            {ingredientsArray - 1 === index ? (
+              <AiOutlineDelete
+                onClick={() => setIngredientsArray((prev) => prev - 1)}
+                className="cursor-pointer relative  translate-x-40 -right-12 -top-8 text-2xl"
               />
             ) : null}
           </div>
