@@ -35,7 +35,6 @@ function AddRecipe() {
     }
   };
   const lines = Array.from({ length: ingredientsArray });
-
   return (
     <>
       <div className="text-center w-[33%] mx-auto flex gap-8 items-center my-3.5">
@@ -116,15 +115,17 @@ function AddRecipe() {
         {lines.map((_, index) => (
           <div key={index} className="grid grid-cols-2">
             <input
-              {...register(`ingredients.${index}.name`)}
+              {...register(`ingredients.${index}.name`,{required:true})}
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Ingredients Name"
             />
             <input
-              {...register(`ingredients.${index}.quantity`)}
+              {...register(`ingredients.${index}.quantity`,{required:true})}
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Ingredients quantity"
             />
+            
+            <div className="flex justify-between">
             {ingredientsArray - 1 === index ? (
               <BiAddToQueue
                 onClick={() => setIngredientsArray((prev) => prev + 1)}
@@ -134,11 +135,13 @@ function AddRecipe() {
             {ingredientsArray>2&&ingredientsArray - 1 === index ? (
               <AiOutlineDelete
                 onClick={() => setIngredientsArray((prev) => prev - 1)}
-                className="cursor-pointer relative  translate-x-40 -right-12 -top-8 text-2xl"
+                className="cursor-pointer relative  translate-x-40 -right-16 -top-8 text-2xl"
               />
             ) : null}
+            </div>
           </div>
         ))}
+        {errors.ingredients && <p className="text-red-300">Enter the Ingredients</p>}
         <button className="block mx-auto bg-black text-white p-2 cursor-pointer rounded-2xl mt-2">
           Submit
         </button>

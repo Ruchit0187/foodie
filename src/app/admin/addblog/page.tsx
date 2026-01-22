@@ -115,7 +115,7 @@ function AddBlog() {
         {lines.map((_, index) => (
           <div key={index} className="grid grid-cols-2">
             <input
-              {...register(`health_benefits.${index}`)}
+              {...register(`health_benefits.${index}`,{required:true})}
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Benefits"
             />
@@ -133,6 +133,7 @@ function AddBlog() {
             ) : null}
           </div>
         ))}
+        {errors.health_benefits && <p className="text-red-400">Enter the Health Benefits</p>}
         <button className="cursor-pointer block mx-auto bg-black text-white p-2 rounded-2xl mb-2.5">
           Submit
         </button>

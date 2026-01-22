@@ -4,14 +4,20 @@ import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 function UpdateBlog({ value }: { value: blogData }) {
   const [blogID, setBlogID] = useState(value._id);
-  const { register, handleSubmit } = useForm<blogData>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<blogData>({
     defaultValues: {
       name: value.name,
       category: value.category,
@@ -22,17 +28,16 @@ function UpdateBlog({ value }: { value: blogData }) {
       description: value.description,
     },
   });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "health_benefits",
+  });
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [blogBenefitsCount, setHealthBenefitCount] = useState<number>(
-    value.health_benefits.length,
-  );
-  const [healthBenefits, setHealthBenefit] = useState(value.health_benefits);
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = async () => {
-    setIsModalOpen(false);
     handleSubmit(onSubmit)();
   };
   const handleCancel = () => {
@@ -43,11 +48,11 @@ function UpdateBlog({ value }: { value: blogData }) {
       const value = await axios.patch("/api/blogs", {
         ...data,
         blogID,
-        health_benefits:healthBenefits
       });
-      console.log(value);
       if (value.status === 200) {
+        reset(data);
         router.refresh();
+        setIsModalOpen(false);
       }
     } catch (error) {
       toast.error("Recipe Details not updated");
@@ -79,14 +84,18 @@ function UpdateBlog({ value }: { value: blogData }) {
             className="border-2 p-2 rounded-2xl"
             id="name"
           />
+          {errors.name && <ShowError errorMessage={"Blog name"} />}
           <label className="text-xl font-bold" htmlFor="category">
             Category:
           </label>
-          <input
-            {...register("category", { required: true })}
+          <select
+            {...register("category")}
             className="border-2 p-2 rounded-2xl"
-            id="category"
-          />
+          >
+            <option value="breakfast">breakfast</option>
+            <option value="lunch">lunch</option>
+            <option value="dinner">dinner</option>
+          </select>
           <label className="text-xl font-bold" htmlFor="title">
             Title:
           </label>
@@ -95,7 +104,8 @@ function UpdateBlog({ value }: { value: blogData }) {
             className="border-2 p-2 rounded-2xl"
             id="title"
           />
-          
+          {errors.title && <ShowError errorMessage={"Title"} />}
+
           <label className="text-xl font-bold" htmlFor="summery">
             Summery:
           </label>
@@ -104,6 +114,7 @@ function UpdateBlog({ value }: { value: blogData }) {
             className="border-2 p-2 rounded-2xl"
             id="summery"
           />
+          {errors.quick_summary && <ShowError errorMessage={"Summery"} />}
           <label className="text-xl font-bold" htmlFor="description">
             Description:
           </label>
@@ -112,38 +123,35 @@ function UpdateBlog({ value }: { value: blogData }) {
             className="border-2 p-2 rounded-2xl"
             id="description"
           />
-
+          {errors.description && <ShowError errorMessage={"Description"} />}
           <label className="text-xl font-bold">health Benefits:</label>
-          {healthBenefits.map((_, index) => (
-            <div key={index} className="grid grid-cols-2 px-4">
+          {fields.map((data, index) => (
+            <div key={data.id} className="grid grid-cols-2 px-4">
               <input
-                {...register(`health_benefits.${index}`)}
+                {...register(`health_benefits.${index}`, { required: true })}
                 className="border-2 p-2 rounded-2xl w-fit"
                 placeholder="Enter the Health Benefits"
+                id="health_benefits"
               />
-              {blogBenefitsCount - 1 === index ? (
+              {fields.length - 1 === index ? (
                 <BiAddToQueue
                   onClick={() => {
-                    setHealthBenefit((prev) => [
-                      ...prev,
-                      ""
-                    ]);
-                    setHealthBenefitCount((prev) => prev + 1);
+                    append(" ");
                   }}
                   className="cursor-pointer relative  top-4 -translate-x-60 text-xl right-2 "
                 />
               ) : null}
-              {blogBenefitsCount > 2 && blogBenefitsCount - 1 === index ? (
+              {fields.length > 2 && fields.length - 1 === index ? (
                 <AiOutlineDelete
                   onClick={() => {
-                    setHealthBenefitCount((prev) => prev - 1);
-                    healthBenefits.pop();
+                    remove(index);
                   }}
                   className="cursor-pointer relative  translate-x-28 -right-16 -top-8 text-2xl"
                 />
               ) : null}
             </div>
           ))}
+          {errors.health_benefits &&<ShowError errorMessage=" Health Benefits"/>}
           <label htmlFor="image" className="text-xl font-bold">
             Image Link:
           </label>
@@ -159,3 +167,7 @@ function UpdateBlog({ value }: { value: blogData }) {
 }
 
 export default UpdateBlog;
+
+function ShowError({ errorMessage }: { errorMessage: string }) {
+  return <p className="text-red-400">{`Enter the Blog ${errorMessage}`}</p>;
+}

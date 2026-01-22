@@ -27,6 +27,7 @@ function DeleteData({
     }
     if (userID) {
       await axios.delete("/api/admin/users", { data: { userID } });
+      router.refresh();
     }
     if (blogID) {
       await axios.delete("/api/blogs", { data: { blogID } });

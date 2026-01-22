@@ -42,6 +42,7 @@ async function BlogDetails(props: blogProps) {
                 </span>
                 <span>{new Date(blogJsonData.date).toLocaleDateString("en-GB")}</span>
               </div>
+              <span>{blogJsonData.category}</span>
               <div className=" flex justify-between">
                 <p className="text-xl font-light mt-2">{blogJsonData.title}</p>
                 {session?.user?.isAdmin === "true" ? (

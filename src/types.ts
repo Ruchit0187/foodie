@@ -20,7 +20,6 @@ export interface recipeRoute {
   recipeTotalCount:number
 }
 export interface blogData {
-  toDateString(): import("react").ReactNode;
   _id: string;
   name: string;
   title: string;
