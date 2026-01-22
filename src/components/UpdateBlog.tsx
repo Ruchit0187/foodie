@@ -126,32 +126,40 @@ function UpdateBlog({ value }: { value: blogData }) {
           {errors.description && <ShowError errorMessage={"Description"} />}
           <label className="text-xl font-bold">health Benefits:</label>
           {fields.map((data, index) => (
-            <div key={data.id} className="grid grid-cols-2 px-4">
-              <input
-                {...register(`health_benefits.${index}`, { required: true })}
-                className="border-2 p-2 rounded-2xl w-fit"
-                placeholder="Enter the Health Benefits"
-                id="health_benefits"
-              />
-              {fields.length - 1 === index ? (
-                <BiAddToQueue
-                  onClick={() => {
-                    append(" ");
-                  }}
-                  className="cursor-pointer relative  top-4 -translate-x-60 text-xl right-2 "
+            <div key={data.id} className="flex flex-row gap-1 items-center">
+              <div className="w-fit">
+                {fields.length - 1 === index ? (
+                  <BiAddToQueue
+                    onClick={() => {
+                      append("");
+                    }}
+                    className="cursor-pointer  text-2xl  "
+                  />
+                ) : null}
+              </div>
+              <div
+                className={`flex items-center ${fields.length - 1 === index ? "" : "ml-6"} `}
+              >
+                <input
+                  {...register(`health_benefits.${index}`, { required: true })}
+                  className="border-2 p-2 rounded-2xl"
+                  placeholder="Enter the Health Benefits"
+                  id="health_benefits"
                 />
-              ) : null}
-              {fields.length > 2 && fields.length - 1 === index ? (
-                <AiOutlineDelete
-                  onClick={() => {
-                    remove(index);
-                  }}
-                  className="cursor-pointer relative  translate-x-28 -right-16 -top-8 text-2xl"
-                />
-              ) : null}
+                {fields.length > 2 ? (
+                  <AiOutlineDelete
+                    onClick={() => {
+                      remove(index);
+                    }}
+                    className="cursor-pointer  text-2xl"
+                  />
+                ) : null}
+              </div>
             </div>
           ))}
-          {errors.health_benefits &&<ShowError errorMessage=" Health Benefits"/>}
+          {errors.health_benefits && (
+            <ShowError errorMessage=" Health Benefits" />
+          )}
           <label htmlFor="image" className="text-xl font-bold">
             Image Link:
           </label>

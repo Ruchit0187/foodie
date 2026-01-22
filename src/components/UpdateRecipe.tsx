@@ -11,11 +11,17 @@ import { BiAddToQueue } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 function UpdateRecipe({ value }: { value: recipeDataTypes }) {
   const [recipeID, setRecipeID] = useState(value._id);
-  const router=useRouter()
+  const router = useRouter();
   const [ingredientsArray, setIngredientsArray] = useState<number>(
     value.ingredients.length,
   );
-  const { register, handleSubmit, control ,reset,formState: { errors }, } = useForm<recipeDataTypes>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<recipeDataTypes>({
     defaultValues: {
       name: value.name,
       category: value.category,
@@ -46,7 +52,7 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
         recipeID,
       });
       if (value.status === 200) {
-        reset(data)
+        reset(data);
         router.refresh();
         setIsModalOpen(false);
       }
@@ -122,40 +128,48 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
             Ingredients:
           </label>
           {fields.map((data, index) => (
-            <div key={data.id} className="grid grid-cols-2 px-2">
-              <input
-                {...register(`ingredients.${index}.name`,{required:true})}
-                className="border-2 p-2 rounded-2xl w-fit"
-                id="ingredients"
-                placeholder="Enter the Ingredients Name"
-              />
-              <input
-                {...register(`ingredients.${index}.quantity`,{required:true})}
-                className="border-2 p-2 rounded-2xl w-fit"
-                placeholder="Enter the Ingredients Quantity"
-                id="ingredients"
-              />
-              {(fields.length - 1 === index) ? (
-                <BiAddToQueue
-                  onClick={() => {
-                    setIngredientsArray((prev) => prev + 1);
-                    append(({name:"",quantity:""}))
-                  }}
-                  className="cursor-pointer relative right-6 -top-8 text-xl "
+            <div key={data.id} className="flex justify-evenly ">
+              <div className="h-[41.20px]">
+                <input
+                  {...register(`ingredients.${index}.name`, { required: true })}
+                  className="border-2 p-2 rounded-2xl w-fit"
+                  id="ingredients"
+                  placeholder="Enter the Ingredients Name"
                 />
-              ) : null}
-              {fields.length > 2 && fields.length - 1 === index ? (
-                <AiOutlineDelete
-                  onClick={() => {
-                    setIngredientsArray((prev) => prev - 1);
-                    remove(index);
-                  }}
-                  className="cursor-pointer relative  translate-x-34 -right-12 -top-8 text-2xl"
+                {fields.length - 1 === index ? (
+                  <BiAddToQueue
+                    onClick={() => {
+                      setIngredientsArray((prev) => prev + 1);
+                      append({ name: "", quantity: "" });
+                    }}
+                    className="cursor-pointer relative right-6 -top-8 text-xl"
+                  />
+                ) : null}
+              </div>
+              <div className="h-[41.20px]">
+                <input
+                  {...register(`ingredients.${index}.quantity`, {
+                    required: true,
+                  })}
+                  className="border-2 p-2 rounded-2xl w-fit"
+                  placeholder="Enter the Ingredients Quantity"
+                  id="ingredients"
                 />
-              ) : null}
+                {fields.length > 2 && (
+                  <AiOutlineDelete
+                    onClick={() => {
+                      setIngredientsArray((prev) => prev - 1);
+                      remove(index);
+                    }}
+                    className="cursor-pointer relative  translate-x-34 -right-12 -top-8 text-2xl"
+                  />
+                )}
+              </div>
             </div>
           ))}
-          {errors.ingredients &&<p className="text-red-400">Enter the All Ingredients</p>}
+          {errors.ingredients && (
+            <p className="text-red-400">Enter the All Ingredients</p>
+          )}
           <label htmlFor="image" className="text-xl font-bold">
             Image Link:
           </label>

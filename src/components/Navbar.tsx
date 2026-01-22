@@ -39,14 +39,14 @@ export default function Navbar() {
                 Recipes
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href={`/blogs`}
                 className="block py-2 px-3  bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
               >
                 Blogs
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href={`/aboutus`}
