@@ -19,12 +19,11 @@ function UpdateBlog({ value }: { value: blogData }) {
       image: value.image,
       quick_summary: value.quick_summary,
       health_benefits: value.health_benefits,
-      date: value.date,
       description: value.description,
     },
   });
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [blogBenefitsCount, setHealthBenefitCount] = useState<number>(
     value.health_benefits.length,
   );
@@ -44,6 +43,7 @@ function UpdateBlog({ value }: { value: blogData }) {
       const value = await axios.patch("/api/blogs", {
         ...data,
         blogID,
+        health_benefits:healthBenefits
       });
       console.log(value);
       if (value.status === 200) {
@@ -95,15 +95,7 @@ function UpdateBlog({ value }: { value: blogData }) {
             className="border-2 p-2 rounded-2xl"
             id="title"
           />
-          <label className="text-xl font-bold" htmlFor="date">
-            Date:
-          </label>
-          <input
-            {...register("date", { required: true })}
-            className="border-2 p-2 rounded-2xl"
-            type="date"
-            id="date"
-          />
+          
           <label className="text-xl font-bold" htmlFor="summery">
             Summery:
           </label>
@@ -123,10 +115,11 @@ function UpdateBlog({ value }: { value: blogData }) {
 
           <label className="text-xl font-bold">health Benefits:</label>
           {healthBenefits.map((_, index) => (
-            <div key={index} className="grid grid-cols-2">
+            <div key={index} className="grid grid-cols-2 px-4">
               <input
                 {...register(`health_benefits.${index}`)}
-                className="border-2 p-2 rounded-2xl w-2/3"
+                className="border-2 p-2 rounded-2xl w-fit"
+                placeholder="Enter the Health Benefits"
               />
               {blogBenefitsCount - 1 === index ? (
                 <BiAddToQueue
@@ -137,7 +130,7 @@ function UpdateBlog({ value }: { value: blogData }) {
                     ]);
                     setHealthBenefitCount((prev) => prev + 1);
                   }}
-                  className="cursor-pointer relative right-6 -top-8 text-xl "
+                  className="cursor-pointer relative  top-4 -translate-x-60 text-xl right-2 "
                 />
               ) : null}
               {blogBenefitsCount > 2 && blogBenefitsCount - 1 === index ? (
@@ -146,7 +139,7 @@ function UpdateBlog({ value }: { value: blogData }) {
                     setHealthBenefitCount((prev) => prev - 1);
                     healthBenefits.pop();
                   }}
-                  className="cursor-pointer relative  translate-x-34 -right-12 -top-8 text-2xl"
+                  className="cursor-pointer relative  translate-x-28 -right-16 -top-8 text-2xl"
                 />
               ) : null}
             </div>

@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 function UpdateRecipe({ value }: { value: recipeDataTypes }) {
-  const array = [];
   const [recipeID, setRecipeID] = useState(value._id);
   const [ingredientsArray, setIngredientsArray] = useState<number>(
     value.ingredients.length,
@@ -43,6 +42,7 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
       const value = await axios.patch("/api/admin/recipes", {
         ...data,
         recipeID,
+        ingredients:ingredients
       });
       if (value.status === 200) {
         router.refresh();

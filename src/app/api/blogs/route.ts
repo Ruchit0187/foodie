@@ -79,7 +79,6 @@ export async function PATCH(request: NextRequest) {
       description,
       health_benefits,
     } = await request.json();
-    console.log(blogID);
     const query: Record<string, any> = {};
     if (name) query.name = name;
     if (category) query.category = category.toLowerCase();
