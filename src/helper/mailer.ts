@@ -29,7 +29,7 @@ export async function sendMail(
     text-align: center;
     margin-bottom: 20px;
   ">
-    Use the OTP below to reset your password.
+    Use the OTP below to Verify the User.
   </p>
 
   <div style="

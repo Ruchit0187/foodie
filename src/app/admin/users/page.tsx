@@ -5,12 +5,12 @@ import RoleUpdate from "@/src/components/RoleUpdate";
 import NotFound from "./not-found";
 import BackButton from "@/src/components/BackButton";
 
-async function UserPage() {
+export default async function UserPage() {
   const session = await auth();
   const userData = await fetch(
     `${process.env.BASE_URL}/api/admin/users?session=${session?.user?.isOwner}`
   );
-  if (!userData.ok) return NotFound;
+  if (!userData.ok) return <NotFound/>;
   const userJsonData = await userData.json();
   const { users } = userJsonData;
   return (
@@ -75,4 +75,3 @@ async function UserPage() {
   );
 }
 
-export default UserPage;

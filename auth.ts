@@ -82,7 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user,trigger,session }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.isAdmin = user.isAdmin;
@@ -109,4 +109,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     error: "/error",
   },
+  trustHost: true,
 });

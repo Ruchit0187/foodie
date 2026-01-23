@@ -7,7 +7,7 @@ export interface recipeDataTypes {
   _id: string;
   category: string;
   difficulty: string;
-  image: string;
+  image: string | FileList;
   ingredients: ingredients[];
   name: string;
   cookingTimeMinutes: number;
@@ -38,7 +38,7 @@ export interface individualBlog {
   title: string;
   category: string;
   date: string;
-  image: string;
+  image: string | FileList;
   quick_summary: string;
   health_benefits: string[];
   description: string;

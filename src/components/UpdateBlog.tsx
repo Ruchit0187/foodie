@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldArrayPath, useFieldArray, useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
@@ -28,7 +28,7 @@ function UpdateBlog({ value }: { value: blogData }) {
       description: value.description,
     },
   });
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<blogData | any>({
     control,
     name: "health_benefits",
   });

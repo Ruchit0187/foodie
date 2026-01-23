@@ -32,7 +32,6 @@ export async function PATCH(request: NextRequest) {
         { name },
         { new: true },
       );
-      console.log({googleUser})
       return NextResponse.json(
         { message: "User Name Updated successfully",googleUser },
         { status: 200 },

@@ -31,7 +31,7 @@ function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
               <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
                 {imageLoading && <SkeletonEffect />}
                 <Image
-                  src={value.image.trimEnd()}
+                  src={String(value.image).trimEnd()}
                   className={`object-cover object-center  rounded-2xl  ${
                     imageLoading ? "opacity-0" : "opacity-100  h-65 "
                   }`}

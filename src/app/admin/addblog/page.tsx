@@ -1,5 +1,6 @@
 "use client";
 import BackButton from "@/src/components/BackButton";
+import imageUpload from "@/src/function/imageupload";
 import { individualBlog } from "@/src/types";
 import axios from "axios";
 import { useState } from "react";
@@ -21,8 +22,11 @@ function AddBlog() {
       (value) => !(value === ""),
     );
     try {
+      const localImage = data.image as FileList;
+      const image = await imageUpload(localImage);
       const value = await axios.post("/api/blogs", {
         ...data,
+        image,
         health_benefits: filterIngredients,
       });
       if (value.status === 200) {
@@ -106,16 +110,22 @@ function AddBlog() {
         </label>
         <input
           {...register("image", { required: true })}
-          className="p-2 border-2 rounded-2xl"
           id="image"
-          placeholder="Enter the Image "
+          className="block w-fit text-sm text-gray-700
+      file:mr-4 file:rounded-md file:border-0
+      file:bg-indigo-600 file:px-4 file:py-2
+      file:text-sm file:font-semibold file:text-white
+      focus:outline-none
+      cursor-pointer"
+          type="file"
+          placeholder="Enter the Image Link of Recipe "
         />
         {errors.image && <p className="text-red-400">Enter the Image Link</p>}
         <label className="text-2xl font-medium mr-2.5">Health Benefits</label>
         {lines.map((_, index) => (
           <div key={index} className="grid grid-cols-2">
             <input
-              {...register(`health_benefits.${index}`,{required:true})}
+              {...register(`health_benefits.${index}`, { required: true })}
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Benefits"
             />
@@ -133,7 +143,9 @@ function AddBlog() {
             ) : null}
           </div>
         ))}
-        {errors.health_benefits && <p className="text-red-400">Enter the Health Benefits</p>}
+        {errors.health_benefits && (
+          <p className="text-red-400">Enter the Health Benefits</p>
+        )}
         <button className="cursor-pointer block mx-auto bg-black text-white p-2 rounded-2xl mb-2.5">
           Submit
         </button>

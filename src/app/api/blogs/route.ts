@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
   }
 }
 export async function POST(request: NextRequest) {
+
   await dbConnect();
   try {
     const {
@@ -52,7 +53,6 @@ export async function DELETE(request: NextRequest) {
   await dbConnect();
   try {
     const { blogID } = await request.json();
-    console.log(blogID);
     const value = await Blogs.findByIdAndDelete(blogID);
     if (!value) {
       return NextResponse.json({ message: "Enter the valid BlogID" });

@@ -9,7 +9,7 @@ function SignoutButton() {
   };
 
   const handleOk = () => {
-    signOut({ redirect: false });
+    signOut({ redirectTo:"/" });
     setIsModalOpen(false);
   };
 

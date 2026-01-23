@@ -29,7 +29,7 @@ async function page(props: Promise<recipeDetails>) {
           <div className=" max-[950px]:w-full flex flex-col w-1/2 ">
             <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
               <Image
-                src={recipeData.image.trimEnd()}
+                src={String(recipeData.image).trimEnd() }
                 width={300}
                 height={300}
                 className="object-cover object-center rounded-lg h-95 w-full max-[950px]:w-full"
@@ -43,7 +43,6 @@ async function page(props: Promise<recipeDetails>) {
               <div className="flex gap-3 w-full ">
                 <div className="border-r-2 flex items-centre  justify-center gap-2 pr-4">
                   <p className="text-2xl ">
-                    {" "}
                     <IoMdTime />
                   </p>
                   <div>

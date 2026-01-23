@@ -15,13 +15,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <SessionProvider>
-        <body>
+      <body>
+        <SessionProvider >
           <Navbar />
-          <ToastContainer autoClose={2000}/>
+          <ToastContainer autoClose={2000} />
           {children}
-        </body>
-      </SessionProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }

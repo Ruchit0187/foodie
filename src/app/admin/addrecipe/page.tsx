@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
 import BackButton from "@/src/components/BackButton";
 import { AiOutlineDelete } from "react-icons/ai";
+import imageUpload from "@/src/function/imageupload";
 function AddRecipe() {
   const [ingredientsArray, setIngredientsArray] = useState<number>(3);
   const {
@@ -19,13 +20,17 @@ function AddRecipe() {
     const filterIngredients = data.ingredients.filter(
       (value) => !(value.quantity === "" && value.name === ""),
     );
+
     try {
+      const localImage = data.image as FileList;
+      const image = await imageUpload(localImage);
       const value = await axios.post("/api/admin/recipes", {
         ...data,
+        image,
         ingredients: filterIngredients,
       });
       if (value.status === 200) {
-        toast.success(value.data.message)
+        toast.success(value.data.message);
         reset();
       }
     } catch (error) {
@@ -99,13 +104,19 @@ function AddRecipe() {
         {errors.cookingTimeMinutes && (
           <p className="text-red-400">Enter the Time To Ready Recipe</p>
         )}
-        <label htmlFor="imag" className="text-2xl font-medium">
+        <label htmlFor="img" className="text-2xl font-medium">
           Image
         </label>
         <input
           {...register("image", { required: true })}
-          className="p-2 border-2 rounded-2xl"
           id="img"
+          className="block w-fit text-sm text-gray-700
+      file:mr-4 file:rounded-md file:border-0
+      file:bg-indigo-600 file:px-4 file:py-2
+      file:text-sm file:font-semibold file:text-white
+      focus:outline-none
+      cursor-pointer"
+          type="file"
           placeholder="Enter the Image Link of Recipe "
         />
         {errors.image && (
@@ -115,33 +126,35 @@ function AddRecipe() {
         {lines.map((_, index) => (
           <div key={index} className="grid grid-cols-2">
             <input
-              {...register(`ingredients.${index}.name`,{required:true})}
+              {...register(`ingredients.${index}.name`, { required: true })}
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Ingredients Name"
             />
             <input
-              {...register(`ingredients.${index}.quantity`,{required:true})}
+              {...register(`ingredients.${index}.quantity`, { required: true })}
               className="p-2 border-2 rounded-2xl w-fit"
               placeholder="Enter Ingredients quantity"
             />
-            
+
             <div className="flex justify-between">
-            {ingredientsArray - 1 === index ? (
-              <BiAddToQueue
-                onClick={() => setIngredientsArray((prev) => prev + 1)}
-                className="cursor-pointer relative  right-8 -top-8 text-2xl"
-              />
-            ) : null}
-            {ingredientsArray>2&&ingredientsArray - 1 === index ? (
-              <AiOutlineDelete
-                onClick={() => setIngredientsArray((prev) => prev - 1)}
-                className="cursor-pointer relative  translate-x-40 -right-16 -top-8 text-2xl"
-              />
-            ) : null}
+              {ingredientsArray - 1 === index ? (
+                <BiAddToQueue
+                  onClick={() => setIngredientsArray((prev) => prev + 1)}
+                  className="cursor-pointer relative  right-8 -top-8 text-2xl"
+                />
+              ) : null}
+              {ingredientsArray > 2 && ingredientsArray - 1 === index ? (
+                <AiOutlineDelete
+                  onClick={() => setIngredientsArray((prev) => prev - 1)}
+                  className="cursor-pointer relative  translate-x-40 -right-16 -top-8 text-2xl"
+                />
+              ) : null}
             </div>
           </div>
         ))}
-        {errors.ingredients && <p className="text-red-300">Enter the Ingredients</p>}
+        {errors.ingredients && (
+          <p className="text-red-300">Enter the Ingredients</p>
+        )}
         <button className="block mx-auto bg-black text-white p-2 cursor-pointer rounded-2xl mt-2">
           Submit
         </button>

@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { userData } from "../types";
 import { toast } from "react-toastify";
@@ -36,7 +36,6 @@ function UpdateProfile({
         name: data.name.trim(),
         _id: updatedValue._id,
       });
-      console.log(updateProfile)
       if (updateProfile.status === 200) {
         toast.success("User Data Updated Successfully");
         const { googleUser, value } = updateProfile.data;

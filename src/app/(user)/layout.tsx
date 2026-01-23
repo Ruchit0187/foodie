@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/src/components/Navbar";
 import "../globals.css";
-import type { Session } from "next-auth";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
@@ -11,15 +10,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  session,
+
 }: Readonly<{
   children: React.ReactNode;
-  session: Session | null;
+  
 }>) {
   return (
     <html lang="en">
       <body className="antialiased">
-        <SessionProvider session={session}>
+        <SessionProvider>
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}
