@@ -10,7 +10,6 @@ export interface Irecipes extends Document {
   difficulty: string;
   ingredients: Ingredients[];
   likes: Types.ObjectId[];
-  count: number;
   bookmark: Types.ObjectId[];
   cookingTimeMinutes: number;
 }
@@ -22,10 +21,6 @@ const recipesSchema: Schema<Irecipes> = new Schema({
   difficulty: String,
   ingredients: [],
   likes: [],
-  count: {
-    type: Number,
-    default: 0,
-  },
   bookmark: [],
   cookingTimeMinutes: Number,
 });

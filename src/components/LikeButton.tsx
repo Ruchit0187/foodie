@@ -5,37 +5,39 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import LikePopUp from "./LikePopUp";
 
 interface likeButtonProps {
-  recipeId: string;
-  count: number;
+  recipeID?: string;
   likes: string[];
+  blogID?: string;
 }
 
-function LikeButton({ recipeId, count, likes }: likeButtonProps) {
+function LikeButton({ recipeID, likes, blogID }: likeButtonProps) {
   const { data: sessionData } = useSession();
   const [likecontrol, setLikeControl] = useState<boolean>(false);
-  const [likeRecipe, setLikeRecipe] = useState<number>(count);
+  const [likeCount, setLikeCount] = useState<number>(likes.length);
+
   useEffect(() => {
     if (sessionData?.user?.id) {
       const likeRecipeValue: boolean = likes?.includes(
-        String(sessionData?.user?.id)
+        String(sessionData?.user?.id),
       );
       setLikeControl(likeRecipeValue);
     }
   }, [sessionData]);
-  const handleLikeButton = async (event: MouseEvent, value: string) => {
+  const handleLikeButton = async (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
     try {
       const likeValue = await axios.patch("/api/recipelike", {
         userID: sessionData?.user?.id,
-        recipeID: value,
+        recipeID,
+        blogID,
       });
       if (likeValue.status === 200) {
-        setLikeRecipe(likeValue.data.count);
         const bookValue: boolean = likeValue.data.likes.includes(
-          sessionData?.user?.id
+          sessionData?.user?.id,
         );
         setLikeControl(bookValue);
+        setLikeCount((prev) => (bookValue ? prev + 1 : prev - 1));
       }
     } catch (error) {
       console.log(error);
@@ -50,12 +52,12 @@ function LikeButton({ recipeId, count, likes }: likeButtonProps) {
                    text-2xl text-red-600
                    transition-transform duration-200
                    hover:scale-110 active:scale-95 cursor-pointer"
-            onClick={(event) => handleLikeButton(event, recipeId)}
+            onClick={(event) => handleLikeButton(event)}
           >
             {likecontrol ? <FcLike /> : <FcLikePlaceholder />}
           </button>
           <p className="inline-flex items-center ml-2 font-medium text-gray-700 align-middle">
-            {likeRecipe}
+            {likeCount}
           </p>
         </div>
       ) : (

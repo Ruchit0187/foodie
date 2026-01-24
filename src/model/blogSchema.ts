@@ -7,25 +7,24 @@ export interface Iblog extends Document {
   image: string;
   quick_summary: string;
   health_benefits: string[];
-  blog_likes: Types.ObjectId[];
+  likes: Types.ObjectId[];
   description: string;
-  bookmark:Types.ObjectId[]
+  bookmark: Types.ObjectId[];
 }
 const blogSchema: Schema<Iblog> = new Schema({
   name: String,
   title: String,
   category: String,
   date: {
-    type:Date,
-    default:Date.now
+    type: Date,
+    default: Date.now,
   },
   image: String,
   quick_summary: String,
   health_benefits: [],
-  blog_likes: [],
+  likes: [],
   description: String,
-  bookmark:[]
- 
+  bookmark: [],
 });
 export const Blogs: Model<Iblog> =
   mongoose.models.blogs || mongoose.model("blogs", blogSchema);

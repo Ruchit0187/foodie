@@ -48,8 +48,7 @@ function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
                       {value.name}
                     </h5>
                     <LikeButton
-                      recipeId={value?._id}
-                      count={value?.count}
+                      recipeID={value?._id}
                       likes={value?.likes}
                     />
                   </div>

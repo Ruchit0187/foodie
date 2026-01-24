@@ -1,23 +1,35 @@
 import { dbConnect } from "@/src/lib/dbConnect";
-import { Recipes } from "@/src/model/recipeSchema";
+import { Blogs, Iblog } from "@/src/model/blogSchema";
+import { Irecipes, Recipes } from "@/src/model/recipeSchema";
+import { Model } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(request: NextRequest) {
   await dbConnect();
   try {
-    const { userID, recipeID } = await request.json();
-    const userLike = await Recipes.findOne({ _id: recipeID, likes: userID });
-    if (!userLike){
-     const likeValue=await Recipes.findByIdAndUpdate(recipeID, {
-        $addToSet: { likes: userID },
-        $inc: { count: 1 },
-      },{new:true}).select('-_id -bookmark');
+    const { userID, recipeID, blogID } = await request.json();
+    const database: Model<Irecipes | Iblog> = recipeID ? Recipes : Blogs;
+    const databaseID = recipeID ? recipeID : blogID;
+    const userLike = await database.findOne({ _id: databaseID, likes: userID });
+    if (!userLike) {
+      const likeValue = await database
+        .findByIdAndUpdate(
+          databaseID,
+          {
+            $addToSet: { likes: userID },
+          },
+          { new: true },
+        )
+        .select("-_id -bookmark");
       return NextResponse.json(likeValue, { status: 200 });
     } else {
-     const likeValue= await Recipes.findByIdAndUpdate(recipeID, {
-        $pull: { likes: userID },
-        $inc: { count: -1 },
-      },{new:true});
+      const likeValue = await database.findByIdAndUpdate(
+        databaseID,
+        {
+          $pull: { likes: userID },
+        },
+        { new: true },
+      );
       return NextResponse.json(likeValue, { status: 200 });
     }
   } catch (error) {

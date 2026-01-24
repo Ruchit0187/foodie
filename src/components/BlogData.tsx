@@ -9,6 +9,7 @@ import { useDebounceCallback } from "usehooks-ts";
 import SkeletonEffect from "./Skeleton";
 import Datanot from "./Datanot";
 import BookMark from "./BookMark";
+import LikeButton from "./LikeButton";
 
 function BlogData({ blogData }: { blogData: blogData[] }) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
@@ -95,9 +96,9 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                 <div className="flex flex-col">
                   <div className="flex items-center justify-between p-1.5">
                     <span className="">
-                      <BlogLike
-                        bloglikes={blogvalue.blog_likes}
-                        blogID={blogvalue._id}
+                      <LikeButton
+                        likes={blogvalue?.likes}
+                        blogID={blogvalue?._id}
                       />
                     </span>
                     <span>

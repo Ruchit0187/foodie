@@ -28,7 +28,7 @@ export interface blogData {
   image: string;
   quick_summary: string;
   health_benefits: string[];
-  blog_likes: string[];
+  likes: string[];
   description: string;
   bookmark:string[]
 }
