@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { blogData } from "../types";
 import Link from "next/link";
-import BlogLike from "./BlogLike";
 import { useCallback, useEffect, useState } from "react";
 import Loading from "./Loading";
 import { useDebounceCallback } from "usehooks-ts";

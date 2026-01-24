@@ -9,7 +9,6 @@ import UpdateRecipe from "@/src/components/UpdateRecipe";
 import { Suspense } from "react";
 import Loading from "../../blogs/loading";
 
-
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
 }
@@ -17,19 +16,19 @@ async function page(props: Promise<recipeDetails>) {
   const { params } = await props;
   const { recipedeatils } = await params;
   const recipeIndividualData = await axios.get(
-    `${process.env.BASE_URL}/api/recipe/${recipedeatils}`
+    `${process.env.BASE_URL}/api/recipe/${recipedeatils}`,
   );
   const recipeData: recipeDataTypes = recipeIndividualData.data?.recipeDetails;
   const session = await auth();
   return (
-    <Suspense fallback={<Loading/>}>
+    <Suspense fallback={<Loading />}>
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
         <BackButton />
         <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
           <div className=" max-[950px]:w-full flex flex-col w-1/2 ">
             <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
               <Image
-                src={String(recipeData.image).trimEnd() }
+                src={String(recipeData.image).trimEnd()}
                 width={300}
                 height={300}
                 className="object-cover object-center rounded-lg h-95 w-full max-[950px]:w-full"
@@ -40,7 +39,7 @@ async function page(props: Promise<recipeDetails>) {
               <div className="text-2xl font-extrabold p-2 ">
                 {recipeData.name}
               </div>
-              <div className="flex gap-3 w-full ">
+              <div className="flex gap-3 w-full max-[536px]:flex-2">
                 <div className="border-r-2 flex items-centre  justify-center gap-2 pr-4">
                   <p className="text-2xl ">
                     <IoMdTime />
