@@ -35,35 +35,46 @@ async function page(props: Promise<recipeDetails>) {
                 alt={recipeData.name}
               />
             </div>
-            <div className="flex flex-col ">
-              <div className="text-2xl font-extrabold p-2 ">
+            <div className="flex  ml-5 p-2.5 flex-col w-fit gap-4 rounded-xl border border-gray-200 bg-white shadow-sm text-nowrap max-[550px]:m-auto">
+              <div className="text-3xl font-extrabold text-gray-800">
                 {recipeData.name}
               </div>
-              <div className="flex gap-3 w-full max-[536px]:flex-2">
-                <div className="border-r-2 flex items-centre  justify-center gap-2 pr-4">
-                  <p className="text-2xl ">
-                    <IoMdTime />
-                  </p>
-                  <div>
-                    <p className="text-xl font-bold">
-                      {recipeData.cookingTimeMinutes}mins
+
+              <div className="flex  gap-4 max-[550px]:flex-col max-[550px]:ml-auto">
+                <div className="flex items-center w-fit">
+                  <div className="border-r-2 flex items-center gap-3 pr-4 text-gray-700">
+                    <p className="text-3xl text-orange-500">
+                      <IoMdTime />
                     </p>
-                    <p>Cooking Time</p>
+                    <div>
+                      <p className="text-xl font-bold">
+                        {recipeData.cookingTimeMinutes} mins
+                      </p>
+                      <p className="text-sm text-gray-500">Cooking Time</p>
+                    </div>
+                  </div>
+
+                  <div className="border-r-2 px-4 flex flex-col text-gray-700 max-[550px]:border-0">
+                    <p className="text-xl font-bold capitalize">
+                      {recipeData.difficulty}
+                    </p>
+                    <p className="text-sm text-gray-500">Difficulty</p>
                   </div>
                 </div>
-                <div className="border-r-2 pr-4 flex flex-col">
-                  <p className="text-xl font-bold">{recipeData.difficulty}</p>{" "}
-                  <p>difficulty</p>
-                </div>
-                <div className="border-r-2 pr-4 flex flex-col">
-                  <p className="text-xl font-bold">
-                    {recipeData.ingredients.length}
-                  </p>{" "}
-                  <p>Ingredients</p>
-                </div>
-                <div className=" flex flex-col">
-                  <p className="text-xl font-bold">{recipeData.category}</p>{" "}
-                  <p>Diet</p>
+                <div className="flex items-center w-fit max-[550px]:ml-[40px]">
+                  <div className="border-r-2 pr-4 flex flex-col text-gray-700 ">
+                    <p className="text-xl font-bold">
+                      {recipeData.ingredients.length}
+                    </p>
+                    <p className="text-sm text-gray-500">Ingredients</p>
+                  </div>
+
+                  <div className="flex flex-col text-gray-700 px-4 max-[550px]:ml-auto">
+                    <p className="text-xl font-bold capitalize">
+                      {recipeData.category}
+                    </p>
+                    <p className="text-sm text-gray-500">Diet</p>
+                  </div>
                 </div>
               </div>
             </div>

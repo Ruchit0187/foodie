@@ -20,7 +20,7 @@ export async function sendMail(
     color: #111827;
     text-align: center;
   ">
-    Password Reset
+    Otp Verification
   </h2>
 
   <p style="
