@@ -7,7 +7,7 @@ export const blogDataFetch = async (limit: number) => {
   try {
     const blogResponse = await fetch(
       `${process.env.BASE_URL}/api/blogs?limit=${limit}`,
-      { next: { revalidate: 0 } },
+      { next: { revalidate: 5 } },
     );
     if (!blogResponse.ok) return notFound();
     const blogDataValue = await blogResponse.json();

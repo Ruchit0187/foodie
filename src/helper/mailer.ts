@@ -1,9 +1,8 @@
 import nodemailer from "nodemailer";
-
 export async function sendMail(
   email: string,
   otp?: number,
-  verifyToken?: string
+  verifyToken?: string,
 ) {
   const forgotPassword = `
 <div style="
@@ -93,18 +92,20 @@ export async function sendMail(
             font-size:12px;">
     If you didn’t request this, you can safely ignore this email.
   </p>
-</div>`
+</div>`;
 
   try {
     const transport = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: "ruchitvasoya2806@gmail.com",
-        pass: process.env.FORGOT_EMAIL_PASSWORD,
+        user: "rajparmar2598@gmail.com",
+        pass: process.env.FORGOT_EMAIL_PASSWORD!,
       },
     });
     const mailOption = {
-      from: "ruchitvasoya2806@gmail.com",
+      from: "rajparmar2598@gmail.com",
       to: email,
       subject: verifyToken ? "Email verification" : "OTP verification",
       html: verifyToken ? verifyEmail : forgotPassword,

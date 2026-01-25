@@ -24,7 +24,7 @@ async function page(props: Promise<recipeDetails>) {
     <Suspense fallback={<Loading />}>
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
         <BackButton />
-        <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
+        <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5">
           <div className=" max-[950px]:w-full flex flex-col w-1/2 ">
             <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
               <Image
@@ -61,7 +61,7 @@ async function page(props: Promise<recipeDetails>) {
                     <p className="text-sm text-gray-500">Difficulty</p>
                   </div>
                 </div>
-                <div className="flex items-center w-fit max-[550px]:ml-[40px]">
+                <div className="flex items-center w-fit max-[550px]:ml-10">
                   <div className="border-r-2 pr-4 flex flex-col text-gray-700 ">
                     <p className="text-xl font-bold">
                       {recipeData.ingredients.length}
