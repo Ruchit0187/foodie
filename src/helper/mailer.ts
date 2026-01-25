@@ -103,6 +103,8 @@ export async function sendMail(
         user: "rajparmar2598@gmail.com",
         pass: process.env.FORGOT_EMAIL_PASSWORD!,
       },
+      secure:true
+      
     });
     const mailOption = {
       from: "rajparmar2598@gmail.com",
