@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-export { auth as middleware } from "@/auth";
 
-export async function proxy(request: NextRequest) {
+
+export async function middleware(request: NextRequest) {
   const secret = process.env.JWT_SECRET_KEY;
   const cookie = await cookies();
   const email = cookie.get("email");
