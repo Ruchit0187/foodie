@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
@@ -6,8 +5,7 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(request: NextRequest) {
   const secret = process.env.JWT_SECRET_KEY;
-  const cookie = await cookies();
-  const email = cookie.get("email");
+  const email = request.cookies.get("email")?.value;
   const path = request.nextUrl.pathname;
   const token = await getToken({ req: request, secret });
   if (!email && path.startsWith("/resetpassword")) {
@@ -33,7 +31,6 @@ export async function middleware(request: NextRequest) {
 }
 export const config = {
   matcher: [
-    "/",
     "/signin",
     "/otpverify",
     "/signup",
