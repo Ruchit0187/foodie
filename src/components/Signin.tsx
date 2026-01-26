@@ -74,7 +74,7 @@ export default function Signin() {
                 type="email"
                 id="email"
                 className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                placeholder="name@flowbite.com"
+                placeholder="name@gmail.com"
                 {...register("email", {
                   required: true,
                   pattern: /^\s*[^\s@]+@[^\s@]+\.[^\s@]+$/,

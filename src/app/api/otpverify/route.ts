@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
     email: userEmail,
   })) as userOtpData;
   if (databaseUser?.otpExpiry < new Date() || !databaseUser) {
+    console.log("time over");
     return NextResponse.json({ error: "Time is Over" }, { status: 400 });
   }
   if (databaseUser.otp !== mailOtp) {

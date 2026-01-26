@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import Jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { sendMail } from "@/src/helper/mailer";
 import { dbConnect } from "@/src/lib/dbConnect";
@@ -8,7 +7,7 @@ import { User } from "@/src/model/userSchema";
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
-    const { email } = await request.json();
+    const { email } = await request.json()
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "user not found" }, { status: 400 });
@@ -29,6 +28,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "otp is set" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ error: "Otp does not send" });
+    return NextResponse.json({ error: "Otp does not send" },{status:500});
   }
 }

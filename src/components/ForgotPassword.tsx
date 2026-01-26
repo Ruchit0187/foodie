@@ -11,8 +11,8 @@ interface IEmail {
 }
 
 function ForgotPassword() {
-  const router = useRouter();
   const [otpCheck, setOtpCheck] = useState<boolean>(false);
+  
   const otpGenerator = async (emailData: IEmail) => {
     const email = emailData.email.trim();
     try {
@@ -30,9 +30,12 @@ function ForgotPassword() {
     register,
     handleSubmit,
     formState: { errors },
+    watch
   } = useForm<IEmail>();
+  const emailValue=watch("email");
+
   return otpCheck ? (
-    <OtpVerify />
+    <OtpVerify  email={emailValue}/>
   ) : (
     <div>
       <form
@@ -51,7 +54,7 @@ function ForgotPassword() {
             type="email"
             id="email"
             className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-            placeholder="name@flowbite.com"
+            placeholder="name@foodie.com"
             {...register("email", {
               required: true,
               pattern: /^\s*[^\s@]+@[^\s@]+\.[^\s@]+$/,

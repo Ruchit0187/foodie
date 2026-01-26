@@ -11,7 +11,7 @@ function AuthLoading() {
   }, [status]);
   if (authStatus === "loading") {
     return (
-      <div className="h-full w-full absolute z-1 bottom-0 ">
+      <div className="fixed inset-0 z-9999 flex items-center justify-center">
         <LoadingLoader height={"h-[100vh]"} />
       </div>
     );

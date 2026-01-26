@@ -3,30 +3,38 @@ import Link from "next/link";
 
 function HomePage() {
   return (
-    <>
-      <div className="w-full h-fit absolute">
-        <Image
-          src={"/homepage.jpg"}
-          alt="HomePage"
-          height={1000}
-          width={1000}
-          className="w-full h-[87vh] object-cover"
-          quality={75}
-        />
+    <div className="relative w-full h-[87vh]">
+      <Image
+        src="/homepage.jpg"
+        alt="HomePage"
+        fill
+        className="object-cover"
+        quality={75}
+        priority
+      />
+
+      <div className="absolute inset-0 bg-black/40 max-[500px]:top-28" />
+      <div className="relative z-10 flex items-center justify-center h-full px-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 sm:p-10 text-center space-y-4 w-full max-w-sm">
+          <p>
+            <Link
+              href="/recipes"
+              className="text-xl sm:text-2xl font-semibold hover:text-orange-600 transition"
+            >
+              Go to Recipe
+            </Link>
+          </p>
+          <p>
+            <Link
+              href="/blogs"
+              className="text-xl sm:text-2xl font-semibold hover:text-orange-600 transition"
+            >
+              Go to Blogs
+            </Link>
+          </p>
+        </div>
       </div>
-      <div className="relative  translate-x-2/3relative inline-block  left-1/3  text-center translate-x-1/2 translate-y-full p-10 bg-white rounded-2xl mt-20 ">
-        <p>
-          <Link href={"/recipes"} className="text-2xl">
-            Go to Recipe
-          </Link>
-        </p>
-        <p>
-          <Link href={"/blogs"} className="text-2xl">
-            Go to Blogs
-          </Link>
-        </p>
-      </div>
-    </>
+    </div>
   );
 }
 
