@@ -108,6 +108,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.JWT_SECRET_KEY!,
   pages: {
     error: "/error",
+    signIn: "/signin",
   },
   trustHost: true,
 });
