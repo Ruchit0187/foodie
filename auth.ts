@@ -98,8 +98,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.isOwner = token.isOwner;
         session.user.name = token.name;
       }
-      console.log("token",token)
-      console.log("session",session)
       return session;
     },
   },
