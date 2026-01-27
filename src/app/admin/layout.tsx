@@ -12,16 +12,15 @@ export const metadata: Metadata = {
 };
 export default function RootLayout({
   children,
-  session
 }: {
   children: React.ReactNode;
-  session:Session | null
+ 
 
 }) {
   return (
     <html lang="en">
       <body>
-        <SessionProvider session={session} >
+        <SessionProvider  >
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}
