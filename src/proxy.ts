@@ -7,13 +7,7 @@ export async function proxy(request: NextRequest) {
   const email = request.cookies.get("email")?.value;
   const path = request.nextUrl.pathname;
 
-  // const token = await getToken({ req: request, secret });
-  const token = "token";
-  const dummyLog = () => {
-    "use client";
-    console.log({ token });
-  };
-  dummyLog();
+  const token = await getToken({ req: request, secret });
   if (!email && path.startsWith("/resetpassword")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -28,9 +22,9 @@ export async function proxy(request: NextRequest) {
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  // if (token?.isAdmin === "false" && path.startsWith("/admin")) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  if (token?.isAdmin === "false" && path.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   if (!token && path.startsWith("/profile")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
