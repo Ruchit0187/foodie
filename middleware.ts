@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   const email = request.cookies.get("email")?.value;
   const path = request.nextUrl.pathname;
 
-  const token = await getToken({ req: request, secret });
+  const token = await getToken({ req: request, secret, secureCookie: true });
   if (!email && path.startsWith("/resetpassword")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
