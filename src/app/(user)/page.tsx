@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 function HomePage() {
+  console.log("homepagre loadoed");
   return (
     <div className="relative w-full h-[87vh]">
       <Image
