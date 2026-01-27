@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const secret = process.env.NEXTAUTH_SECRET!;
   const email = request.cookies.get("email")?.value;
   const path = request.nextUrl.pathname;
