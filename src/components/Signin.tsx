@@ -19,7 +19,6 @@ export default function Signin() {
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const [userSignindata, setUserSignindata] = useState<authSignin>();
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
   const [otpVerify, setOtpVerify] = useState<boolean>(false);
   const signinData = async (formData: Isignin) => {
     const userSignData = {

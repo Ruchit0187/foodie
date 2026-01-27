@@ -8,17 +8,21 @@ import Datanot from "./Datanot";
 import Loading from "./Loading";
 import { useState } from "react";
 import SkeletonEffect from "./Skeleton";
+import { Session } from "next-auth";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
   isLoadingData: boolean;
+  session: Session;
 }
 
-function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
+function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
+
   if (!recipeCardData.length && !isLoadingData) {
     return <Datanot />;
   }
+
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
@@ -50,6 +54,7 @@ function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
                     <LikeButton
                       recipeID={value?._id}
                       likes={value?.likes}
+                      session={session}
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -63,6 +68,7 @@ function RecipeCard({ recipeCardData, isLoadingData }: filterRecipes) {
                       <BookMark
                         recipeID={value._id}
                         bookmarkValue={value.bookmark}
+                        session={session}
                       />
                     </div>
                   </div>

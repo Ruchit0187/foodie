@@ -6,10 +6,12 @@ import { useDebounceCallback } from "usehooks-ts";
 import { useQuery } from "@tanstack/react-query";
 import { recipeDataTypes } from "@/src/types";
 import Loading from "../blogs/loading";
+import { useSession } from "next-auth/react";
 
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
+  const { data: session } = useSession();
   const [stopFetch, setStopFetch] = useState<recipeDataTypes[]>([]);
   const [category, setCategory] = useState<string>("");
   const [recipeData, setRecipeData] = useState<recipeDataTypes[]>([]);
@@ -31,6 +33,7 @@ function RecipeDetails() {
     },
     gcTime: 4000,
   });
+  console.log({ recipeData });
 
   // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const handleScroll = useCallback(() => {
@@ -80,7 +83,11 @@ function RecipeDetails() {
       {isFetching && recipeData.length < 1 ? (
         <Loading />
       ) : (
-        <RecipeCard recipeCardData={recipeData} isLoadingData={isLoading} />
+        <RecipeCard
+          session={session!}
+          recipeCardData={recipeData}
+          isLoadingData={isLoading}
+        />
       )}
     </>
   );

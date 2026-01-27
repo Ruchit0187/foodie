@@ -1,31 +1,38 @@
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { MouseEvent, useEffect, useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import LikePopUp from "./LikePopUp";
+import { toast } from "react-toastify";
+import { Session } from "next-auth";
 
 interface likeButtonProps {
   recipeID?: string;
   likes: string[];
+  session: Session | null;
   blogID?: string;
 }
 
-function LikeButton({ recipeID, likes, blogID }: likeButtonProps) {
-  const { data: sessionData } = useSession();
-  const [likecontrol, setLikeControl] = useState<boolean>(false);
+function LikeButton({
+  recipeID,
+  likes,
+  session: sessionData,
+  blogID,
+}: likeButtonProps) {
+  const [likecontrol, setLikeControl] = useState<boolean>(true);
   const [likeCount, setLikeCount] = useState<number>(likes.length);
-
   useEffect(() => {
     if (sessionData?.user?.id) {
       const likeRecipeValue: boolean = likes?.includes(
-        String(sessionData?.user?.id),
+        sessionData?.user?.id?.toString(),
       );
       setLikeControl(likeRecipeValue);
     }
-  }, [sessionData]);
+  }, [likes, sessionData?.user?.id]);
   const handleLikeButton = async (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
+    setLikeControl((prev) => !prev);
+    setLikeCount((prev) => (likecontrol ? prev - 1 : prev + 1));
     try {
       const likeValue = await axios.patch("/api/recipelike", {
         userID: sessionData?.user?.id,
@@ -33,19 +40,18 @@ function LikeButton({ recipeID, likes, blogID }: likeButtonProps) {
         blogID,
       });
       if (likeValue.status === 200) {
-        const bookValue: boolean = likeValue.data.likes.includes(
-          sessionData?.user?.id,
-        );
-        setLikeControl(bookValue);
-        setLikeCount((prev) => (bookValue ? prev + 1 : prev - 1));
+        return;
       }
     } catch (error) {
+      toast.error("Like not Work");
+      setLikeControl((prev) => !prev);
+      setLikeCount((prev) => (!likecontrol ? prev - 1 : prev + 1));
       console.log(error);
     }
   };
   return (
     <div className="mt-4 mb-2 text-sm text-body">
-      {sessionData?.user ? (
+      {true ? (
         <div className="flex">
           <button
             className="inline-flex items-center align-middle 

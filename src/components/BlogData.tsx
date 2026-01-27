@@ -9,6 +9,7 @@ import SkeletonEffect from "./Skeleton";
 import Datanot from "./Datanot";
 import BookMark from "./BookMark";
 import LikeButton from "./LikeButton";
+import { useSession } from "next-auth/react";
 
 function BlogData({ blogData }: { blogData: blogData[] }) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
@@ -21,6 +22,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
   const [limit, setLimit] = useState<number>(1);
   const [hasEmptyBlogData, setHasEmptyBlogData] = useState<boolean>(false);
   const debounce = useDebounceCallback(setSearch, 1000);
+  const { data: sessionData } = useSession();
   const handleScroll = useCallback(() => {
     const bottom =
       window.innerHeight + window.scrollY >=
@@ -98,6 +100,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                       <LikeButton
                         likes={blogvalue?.likes}
                         blogID={blogvalue?._id}
+                        session={sessionData}
                       />
                     </span>
                     <span>
@@ -112,6 +115,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                       <BookMark
                         blogID={blogvalue._id}
                         bookmarkValue={blogvalue.bookmark}
+                        session={sessionData}
                       />
                     </span>
                   </div>

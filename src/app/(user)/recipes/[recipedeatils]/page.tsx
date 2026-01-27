@@ -36,44 +36,45 @@ async function page(props: Promise<recipeDetails>) {
               />
             </div>
             <div className="flex  ml-5 p-2.5 flex-col w-fit gap-4 rounded-xl border border-gray-200 bg-white shadow-sm text-nowrap max-[550px]:m-auto">
-              <div className="text-3xl font-extrabold text-gray-800">
+              <div className=" text-3xl font-extrabold text-gray-800 max-[550px]:text-lg">
                 {recipeData.name}
               </div>
-
               <div className="flex  gap-4 max-[550px]:flex-col max-[550px]:ml-auto">
                 <div className="flex items-center w-fit">
                   <div className="border-r-2 flex items-center gap-3 pr-4 text-gray-700">
-                    <p className="text-3xl text-orange-500">
+                    <p className="text-3xl text-orange-500 max-[550px]:text-[20px]">
                       <IoMdTime />
                     </p>
                     <div>
-                      <p className="text-xl font-bold">
+                      <p className="text-xl font-bold max-[550px]:text-[14px]">
                         {recipeData.cookingTimeMinutes} mins
                       </p>
-                      <p className="text-sm text-gray-500">Cooking Time</p>
+                      <p className="text-sm text-gray-500 max-[550px]:text-[12px]">
+                        Cooking Time
+                      </p>
                     </div>
                   </div>
 
                   <div className="border-r-2 px-4 flex flex-col text-gray-700 max-[550px]:border-0">
-                    <p className="text-xl font-bold capitalize">
+                    <p className="text-xl font-bold capitalize max-[550px]:text-[14px]">
                       {recipeData.difficulty}
                     </p>
-                    <p className="text-sm text-gray-500">Difficulty</p>
+                    <p className="text-sm text-gray-500 max-[550px]:text-[12px]">Difficulty</p>
                   </div>
                 </div>
                 <div className="flex items-center w-fit max-[550px]:ml-10">
                   <div className="border-r-2 pr-4 flex flex-col text-gray-700 ">
-                    <p className="text-xl font-bold">
+                    <p className="text-xl font-bold max-[550px]:text-[14px]">
                       {recipeData.ingredients.length}
                     </p>
-                    <p className="text-sm text-gray-500">Ingredients</p>
+                    <p className="text-sm text-gray-500 max-[550px]:text-[12px]">Ingredients</p>
                   </div>
 
                   <div className="flex flex-col text-gray-700 px-4 max-[550px]:ml-auto">
-                    <p className="text-xl font-bold capitalize">
+                    <p className="text-xl font-bold capitalize max-[550px]:text-[14px]">
                       {recipeData.category}
                     </p>
-                    <p className="text-sm text-gray-500">Diet</p>
+                    <p className="text-sm text-gray-500 max-[550px]:text-[12px]">Diet</p>
                   </div>
                 </div>
               </div>

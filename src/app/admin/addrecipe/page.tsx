@@ -8,8 +8,10 @@ import { BiAddToQueue } from "react-icons/bi";
 import BackButton from "@/src/components/BackButton";
 import { AiOutlineDelete } from "react-icons/ai";
 import imageUpload from "@/src/function/imageupload";
+import LoadingLoader from "@/src/components/Loading";
 function AddRecipe() {
   const [ingredientsArray, setIngredientsArray] = useState<number>(3);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -17,6 +19,7 @@ function AddRecipe() {
     reset,
   } = useForm<recipeDataTypes>();
   const onSubmit: SubmitHandler<recipeDataTypes> = async (data) => {
+    setIsLoading(true);
     const filterIngredients = data.ingredients.filter(
       (value) => !(value.quantity === "" && value.name === ""),
     );
@@ -37,9 +40,14 @@ function AddRecipe() {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
   const lines = Array.from({ length: ingredientsArray });
+  if (isLoading) {
+    return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"}/>;
+  }
   return (
     <>
       <div className="text-center w-[33%] mx-auto flex gap-8 items-center my-3.5">

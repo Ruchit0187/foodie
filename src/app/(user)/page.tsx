@@ -1,9 +1,7 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
 
 function HomePage() {
-  console.log("homepagre loadoed");
   return (
     <div className="relative w-full h-[87vh]">
       <Image
@@ -12,7 +10,6 @@ function HomePage() {
         fill
         className="object-cover"
         quality={75}
-        priority
       />
 
       <div className="absolute inset-0 bg-black/40 max-[500px]:top-28" />

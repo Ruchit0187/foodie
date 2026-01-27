@@ -1,5 +1,6 @@
 "use client";
 import BackButton from "@/src/components/BackButton";
+import LoadingLoader from "@/src/components/Loading";
 import imageUpload from "@/src/function/imageupload";
 import { individualBlog } from "@/src/types";
 import axios from "axios";
@@ -10,6 +11,7 @@ import { BiAddToQueue } from "react-icons/bi";
 import { toast } from "react-toastify";
 function AddBlog() {
   const [blogArray, setBlogArray] = useState<number>(3);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const lines = Array.from({ length: blogArray });
   const {
     register,
@@ -18,6 +20,7 @@ function AddBlog() {
     reset,
   } = useForm<individualBlog>();
   const onSubmit: SubmitHandler<individualBlog> = async (data) => {
+    setIsLoading(true);
     const filterIngredients = data.health_benefits.filter(
       (value) => !(value === ""),
     );
@@ -37,8 +40,13 @@ function AddBlog() {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
+  if (isLoading) {
+    return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"} />;
+  }
   return (
     <>
       <div className="text-center w-[33%] mx-auto flex gap-8 items-center my-3.5">

@@ -3,6 +3,7 @@ import "../globals.css";
 import type { Metadata } from "next";
 import Navbar from "@/src/components/Navbar";
 import { ToastContainer } from "react-toastify";
+import { Session } from "next-auth";
 
 
 export const metadata: Metadata = {
@@ -11,13 +12,16 @@ export const metadata: Metadata = {
 };
 export default function RootLayout({
   children,
+  session
 }: {
   children: React.ReactNode;
+  session:Session | null
+
 }) {
   return (
     <html lang="en">
       <body>
-        <SessionProvider >
+        <SessionProvider session={session} >
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}

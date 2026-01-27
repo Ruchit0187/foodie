@@ -6,10 +6,12 @@ import Profile from "./Profile";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import AuthLoading from "./AuthLoading";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [adminStatus, setAdminStatus] = useState<string>("false");
+  const pathURL = usePathname();
   useEffect(() => {
     const value = session?.user?.isAdmin!;
     setAdminStatus(value);
@@ -38,7 +40,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/recipes`}
-                className="block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
+                className={`${pathURL.includes("/recipes") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}
               >
                 Recipes
               </Link>
@@ -46,7 +48,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/blogs`}
-                className="block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
+                className={`${pathURL.includes("/blogs") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`} 
               >
                 Blogs
               </Link>
@@ -54,7 +56,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/aboutus`}
-                className="block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
+                className={` ${pathURL.includes("/aboutus") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}
               >
                 AboutUs
               </Link>
@@ -64,7 +66,7 @@ export default function Navbar() {
               <li className={`${adminStatus === "true" ? "" : "hidden"}`}>
                 <Link
                   href={`/admin`}
-                  className="block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
+                  className={`${pathURL.includes("/admin") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}
                 >
                   Admin
                 </Link>
