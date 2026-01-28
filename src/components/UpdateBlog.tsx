@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 function UpdateBlog({ value }: { value: blogData }) {
-  const [blogID, setBlogID] = useState(value._id);
+   const [blogID, setBlogID] = useState(value._id);
   const {
     register,
     handleSubmit,

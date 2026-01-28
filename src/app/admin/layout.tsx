@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Admin Panel",
-  icons: "/favicon.png",
 };
 export default function RootLayout({
   children,
