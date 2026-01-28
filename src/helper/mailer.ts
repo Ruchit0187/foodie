@@ -110,8 +110,8 @@ export async function sendMail(
       subject: verifyToken ? "Email verification" : "OTP verification",
       html: verifyToken ? verifyEmail : forgotPassword,
     };
-    const info =  transport.sendMail(mailOption);
-    console.log("Email sent successfully:", (await info).messageId);
+    const info =  await transport.sendMail(mailOption);
+    console.log("Email sent successfully:", info.messageId);
     return { success: true, info };
   } catch (error) {
     console.log(error);
