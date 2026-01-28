@@ -43,6 +43,7 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
     handleSubmit(onSubmit)();
   };
   const handleCancel = () => {
+    reset(value);
     setIsModalOpen(false);
   };
   const onSubmit = async (data: recipeDataTypes) => {
@@ -127,46 +128,49 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
           <label htmlFor="ingredients" className="text-xl font-bold">
             Ingredients:
           </label>
-          {fields.map((data, index) => (
-            <div key={data.id} className="flex justify-evenly ">
-              <div className="h-[41.20px]">
-                <input
-                  {...register(`ingredients.${index}.name`, { required: true })}
-                  className="border-2 p-2 rounded-2xl w-fit"
-                  id="ingredients"
-                  placeholder="Enter the Ingredients Name"
-                />
-                {fields.length - 1 === index ? (
+          <div className="flex flex-col gap-2 w-full mx-auto">
+            {fields.map((data, index) => (
+              <div
+                key={data.id}
+                className="flex flex-row gap-2 items-center w-full justify-center"
+              >
+                {fields.length - 1 === index && (
                   <BiAddToQueue
                     onClick={() => {
                       setIngredientsArray((prev) => prev + 1);
                       append({ name: "", quantity: "" });
                     }}
-                    className="cursor-pointer relative right-6 -top-8 text-xl"
+                    className="cursor-pointer text-xl"
                   />
-                ) : null}
-              </div>
-              <div className="h-[41.20px]">
+                )}
+
+                <input
+                  {...register(`ingredients.${index}.name`, { required: true })}
+                  className="p-2 border-2 rounded-2xl w-[40%]"
+                  placeholder="Ingredient name"
+                />
+
                 <input
                   {...register(`ingredients.${index}.quantity`, {
                     required: true,
                   })}
-                  className="border-2 p-2 rounded-2xl w-fit"
-                  placeholder="Enter the Ingredients Quantity"
-                  id="ingredients"
+                  className="p-2 border-2 rounded-2xl w-[40%]"
+                  placeholder="Quantity"
                 />
+
                 {fields.length > 2 && (
                   <AiOutlineDelete
                     onClick={() => {
                       setIngredientsArray((prev) => prev - 1);
                       remove(index);
                     }}
-                    className="cursor-pointer relative  translate-x-34 -right-12 -top-8 text-2xl"
+                    className="cursor-pointer text-2xl "
                   />
                 )}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
           {errors.ingredients && (
             <p className="text-red-400">Enter the All Ingredients</p>
           )}

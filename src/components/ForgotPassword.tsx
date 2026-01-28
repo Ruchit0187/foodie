@@ -1,7 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useRef, useState } from "react";
 import OtpVerify from "./OtpVerify";
@@ -39,7 +38,7 @@ function ForgotPassword() {
   ) : (
     <div>
       <form
-        className="max-w-sm mx-auto mt-2"
+        className="max-w-sm mx-auto mt-2 p-2"
         method="post"
         onSubmit={handleSubmit(otpGenerator)}
       >

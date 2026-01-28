@@ -9,7 +9,6 @@ import Loading from "./Loading";
 import { useState } from "react";
 import SkeletonEffect from "./Skeleton";
 import { Session } from "next-auth";
-import LoadingLoader from "./Loading";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];

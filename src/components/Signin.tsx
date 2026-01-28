@@ -63,7 +63,7 @@ export default function Signin() {
       ) : (
         <div>
           <form
-            className="max-w-sm mx-auto mt-2"
+            className="max-w-sm mx-auto mt-2 p-4"
             method="post"
             onSubmit={handleSubmit(signinData)}
           >

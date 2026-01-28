@@ -1,5 +1,4 @@
 "use client";
-
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -47,7 +46,7 @@ export default function Signup() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 w-fit sm:w-full md:w-[50%] lg:w-[30%] mx-auto p-4 sm:p-6 md:p-8"
+        className="flex flex-col gap-4 w-fit sm:w-full md:w-[50%] lg:w-[30%] max-[600px]:w-fit mx-auto p-4 sm:p-6 md:p-8"
         onSubmit={handleSubmit(signupData)}
       >
         <label htmlFor="Name" className="text-2xl font-semibold">
