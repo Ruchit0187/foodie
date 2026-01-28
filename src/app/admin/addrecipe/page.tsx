@@ -46,15 +46,15 @@ function AddRecipe() {
   };
   const lines = Array.from({ length: ingredientsArray });
   if (isLoading) {
-    return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"}/>;
+    return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"} />;
   }
   return (
     <>
-      <div className="text-center w-[33%] mx-auto flex gap-8 items-center my-3.5">
+      <div className="text-center w-full justify-center flex gap-8 items-center my-3.5">
         <span>
           <BackButton />
         </span>
-        <span className="text-3xl underline font-semibold ">
+        <span className="text-3xl underline font-semibold max-[600px]:text-xl">
           Add the Recipe
         </span>
       </div>
@@ -62,7 +62,10 @@ function AddRecipe() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-2.5 w-fit mx-auto"
       >
-        <label htmlFor="name" className="text-2xl font-medium">
+        <label
+          htmlFor="name"
+          className="text-2xl font-medium max-[600px]:text-[16px]"
+        >
           Recipe Name
         </label>
         <input
@@ -74,7 +77,9 @@ function AddRecipe() {
         {errors.name && <p className="text-red-400">Enter the Recipe Name</p>}
         <div className="grid grid-cols-2 gap-2 ">
           <p>
-            <label className="text-2xl font-medium mr-2.5">Category</label>
+            <label className="text-2xl font-medium mr-2.5  max-[600px]:text-[16px]">
+              Category
+            </label>
             <select
               {...register("category", { required: true })}
               className="border-2 rounded-2xl w-fit p-3 cursor-pointer"
@@ -84,9 +89,14 @@ function AddRecipe() {
               <option value="vegan">Vegan</option>
               <option value="non-veg">Non-veg</option>
             </select>
+            {errors.category && (
+              <p className="text-red-400">Enter the Recipe Category </p>
+            )}
           </p>
           <p>
-            <label className="text-2xl font-medium mr-2.5">Difficulty</label>
+            <label className="text-2xl font-medium mr-2.5 max-[600px]:text-[16px]">
+              Difficulty
+            </label>
             <select
               {...register("difficulty", { required: true })}
               className="border-2 rounded-2xl w-fit p-3"
@@ -98,7 +108,10 @@ function AddRecipe() {
             </select>
           </p>
         </div>
-        <label htmlFor="cooking" className="text-2xl font-medium">
+        <label
+          htmlFor="cooking"
+          className="text-2xl font-medium max-[600px]:text-[16px]"
+        >
           Cooking Time
         </label>
         <input
@@ -112,7 +125,10 @@ function AddRecipe() {
         {errors.cookingTimeMinutes && (
           <p className="text-red-400">Enter the Time To Ready Recipe</p>
         )}
-        <label htmlFor="img" className="text-2xl font-medium">
+        <label
+          htmlFor="img"
+          className="text-2xl font-medium max-[600px]:text-[16px]"
+        >
           Image
         </label>
         <input
@@ -123,43 +139,52 @@ function AddRecipe() {
       file:bg-indigo-600 file:px-4 file:py-2
       file:text-sm file:font-semibold file:text-white
       focus:outline-none
-      cursor-pointer"
+      cursor-pointer "
           type="file"
           placeholder="Enter the Image Link of Recipe "
         />
         {errors.image && (
           <p className="text-red-400">Enter the Image of Recipe</p>
         )}
-        <label className="text-2xl font-medium">Ingredients</label>
-        {lines.map((_, index) => (
-          <div key={index} className="grid grid-cols-2">
-            <input
-              {...register(`ingredients.${index}.name`, { required: true })}
-              className="p-2 border-2 rounded-2xl w-fit"
-              placeholder="Enter Ingredients Name"
-            />
-            <input
-              {...register(`ingredients.${index}.quantity`, { required: true })}
-              className="p-2 border-2 rounded-2xl w-fit"
-              placeholder="Enter Ingredients quantity"
-            />
+        <label className="text-2xl font-medium max-[600px]:text-[16px]">
+          Ingredients
+        </label>
+        {lines.map((_, index) => {
+          return (
+            <div
+              key={index}
+              className="grid grid-cols-2 max-[600]:grid-cols-1 "
+            >
+              <input
+                {...register(`ingredients.${index}.name`, { required: true })}
+                className="p-2 border-2 rounded-2xl w-fit"
+                placeholder="Enter Ingredients Name"
+              />
+              <input
+                {...register(`ingredients.${index}.quantity`, {
+                  required: true,
+                })}
+                className="p-2 border-2 rounded-2xl w-fit"
+                placeholder="Enter Ingredients quantity"
+              />
 
-            <div className="flex justify-between">
-              {ingredientsArray - 1 === index ? (
-                <BiAddToQueue
-                  onClick={() => setIngredientsArray((prev) => prev + 1)}
-                  className="cursor-pointer relative  right-8 -top-8 text-2xl"
-                />
-              ) : null}
-              {ingredientsArray > 2 && ingredientsArray - 1 === index ? (
-                <AiOutlineDelete
-                  onClick={() => setIngredientsArray((prev) => prev - 1)}
-                  className="cursor-pointer relative  translate-x-40 -right-16 -top-8 text-2xl"
-                />
-              ) : null}
+              <div className="flex justify-around gap-x-40">
+                {ingredientsArray - 1 === index ? (
+                  <BiAddToQueue
+                    onClick={() => setIngredientsArray((prev) => prev + 1)}
+                    className="cursor-pointer relative  right-8 -top-8 text-2xl max-[550px]:-left-19.25"
+                  />
+                ) : null}
+                {ingredientsArray > 2 && ingredientsArray - 1 === index ? (
+                  <AiOutlineDelete
+                    onClick={() => setIngredientsArray((prev) => prev - 1)}
+                    className="cursor-pointer relative  translate-x-40 -right-16 -top-8 text-2xl max-[550px]:-left-[67.25]"
+                  />
+                ) : null}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         {errors.ingredients && (
           <p className="text-red-300">Enter the Ingredients</p>
         )}

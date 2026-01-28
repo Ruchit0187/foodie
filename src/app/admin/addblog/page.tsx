@@ -49,7 +49,7 @@ function AddBlog() {
   }
   return (
     <>
-      <div className="text-center w-[33%] mx-auto flex gap-8 items-center my-3.5">
+      <div className="text-center w-fit mx-auto flex gap-8 items-center my-3.5">
         <span>
           <BackButton />
         </span>
@@ -57,7 +57,7 @@ function AddBlog() {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-2.5 w-[33%] mx-auto"
+        className="flex flex-col gap-2.5 w-fit mx-auto"
       >
         <label htmlFor="name" className="text-2xl font-medium mr-2.5">
           Name
