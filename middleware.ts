@@ -14,7 +14,6 @@ export async function middleware(request: NextRequest) {
   if (!token && path.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  console.log({ token }, "Inside proxy");
   if (
     token &&
     (path.startsWith("/signup") ||

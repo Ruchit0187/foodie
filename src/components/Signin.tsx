@@ -11,6 +11,7 @@ import { IoEyeOffSharp } from "react-icons/io5";
 import OtpVerify from "./OtpVerify";
 import Link from "next/link";
 import { authSignin } from "../types";
+import LoadingLoader from "./Loading";
 interface Isignin {
   email: string;
   password: string;
@@ -42,6 +43,8 @@ export default function Signin() {
       if (axios.isAxiosError(error)) {
         toast.error(error?.response?.data.error);
       }
+    }finally{
+      setLoading(false)
     }
   };
   const {
@@ -51,6 +54,9 @@ export default function Signin() {
   } = useForm<Isignin>({
     disabled: loading,
   });
+  if(loading){
+    return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"}/>
+  }
   return (
     <>
       {otpVerify ? (

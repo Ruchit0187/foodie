@@ -111,7 +111,8 @@ export async function sendMail(
       html: verifyToken ? verifyEmail : forgotPassword,
     };
     const info =  await transport.sendMail(mailOption);
-    console.log("Email sent successfully:", info.messageId);
+    console.log("Email sent successfully:", info.messageId,info);
+
     return { success: true, info };
   } catch (error) {
     console.log(error);

@@ -49,12 +49,12 @@ function AddRecipe() {
     return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"} />;
   }
   return (
-    <>
-      <div className="text-center w-full justify-center flex gap-8 items-center my-3.5">
+    <div className="w-fit mx-auto max-[600px]:m-3">
+      <div className=" mx-auto flex gap-8 items-center my-3.5">
         <span>
           <BackButton />
         </span>
-        <span className="text-3xl underline font-semibold max-[600px]:text-xl">
+        <span className="text-3xl underline font-semibold max-[600px]:text-xl self-center">
           Add the Recipe
         </span>
       </div>
@@ -149,42 +149,41 @@ function AddRecipe() {
         <label className="text-2xl font-medium max-[600px]:text-[16px]">
           Ingredients
         </label>
+         <div className="flex flex-col gap-2 w-full mx-auto">
         {lines.map((_, index) => {
           return (
             <div
               key={index}
-              className="grid grid-cols-2 max-[600]:grid-cols-1 "
+              className="flex flex-row gap-2 items-center w-full justify-center"
             >
+              {ingredientsArray - 1 === index ? (
+                <BiAddToQueue
+                  onClick={() => setIngredientsArray((prev) => prev + 1)}
+                  className="cursor-pointer  text-2xl"
+                />
+              ) : null}
               <input
                 {...register(`ingredients.${index}.name`, { required: true })}
-                className="p-2 border-2 rounded-2xl w-fit"
+                className="p-2 border-2 rounded-2xl w-[40%]"
                 placeholder="Enter Ingredients Name"
               />
               <input
                 {...register(`ingredients.${index}.quantity`, {
                   required: true,
                 })}
-                className="p-2 border-2 rounded-2xl w-fit"
+                className="p-2 border-2 rounded-2xl w-[40%]"
                 placeholder="Enter Ingredients quantity"
               />
-
-              <div className="flex justify-around gap-x-40">
-                {ingredientsArray - 1 === index ? (
-                  <BiAddToQueue
-                    onClick={() => setIngredientsArray((prev) => prev + 1)}
-                    className="cursor-pointer relative  right-8 -top-8 text-2xl max-[550px]:-left-19.25"
-                  />
-                ) : null}
-                {ingredientsArray > 2 && ingredientsArray - 1 === index ? (
-                  <AiOutlineDelete
-                    onClick={() => setIngredientsArray((prev) => prev - 1)}
-                    className="cursor-pointer relative  translate-x-40 -right-16 -top-8 text-2xl max-[550px]:-left-[67.25]"
-                  />
-                ) : null}
-              </div>
+              {ingredientsArray > 2 && ingredientsArray - 1 === index ? (
+                <AiOutlineDelete
+                  onClick={() => setIngredientsArray((prev) => prev - 1)}
+                  className="cursor-pointer text-2xl"
+                />
+              ) : null}
             </div>
           );
         })}
+        </div>
         {errors.ingredients && (
           <p className="text-red-300">Enter the Ingredients</p>
         )}
@@ -192,7 +191,7 @@ function AddRecipe() {
           Submit
         </button>
       </form>
-    </>
+    </div>
   );
 }
 

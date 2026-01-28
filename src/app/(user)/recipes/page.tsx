@@ -12,7 +12,6 @@ function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
   const { data: session } = useSession();
-  const [stopFetch, setStopFetch] = useState<recipeDataTypes[]>([]);
   const [category, setCategory] = useState<string>("");
   const [recipeData, setRecipeData] = useState<recipeDataTypes[]>([]);
   const [hashMoreData, setHasmoreData] = useState<boolean>(true);
@@ -33,8 +32,6 @@ function RecipeDetails() {
     },
     gcTime: 4000,
   });
-  console.log({ recipeData });
-
   // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const handleScroll = useCallback(() => {
     const bottom =
@@ -62,7 +59,6 @@ function RecipeDetails() {
             <option value="vegan">Vegan</option>
             <option value="non-veg">Non-veg</option>
           </select>
-
           <select
             className="border-2 rounded-2xl py-2 px-5"
             onChange={(e) => setDifficulty(e.target.value)}

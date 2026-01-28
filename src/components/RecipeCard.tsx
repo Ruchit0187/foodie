@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import { useState } from "react";
 import SkeletonEffect from "./Skeleton";
 import { Session } from "next-auth";
+import LoadingLoader from "./Loading";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
@@ -22,7 +23,6 @@ function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
   if (!recipeCardData.length && !isLoadingData) {
     return <Datanot />;
   }
-
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">

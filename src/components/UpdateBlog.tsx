@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { FieldArrayPath, useFieldArray, useForm } from "react-hook-form";
+import {  useFieldArray, useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BiAddToQueue } from "react-icons/bi";
@@ -41,6 +41,7 @@ function UpdateBlog({ value }: { value: blogData }) {
     handleSubmit(onSubmit)();
   };
   const handleCancel = () => {
+    reset(value)
     setIsModalOpen(false);
   };
   const onSubmit = async (data: blogData) => {
