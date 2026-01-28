@@ -7,7 +7,7 @@ import { User } from "@/src/model/userSchema";
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
-    const { email } = await request.json()
+    const { email } = await request.json();
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "user not found" }, { status: 400 });
@@ -23,11 +23,11 @@ export async function POST(request: NextRequest) {
     //   process.env.JWT_SECRET_KEY!
     // );
     // cookie.set("otp", jwtToken, { maxAge: 3000, httpOnly: true });
-    
-    sendMail(email, randomNumber);
+
+    await sendMail(email, randomNumber);
     return NextResponse.json({ message: "otp is set" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ error: "Otp does not send" },{status:500});
+    return NextResponse.json({ error: "Otp does not send" }, { status: 500 });
   }
 }
