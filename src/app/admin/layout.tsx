@@ -3,24 +3,21 @@ import "../globals.css";
 import type { Metadata } from "next";
 import Navbar from "@/src/components/Navbar";
 import { ToastContainer } from "react-toastify";
-import { Session } from "next-auth";
 
 
 export const metadata: Metadata = {
   title: "Admin Panel",
-  icons:"/favicon.png"
+  icons: "/favicon.png",
 };
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
- 
-
 }) {
   return (
     <html lang="en">
       <body>
-        <SessionProvider  >
+        <SessionProvider>
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}
