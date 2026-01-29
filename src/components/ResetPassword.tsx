@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import { useState } from "react";
-import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -14,19 +13,15 @@ interface IResetPassword {
   confirmPassword: string;
 }
 
-function ResetPassword({
-  email,
-}: {
-  email?: string;
-}) {
-  const {status}=useSession()
+function ResetPassword({ email }: { email?: string }) {
+  const { status } = useSession();
   const [showPassword, setShowPassword] = useState<boolean>(true);
-  const router=useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<IResetPassword>({
     defaultValues: {
       email: email,
@@ -35,24 +30,23 @@ function ResetPassword({
   const resetPassword = async (data: IResetPassword) => {
     const resetPasswordValue = {
       email: data.email.trim(),
-      password: bcrypt.hashSync(data.password,10),
+      password: data.password.trim(),
     };
     if (data.password !== data.confirmPassword) {
-      console.log("not match");
       toast.error("Password does not match");
       return;
     }
     try {
       const passwordChange = await axios.patch(
         "/api/reset",
-        resetPasswordValue
+        resetPasswordValue,
       );
       if (passwordChange.status === 200) {
         toast.success("Password change Successfully");
-        if(status==="unauthenticated"){
+        if (status === "unauthenticated") {
           router.push("/");
         }
-        reset()
+        reset();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

@@ -11,7 +11,7 @@ interface IEmail {
 
 function ForgotPassword() {
   const [otpCheck, setOtpCheck] = useState<boolean>(false);
-  
+
   const otpGenerator = async (emailData: IEmail) => {
     const email = emailData.email.trim();
     try {
@@ -29,12 +29,12 @@ function ForgotPassword() {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm<IEmail>();
-  const emailValue=watch("email");
+  const emailValue = watch("email");
 
   return otpCheck ? (
-    <OtpVerify  email={emailValue}/>
+    <OtpVerify email={emailValue} />
   ) : (
     <div>
       <form
