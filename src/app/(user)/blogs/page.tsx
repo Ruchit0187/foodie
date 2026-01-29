@@ -18,11 +18,7 @@ export const blogDataFetch = async (limit: number) => {
 };
 async function Blog() {
   const blogValue = await blogDataFetch(1);
-  return (
-    <Suspense fallback={<Loading />}>
-      <BlogData blogData={blogValue} />;
-    </Suspense>
-  );
+  return <BlogData blogData={blogValue} />;
 }
 
 export default Blog;

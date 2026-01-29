@@ -32,7 +32,7 @@ function RecipeDetails() {
     },
     gcTime: 4000,
   });
-  // eslint-disable-next-line react-hooks/preserve-manual-memoization
+
   const handleScroll = useCallback(() => {
     const bottom =
       window.innerHeight + window.scrollY >=
@@ -40,7 +40,7 @@ function RecipeDetails() {
     if (bottom && hashMoreData) {
       setLimit((prev) => prev + 1);
     }
-  }, [isFetching]);
+  }, [hashMoreData, isFetching]);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);

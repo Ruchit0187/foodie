@@ -18,7 +18,7 @@ function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
       setUserNewData(userData);
     };
     fetchData();
-  }, [open]);
+  }, [sessionValue,open]);
   return (
     <>
       <button onClick={() => setOpen(true)} className="cursor-pointer">
