@@ -21,10 +21,19 @@ const blogSchema: Schema<Iblog> = new Schema({
   },
   image: String,
   quick_summary: String,
-  health_benefits: [],
-  likes: [],
+  health_benefits: {
+    type: [String],
+    default: [],
+  },
+  likes: {
+    type: [String],
+    default: [],
+  },
   description: String,
-  bookmark: [],
+  bookmark: {
+    type: [String],
+    default: [],
+  },
 });
 export const Blogs: Model<Iblog> =
   mongoose.models.blogs || mongoose.model("blogs", blogSchema);

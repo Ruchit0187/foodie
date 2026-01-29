@@ -19,9 +19,15 @@ const recipesSchema: Schema<Irecipes> = new Schema({
   image: String,
   category: String,
   difficulty: String,
-  ingredients: [],
-  likes: [],
-  bookmark: [],
+  ingredients: [{ name: String, quantity: String }],
+  likes: {
+    type: [String],
+    default: [],
+  },
+  bookmark: {
+    type: [String],
+    default: [],
+  },
   cookingTimeMinutes: Number,
 });
 export const Recipes: Model<Irecipes> =
