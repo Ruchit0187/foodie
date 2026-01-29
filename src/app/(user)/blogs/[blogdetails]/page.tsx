@@ -13,7 +13,7 @@ interface blogProps {
 }
 
 async function BlogDetails(props: blogProps) {
-  const { blogdetails } = await props.params;
+  const { blogdetails } = await  props.params;
   const session = await auth();
   const blogData = await fetch(
     `${process.env.BASE_URL}/api/blogs/${blogdetails}`

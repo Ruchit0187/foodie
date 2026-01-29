@@ -12,9 +12,8 @@ import Loading from "../../blogs/loading";
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
 }
-async function page(props: Promise<recipeDetails>) {
-  const { params } = await props;
-  const { recipedeatils } = await params;
+async function page(props:recipeDetails ) {
+  const { recipedeatils } = await props.params;
   const recipeIndividualData = await axios.get(
     `${process.env.BASE_URL}/api/recipe/${recipedeatils}`,
   );
