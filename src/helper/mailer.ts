@@ -93,19 +93,19 @@ export async function sendMail(
     If you didn’t request this, you can safely ignore this email.
   </p>
 </div>`;
-
+  const mailSender=process.env.MAIL_SENDING_USER
   try {
     const transport = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
       secure: true,
       auth: {
-        user: "rajparmar2598@gmail.com",
+        user: mailSender,
         pass: process.env.FORGOT_EMAIL_PASSWORD!,
       },
     });
     const mailOption = {
-      from: "rajparmar2598@gmail.com",
+      from:mailSender,
       to: email,
       subject: verifyToken ? "Email verification" : "OTP verification",
       html: verifyToken ? verifyEmail : forgotPassword,

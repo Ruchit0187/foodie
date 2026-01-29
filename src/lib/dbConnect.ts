@@ -14,6 +14,6 @@ export async function dbConnect() {
     console.log("database connect");
   } catch (error) {
     console.log(error);
-    process.exit();
+    throw new Error("Database Not Connect")
   }
 }
