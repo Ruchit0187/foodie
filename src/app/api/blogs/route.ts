@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
     const blogData = await Blogs.find(query).limit(6 * limit);
-    const count = await Blogs.countDocuments();
     // .skip(limit * 6 - 6);
     return NextResponse.json(blogData, { status: 200 });
   } catch (error) {

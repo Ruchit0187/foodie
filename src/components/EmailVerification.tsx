@@ -1,11 +1,15 @@
 "use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import LoadingLoader from "./Loading";
 function EmailVerification({ verifyToken }: { verifyToken: string }) {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
   const verifyEmail = async () => {
     try {
+      setLoading(true);
       const verifyEmailResponse = await axios.post("/api/verifyemail", {
         verifyToken,
       });
@@ -17,8 +21,13 @@ function EmailVerification({ verifyToken }: { verifyToken: string }) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error);
       }
+    } finally {
+      setLoading(false);
     }
   };
+  if (loading) {
+    return <LoadingLoader height={"absolute top-1/2"} />;
+  }
   return (
     <div className="w-max mx-auto   my-6 flex justify-center bg-white shadow-sm border   border-slate-200 rounded-lg ">
       <div className="p-4">
