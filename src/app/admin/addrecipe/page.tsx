@@ -106,6 +106,9 @@ function AddRecipe() {
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
             </select>
+            {errors.category && (
+              <p className="text-red-400">Enter the  Recipe Difficulty </p>
+            )}
           </p>
         </div>
         <label

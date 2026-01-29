@@ -48,7 +48,7 @@ function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
             <span>{userNewData?.email}</span>
           </div>
          <SignoutButton/>
-          <Link href={"/profile"}>Change Details</Link>
+          <Link href={"/profile"} onClick={()=>setOpen(false)}>Change Details</Link>
         </div>
       </Modal>
     </>
