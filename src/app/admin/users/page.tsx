@@ -34,7 +34,7 @@ export default async function UserPage() {
             <th scope="col" className="px-2.5 py-3 font-medium">
               Action
             </th>
-            {session?.user?.isOwner === "true" ? (
+            {session?.user?.isOwner ? (
               <th scope="col" className="px-2.5 py-3 font-medium">
                 Admin
               </th>
@@ -62,7 +62,7 @@ export default async function UserPage() {
               <td className="px-1.5 py-4">
                 <DeleteData userID={data._id} />
               </td>
-              {session?.user?.isOwner === "true" ? (
+              {session?.user?.isOwner ? (
                 <td scope="col" className="px-2.5 py-3 w-fit">
                   <RoleUpdate userData={data} />
                 </td>

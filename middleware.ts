@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (token?.isAdmin === "false" && path.startsWith("/admin")) {
+  if (!token?.isAdmin  && path.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (!token && path.startsWith("/profile")) {

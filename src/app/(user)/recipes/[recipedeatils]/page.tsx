@@ -80,7 +80,7 @@ async function page(props:recipeDetails ) {
             </div>
           </div>
           <div className="w-1/2 mt-3.5 max-[950px]:w-full">
-            {session?.user?.isAdmin === "true" ? (
+            {session?.user?.isAdmin ? (
               <div className="flex  justify-end">
                 <RecipeDelete recipeID={recipedeatils} />
                 <UpdateRecipe value={recipeData} />

@@ -4,26 +4,38 @@ import Credentials from "next-auth/providers/credentials";
 import { Provider } from "./src/model/provider";
 import { dbConnect } from "./src/lib/dbConnect";
 import { User as Users } from "./src/model/userSchema";
-import type { ICredentialsService, User } from "@auth/core/types";
+import type { DefaultSession, ICredentialsService } from "@auth/core/types";
 
 declare module "next-auth" {
   interface User {
-    isAdmin: string;
-    isOwner: string;
+    id: string;
+    isAdmin: boolean;
+    isOwner: boolean;
   }
 }
 declare module "next-auth/jwt" {
   interface JWT {
-    isAdmin: string;
-    isOwner: string;
+    isAdmin: boolean;
+    isOwner: boolean;
   }
 }
 declare module "@auth/core/types" {
   interface ICredentialsService {
-    email:string
-    isAdmin: string;
-    isOwner: string;
-    id:string
+    email: string;
+    isAdmin: boolean;
+    isOwner: boolean;
+    id: string;
+  }
+}
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      isAdmin: boolean;
+      isOwner: boolean;
+      id: string;
+      name: string;
+    } & DefaultSession["user"];
   }
 }
 
@@ -56,8 +68,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return {
             email: String(credentials.email),
             id: String(credentials._id),
-            isAdmin: String(credentials.isAdmin),
-            isOwner:String(credentials.isOwner),
+            isAdmin: credentials.isAdmin === "true",
+            isOwner: credentials.isOwner === "true",
           };
         } catch (error) {
           console.log(error);
@@ -82,14 +94,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             });
             user.id = String(googleUser._id);
             user.name = googleUser.name;
-            user.isAdmin = String(googleUser.isAdmin);
-            user.isOwner = String(googleUser.isOwner);
+            user.isAdmin = googleUser.isAdmin;
+            user.isOwner = googleUser.isOwner;
             return true;
           } else if (googleExistingUser) {
             user.name = googleExistingUser.name;
             user.id = String(googleExistingUser._id);
-            user.isAdmin = String(googleExistingUser.isAdmin);
-            user.isOwner = String(googleExistingUser.isOwner);
+            user.isAdmin = googleExistingUser.isAdmin;
+            user.isOwner = googleExistingUser.isOwner;
             return true;
           }
         } catch (error) {
@@ -110,9 +122,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
-        session.user.isAdmin = token.isAdmin;
-        session.user.isOwner = token.isOwner;
-        session.user.name = token.name;
+        session.user.isAdmin = token.isAdmin as boolean;
+        session.user.isOwner = token.isOwner as boolean;
+        session.user.name = token.name as string;
       }
       return session;
     },

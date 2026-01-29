@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  const [adminStatus, setAdminStatus] = useState<string>("false");
+  const [adminStatus, setAdminStatus] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const pathURL = usePathname();
   useEffect(() => {
@@ -72,8 +72,8 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {adminStatus === "true" ? (
-              <li className={`${adminStatus === "true" ? "" : "hidden"}`}>
+            {adminStatus ? (
+              <li className={`${adminStatus ? "" : "hidden"}`}>
                 <Link
                   href={`/admin`}
                   className={`${pathURL.includes("/admin") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}

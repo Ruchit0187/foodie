@@ -45,7 +45,7 @@ async function BlogDetails(props: blogProps) {
               <span>{blogJsonData.category}</span>
               <div className=" flex justify-between">
                 <p className="text-xl font-light mt-2">{blogJsonData.title}</p>
-                {session?.user?.isAdmin === "true" ? (
+                {session?.user?.isAdmin ? (
                   <div className="flex  gap-2 ">
                     <UpdateBlog value={blogJsonData} />
                     <DeleteData blogID={blogdetails} />

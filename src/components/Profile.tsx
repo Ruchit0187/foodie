@@ -18,7 +18,7 @@ function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
       setUserNewData(userData);
     };
     fetchData();
-  }, [sessionValue,open]);
+  }, [sessionValue, open]);
   return (
     <>
       <button onClick={() => setOpen(true)} className="cursor-pointer">
@@ -47,8 +47,10 @@ function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
             <span className="text-center">{userNewData?.name}</span>
             <span>{userNewData?.email}</span>
           </div>
-         <SignoutButton/>
-          <Link href={"/profile"} onClick={()=>setOpen(false)}>Change Details</Link>
+          <SignoutButton />
+          <Link href={"/profile"} onClick={() => setOpen(false)}>
+            Change Details
+          </Link>
         </div>
       </Modal>
     </>
