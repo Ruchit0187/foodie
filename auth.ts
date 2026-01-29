@@ -2,8 +2,9 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { Provider } from "./src/model/provider";
-import { User } from "./src/model/userSchema";
 import { dbConnect } from "./src/lib/dbConnect";
+import { User as Users } from "./src/model/userSchema";
+import type { ICredentialsService, User } from "@auth/core/types";
 
 declare module "next-auth" {
   interface User {
@@ -15,6 +16,14 @@ declare module "next-auth/jwt" {
   interface JWT {
     isAdmin: string;
     isOwner: string;
+  }
+}
+declare module "@auth/core/types" {
+  interface ICredentialsService {
+    email:string
+    isAdmin: string;
+    isOwner: string;
+    id:string
   }
 }
 
@@ -33,15 +42,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           label: "email",
         },
         password: { type: "password", label: "password" },
+        isAdmin: { type: "string", label: "isAdmin" },
+        isOwner: { type: "string", label: "isOwner" },
+        id: { type: "string", label: "id" },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(
+        credentials: Partial<
+          Record<"email" | "password" | "isAdmin" | "isOwner" | "_id", unknown>
+        >,
+      ): Promise<ICredentialsService | null> {
         try {
           if (!credentials.email || !credentials.password) return null;
           return {
-            email: credentials.email,
-            id: credentials._id,
-            isAdmin: credentials.isAdmin,
-            isOwner: credentials.isOwner,
+            email: String(credentials.email),
+            id: String(credentials._id),
+            isAdmin: String(credentials.isAdmin),
+            isOwner:String(credentials.isOwner),
           };
         } catch (error) {
           console.log(error);
@@ -55,7 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (credentials === undefined) {
         await dbConnect();
         try {
-          const value = await User.findOne({ email: user.email });
+          const value = await Users.findOne({ email: user.email });
           const googleExistingUser = await Provider.findOne({
             email: user.email,
           });

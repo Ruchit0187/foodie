@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
       description,
       health_benefits,
     };
-    const value = await Blogs.insertOne(insertValue);
+    const value = await Blogs.create(insertValue);
+    await value.save();
     return NextResponse.json(
       { message: "Blog add Successfully" },
       { status: 200 }
