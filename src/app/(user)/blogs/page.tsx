@@ -1,7 +1,7 @@
 import BlogData from "@/src/components/BlogData";
 import { notFound } from "next/navigation";
 
-
+export const dynamic = "force-dynamic";
 export const blogDataFetch = async (limit: number) => {
   try {
     const blogResponse = await fetch(
