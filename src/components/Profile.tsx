@@ -14,8 +14,10 @@ function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
   const [userNewData, setUserNewData] = useState<userData>();
   useEffect(() => {
     const fetchData = async () => {
+      if(open){
       const userData = await fetchUserData(sessionValue!);
       setUserNewData(userData);
+      }
     };
     fetchData();
   }, [sessionValue, open]);
