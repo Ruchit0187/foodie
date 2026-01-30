@@ -20,7 +20,6 @@ export async function GET(request: NextRequest) {
   }
 }
 export async function POST(request: NextRequest) {
-  await dbConnect();
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {
     return NextResponse.json(
@@ -28,6 +27,7 @@ export async function POST(request: NextRequest) {
       { status: 401 },
     );
   }
+  await dbConnect();
   try {
     const {
       name,
@@ -58,7 +58,6 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function DELETE(request: NextRequest) {
-  await dbConnect();
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {
     return NextResponse.json(
@@ -66,6 +65,7 @@ export async function DELETE(request: NextRequest) {
       { status: 401 },
     );
   }
+  await dbConnect();
   try {
     const { blogID } = await request.json();
     const value = await Blogs.findByIdAndDelete(blogID);
@@ -81,7 +81,6 @@ export async function DELETE(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-  await dbConnect();
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {
     return NextResponse.json(
@@ -89,6 +88,7 @@ export async function PATCH(request: NextRequest) {
       { status: 401 },
     );
   }
+  await dbConnect();
   try {
     const {
       blogID,

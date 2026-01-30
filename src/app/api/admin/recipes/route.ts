@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET!;
 export async function POST(request: NextRequest) {
-  await dbConnect();
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {
     return NextResponse.json(
@@ -13,6 +12,7 @@ export async function POST(request: NextRequest) {
       { status: 401 },
     );
   }
+  await dbConnect();
   try {
     const {
       name,
@@ -40,7 +40,6 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-  await dbConnect();
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {
     return NextResponse.json(
@@ -48,6 +47,7 @@ export async function PATCH(request: NextRequest) {
       { status: 401 },
     );
   }
+  await dbConnect();
   try {
     const {
       recipeID,
@@ -79,7 +79,6 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  await dbConnect();
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {
     return NextResponse.json(
@@ -87,6 +86,7 @@ export async function DELETE(request: NextRequest) {
       { status: 401 },
     );
   }
+  await dbConnect();
   try {
     const { recipeID } = await request.json();
     const value = await Recipes.findByIdAndDelete(recipeID);

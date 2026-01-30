@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     await user.save();
     // const jwtToken = Jwt.sign(
     //   { otp: randomNumber },
-    //   process.env.JWT_SECRET_KEY!
+    //   process.env.NEXTAUTH_SECRET!
     // );
     // cookie.set("otp", jwtToken, { maxAge: 3000, httpOnly: true });
 

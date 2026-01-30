@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       const users = [...googleUsers, ...normalUsers];
       return NextResponse.json(
         { users, message: "user find successfully" },
-        { status: 200 }
+        { status: 200 },
       );
     }
     const googleUsers = await Provider.find({ isAdmin: false });
@@ -23,21 +23,21 @@ export async function GET(request: NextRequest) {
     const users = [...googleUsers, ...normalUsers];
     return NextResponse.json(
       { users, message: "user find successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error: "Data Not Fetch" }, { status: 500 });
   }
 }
 export async function DELETE(request: NextRequest) {
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   await dbConnect();
-   const token = await getToken({ req: request, secret });
-      if (!token?.isAdmin) {
-        return NextResponse.json(
-          { error: "Normal User can not Update" },
-          { status: 401 },
-        );
-      }
   try {
     const { userID } = await request.json();
     const value = await User.findByIdAndDelete(userID);
@@ -46,21 +46,21 @@ export async function DELETE(request: NextRequest) {
     }
     return NextResponse.json(
       { message: "User Deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error: "user not Deleted" }, { status: 500 });
   }
 }
 export async function PATCH(request: NextRequest) {
+  const token = await getToken({ req: request, secret });
+  if (!token?.isOwner) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   await dbConnect();
-   const token = await getToken({ req: request, secret });
-      if (!token?.isOwner) {
-        return NextResponse.json(
-          { error: "Normal User can not Update" },
-          { status: 401 },
-        );
-      }
   try {
     const { id, isAdmin } = await request.json();
     const user = await User.findByIdAndUpdate(id, {
