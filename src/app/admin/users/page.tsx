@@ -8,7 +8,7 @@ import BackButton from "@/src/components/BackButton";
 export default async function UserPage() {
   const session = await auth();
   const userData = await fetch(
-    `${process.env.BASE_URL}/api/admin/users?session=${session?.user?.isOwner}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/users?session=${session?.user?.isOwner}`
   );
   if (!userData.ok) return <NotFound/>;
   const userJsonData = await userData.json();

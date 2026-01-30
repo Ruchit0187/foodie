@@ -44,7 +44,7 @@ function BookMark({
       //   );
       // setBookmarkApi(bookValue);
     } catch (error) {
-      toast.error(`${recipeID ? "recipe" : "blog"} not save`);
+      toast.error(`Failed to save the ${recipeID ? "recipe" : "blog"}. Please try again.`);
       setBookmarkApi((prev) => !prev);
       console.log(error);
     }

@@ -7,14 +7,19 @@ import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import { authSignin } from "@/src/types";
 import ResendOtp from "./ResendOtp";
+import { Session } from "next-auth";
 
 const { Title } = Typography;
 const OtpVerify = ({
   userSigninData,
   email,
+  session,
+  setOtpVerify
 }: {
   userSigninData?: authSignin;
   email?: string;
+  session?: Session | null;
+  setOtpVerify?:React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [otp, setOtp] = useState<string>("");
   const router = useRouter();
@@ -33,6 +38,8 @@ const OtpVerify = ({
               redirect: false,
             });
             router.push("/");
+          } else if (session?.user) {
+             setOtpVerify?.((prev)=>!prev);
           } else {
             router.push("/resetpassword");
           }
@@ -46,7 +53,7 @@ const OtpVerify = ({
     }
     otpCheck();
   }, [otp]);
-  const emailID=userSigninData?userSigninData?.user.email:email
+  const emailID = userSigninData ? userSigninData?.user.email : email || session?.user.email!;
   return (
     <div className="w-full h-[88.3vh] flex items-center justify-center align-middle bg-blue-200">
       <div className="flex justify-center p-4 mb-6">
@@ -61,7 +68,7 @@ const OtpVerify = ({
             onChange={setOtp}
             formatter={(str) => str.toUpperCase()}
           />
-          <ResendOtp  email={emailID} />
+          <ResendOtp email={emailID} />
           <Title level={5} className="text-center">
             OTP send Via Email
           </Title>

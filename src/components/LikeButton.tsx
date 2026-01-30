@@ -43,7 +43,7 @@ function LikeButton({
         return;
       }
     } catch (error) {
-      toast.error("Like not Work");
+      toast.error("Like action failed. Please try again.");;
       setLikeControl((prev) => !prev);
       setLikeCount((prev) => (!likecontrol ? prev - 1 : prev + 1));
       console.log(error);

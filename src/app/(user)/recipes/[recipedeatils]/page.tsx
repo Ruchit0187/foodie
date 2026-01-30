@@ -15,7 +15,7 @@ interface recipeDetails {
 async function page(props:recipeDetails ) {
   const { recipedeatils } = await props.params;
   const recipeIndividualData = await axios.get(
-    `${process.env.BASE_URL}/api/recipe/${recipedeatils}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipe/${recipedeatils}`,
   );
   const recipeData: recipeDataTypes = recipeIndividualData.data?.recipeDetails;
   const session = await auth();

@@ -13,7 +13,13 @@ interface IResetPassword {
   confirmPassword: string;
 }
 
-function ResetPassword({ email }: { email?: string }) {
+function ResetPassword({
+  email,
+  setEditPassword,
+}: {
+  email?: string;
+  setEditPassword?: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { status } = useSession();
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const router = useRouter();
@@ -47,6 +53,9 @@ function ResetPassword({ email }: { email?: string }) {
           router.push("/");
         }
         reset();
+        if(status==="authenticated"){
+          setEditPassword?.((prev)=>!prev);
+        }
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -116,7 +125,7 @@ function ResetPassword({ email }: { email?: string }) {
                 id="confirm-password"
                 placeholder="Enter Confirm Password"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...register("confirmPassword", { required: true })}
+                {...register("confirmPassword", { required: true, min: 5 })}
               />
               <span
                 onClick={(event) => {

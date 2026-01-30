@@ -1,12 +1,11 @@
 import BlogData from "@/src/components/BlogData";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import Loading from "./loading";
+
 
 export const blogDataFetch = async (limit: number) => {
   try {
     const blogResponse = await fetch(
-      `${process.env.BASE_URL}/api/blogs?limit=${limit}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`,
       { cache: "no-cache" },
     );
     if (!blogResponse.ok) return notFound();

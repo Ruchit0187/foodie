@@ -1,12 +1,13 @@
 "use client";
 import axios from "axios";
-import {  useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { userData } from "../types";
 import { toast } from "react-toastify";
 import ResetPassword from "./ResetPassword";
 import { Session } from "next-auth";
-
+import OtpVerify from "./OtpVerify";
+import LoadingLoader from "./Loading";
 
 interface userFormData extends userData {
   confirmPassword: string;
@@ -21,6 +22,8 @@ function UpdateProfile({
   const [updatedValue, setUpdatedValue] = useState<userData>(userData);
   const [editPassword, setEditPassword] = useState<boolean>(false);
   const [editName, setEditName] = useState<boolean>(false);
+  const [otpVerify, setOtpVerify] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -68,18 +71,32 @@ function UpdateProfile({
           <span className="p-1 text-xl">Change Password</span>
           <button
             className=" bg-black text-white mt-3 p-1  rounded-2xl cursor-pointer"
-            onClick={() => {
-              setEditPassword((prev) => !prev);
+            onClick={async () => {
+              setLoading((prev) => !prev);
               setEditName(false);
+              setEditPassword((prev) => !prev);
+              await axios.post("/api/forgot", { email: session?.user.email });
+              toast.success("Send the Otp in mail");
+              setOtpVerify(true);
+              setLoading(false);
             }}
           >
             Edit Password
           </button>
         </div>
       )}
-      {editPassword && !session?.user?.image && (
-        <ResetPassword email={userData.email} />
-      )}
+      {editPassword &&
+        !session?.user?.image &&
+        (loading ? (
+          <LoadingLoader />
+        ) : otpVerify ? (
+          <OtpVerify session={session} setOtpVerify={setOtpVerify} />
+        ) : (
+          <ResetPassword
+            email={userData.email}
+            setEditPassword={setEditPassword}
+          />
+        ))}
       {editName && (
         <form
           onSubmit={handleSubmit(onSubmit)}

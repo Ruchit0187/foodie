@@ -6,8 +6,8 @@ export default async function fetchUserData(session: Session | null) {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/profile?email=${email}`,
     );
     if (!userNewData.ok) return;
-    const userOldJsonData = await userNewData.json();
-    return userOldJsonData;
+    const userJsonData = await userNewData.json();
+    return userJsonData;
   } catch (error) {
     console.log(error);
   }
