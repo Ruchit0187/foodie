@@ -14,12 +14,12 @@ const OtpVerify = ({
   userSigninData,
   email,
   session,
-  setOtpVerify
+  setOtpVerify,
 }: {
   userSigninData?: authSignin;
   email?: string;
   session?: Session | null;
-  setOtpVerify?:React.Dispatch<React.SetStateAction<boolean>>
+  setOtpVerify?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [otp, setOtp] = useState<string>("");
   const router = useRouter();
@@ -39,7 +39,7 @@ const OtpVerify = ({
             });
             router.push("/");
           } else if (session?.user) {
-             setOtpVerify?.((prev)=>!prev);
+            setOtpVerify?.((prev) => !prev);
           } else {
             router.push("/resetpassword");
           }
@@ -53,7 +53,9 @@ const OtpVerify = ({
     }
     otpCheck();
   }, [otp]);
-  const emailID = userSigninData ? userSigninData?.user.email : email || session?.user.email!;
+  const emailID = userSigninData
+    ? userSigninData?.user.email
+    : email || session?.user.email!;
   return (
     <div className="w-full h-[88.3vh] flex items-center justify-center align-middle bg-blue-200">
       <div className="flex justify-center p-4 mb-6">

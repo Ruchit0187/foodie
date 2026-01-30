@@ -1,19 +1,18 @@
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Recipes } from "@/src/model/recipeSchema";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  await dbConnect();
-  try {
-    const allRecipes = await Recipes.find();
-    return NextResponse.json(allRecipes, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error: "Data not fetch" }, { status: 500 });
-  }
-}
-
+const secret = process.env.NEXTAUTH_SECRET!;
 export async function POST(request: NextRequest) {
   await dbConnect();
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   try {
     const {
       name,
@@ -34,7 +33,7 @@ export async function POST(request: NextRequest) {
     const value = await Recipes.insertOne(insetValue);
     return NextResponse.json(
       { message: "Recipe add Successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error: "Data not Upload" }, { status: 500 });
@@ -42,6 +41,13 @@ export async function POST(request: NextRequest) {
 }
 export async function PATCH(request: NextRequest) {
   await dbConnect();
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   try {
     const {
       recipeID,
@@ -65,7 +71,7 @@ export async function PATCH(request: NextRequest) {
     await Recipes.findByIdAndUpdate(recipeID, { $set: query });
     return NextResponse.json(
       { message: "Recipe Details update successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error: "Data not Updated" }, { status: 304 });
@@ -74,17 +80,24 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   await dbConnect();
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   try {
     const { recipeID } = await request.json();
     const value = await Recipes.findByIdAndDelete(recipeID);
     return NextResponse.json(
       { message: "Recipe data Deleted Successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Recipe does not delete" },
-      { status: 404 }
+      { status: 404 },
     );
   }
 }

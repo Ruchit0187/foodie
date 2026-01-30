@@ -1,8 +1,9 @@
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Provider } from "@/src/model/provider";
 import { User } from "@/src/model/userSchema";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-
+const secret = process.env.NEXTAUTH_SECRET!;
 export async function GET(request: NextRequest) {
   await dbConnect();
   try {
@@ -30,6 +31,13 @@ export async function GET(request: NextRequest) {
 }
 export async function DELETE(request: NextRequest) {
   await dbConnect();
+   const token = await getToken({ req: request, secret });
+      if (!token?.isAdmin) {
+        return NextResponse.json(
+          { error: "Normal User can not Update" },
+          { status: 401 },
+        );
+      }
   try {
     const { userID } = await request.json();
     const value = await User.findByIdAndDelete(userID);
@@ -46,6 +54,13 @@ export async function DELETE(request: NextRequest) {
 }
 export async function PATCH(request: NextRequest) {
   await dbConnect();
+   const token = await getToken({ req: request, secret });
+      if (!token?.isOwner) {
+        return NextResponse.json(
+          { error: "Normal User can not Update" },
+          { status: 401 },
+        );
+      }
   try {
     const { id, isAdmin } = await request.json();
     const user = await User.findByIdAndUpdate(id, {

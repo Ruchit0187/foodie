@@ -1,7 +1,9 @@
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Blogs } from "@/src/model/blogSchema";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
+const secret = process.env.NEXTAUTH_SECRET!;
 export async function GET(request: NextRequest) {
   await dbConnect();
   try {
@@ -18,8 +20,14 @@ export async function GET(request: NextRequest) {
   }
 }
 export async function POST(request: NextRequest) {
-
   await dbConnect();
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   try {
     const {
       name,
@@ -43,7 +51,7 @@ export async function POST(request: NextRequest) {
     await value.save();
     return NextResponse.json(
       { message: "Blog add Successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -51,6 +59,13 @@ export async function POST(request: NextRequest) {
 }
 export async function DELETE(request: NextRequest) {
   await dbConnect();
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   try {
     const { blogID } = await request.json();
     const value = await Blogs.findByIdAndDelete(blogID);
@@ -59,7 +74,7 @@ export async function DELETE(request: NextRequest) {
     }
     return NextResponse.json(
       { message: "Blog Deleted Successfully", value },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error: "Blog not deleted" });
@@ -67,6 +82,13 @@ export async function DELETE(request: NextRequest) {
 }
 export async function PATCH(request: NextRequest) {
   await dbConnect();
+  const token = await getToken({ req: request, secret });
+  if (!token?.isAdmin) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   try {
     const {
       blogID,
@@ -94,7 +116,7 @@ export async function PATCH(request: NextRequest) {
     const value = await Blogs.findByIdAndUpdate(blogID, { $set: query });
     return NextResponse.json(
       { message: "Recipe Details update successfully", value },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error: "Data not Updated" }, { status: 304 });
