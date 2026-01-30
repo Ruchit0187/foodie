@@ -6,7 +6,7 @@ export const blogDataFetch = async (limit: number) => {
   try {
     const blogResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`,
-      { cache: "no-cache" },
+      { cache: "no-store" },
     );
     if (!blogResponse.ok) return notFound();
     const blogDataValue = await blogResponse.json();
