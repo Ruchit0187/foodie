@@ -77,7 +77,6 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: "Data not Updated" }, { status: 304 });
   }
 }
-
 export async function DELETE(request: NextRequest) {
   const token = await getToken({ req: request, secret });
   if (!token?.isAdmin) {

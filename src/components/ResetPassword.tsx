@@ -53,8 +53,8 @@ function ResetPassword({
           router.push("/");
         }
         reset();
-        if(status==="authenticated"){
-          setEditPassword?.((prev)=>!prev);
+        if (status === "authenticated") {
+          setEditPassword?.((prev) => !prev);
         }
       }
     } catch (error) {
@@ -113,30 +113,33 @@ function ResetPassword({
                 <p className="text-red-700">Enter The Valid Password</p>
               )}
             </div>
-            <div>
+            <div className="relative">
               <label
                 htmlFor="confirm-password"
-                className="block mb-2 text-sm font-medium text-gray-900 "
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Confirm password
               </label>
+
               <input
                 type={`${showPassword ? "password" : "text"}`}
                 id="confirm-password"
                 placeholder="Enter Confirm Password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 {...register("confirmPassword", { required: true, min: 5 })}
               />
+
               <span
                 onClick={(event) => {
                   event.preventDefault();
                   setShowPassword((prev) => !prev);
                 }}
-                className="cursor-pointer absolute text-2xl -translate-y-8 translate-x-88"
+                className="absolute right-3 top-[42px] sm:top-[44px] cursor-pointer text-xl text-gray-600"
               >
                 {showPassword ? <IoEyeOffSharp /> : <IoEye />}
               </span>
             </div>
+
             <button
               type="submit"
               className="w-full cursor-pointer  bg-black text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
