@@ -11,16 +11,11 @@ interface IResetPassword {
   email: string;
   password: string;
   confirmPassword: string;
+  old_password?: string;
 }
 
-function ResetPassword({
-  email,
-  setEditPassword,
-}: {
-  email?: string;
-  setEditPassword?: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  const { status } = useSession();
+function ResetPassword({ email }: { email?: string }) {
+  const { status, data } = useSession();
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const router = useRouter();
   const {
@@ -36,6 +31,7 @@ function ResetPassword({
   const resetPassword = async (data: IResetPassword) => {
     const resetPasswordValue = {
       email: data.email.trim(),
+      old_password: data.old_password?.trim(),
       password: data.password.trim(),
     };
     if (data.password !== data.confirmPassword) {
@@ -53,9 +49,6 @@ function ResetPassword({
           router.push("/");
         }
         reset();
-        if (status === "authenticated") {
-          setEditPassword?.((prev) => !prev);
-        }
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -89,12 +82,33 @@ function ResetPassword({
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
                 value={email}
+                defaultValue={data?.user.email!}
                 {...register("email", {
                   required: true,
                   pattern: /^\s*[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 })}
               />
             </div>
+            {status === "authenticated" && (
+              <div>
+                <label
+                  htmlFor="old-password"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Old Password
+                </label>
+                <input
+                  type="password"
+                  id="old-password"
+                  placeholder="Enter Old Password"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  {...register("old_password", { required: true, min: 5 })}
+                />
+                {errors.old_password && (
+                  <p className="text-red-700">Enter The Valid Password</p>
+                )}
+              </div>
+            )}
             <div>
               <label
                 htmlFor="password"
@@ -118,13 +132,13 @@ function ResetPassword({
                 htmlFor="confirm-password"
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
-                Confirm password
+                Confirm New password
               </label>
 
               <input
                 type={`${showPassword ? "password" : "text"}`}
                 id="confirm-password"
-                placeholder="Enter Confirm Password"
+                placeholder="Enter Confirm New Password"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 {...register("confirmPassword", { required: true, min: 5 })}
               />
@@ -134,7 +148,7 @@ function ResetPassword({
                   event.preventDefault();
                   setShowPassword((prev) => !prev);
                 }}
-                className="absolute right-3 top-[42px] sm:top-[44px] cursor-pointer text-xl text-gray-600"
+                className="absolute right-3 top-10.5 sm:top-11 cursor-pointer text-xl text-gray-600"
               >
                 {showPassword ? <IoEyeOffSharp /> : <IoEye />}
               </span>

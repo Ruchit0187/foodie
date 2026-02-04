@@ -1,5 +1,7 @@
 import { dbConnect } from "@/src/lib/dbConnect";
+import { Blogs } from "@/src/model/blogSchema";
 import { Provider } from "@/src/model/provider";
+import { Recipes } from "@/src/model/recipeSchema";
 import { User } from "@/src/model/userSchema";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
@@ -44,6 +46,12 @@ export async function DELETE(request: NextRequest) {
     if (!value) {
       await Provider.findByIdAndDelete(userID);
     }
+    await Recipes.updateMany(
+      {},
+      { $pull: { likes: userID, bookmarks: userID } },
+    );
+    await Blogs.updateMany({}, { $pull: { likes: userID, bookmarks: userID } });
+
     return NextResponse.json(
       { message: "User Deleted successfully" },
       { status: 200 },
@@ -73,6 +81,6 @@ export async function PATCH(request: NextRequest) {
     }
     return NextResponse.json({ message: "Update the Role" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "user not Found" }, { status: 500 });
+    return NextResponse.json({ error: "Role not Update" }, { status: 500 });
   }
 }

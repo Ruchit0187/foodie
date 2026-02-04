@@ -26,7 +26,7 @@ function EmailVerification({ verifyToken }: { verifyToken: string }) {
     }
   };
   if (loading) {
-    return <LoadingLoader height={"absolute top-1/2"} />;
+    return <LoadingLoader cssClass={"absolute top-1/2"} />;
   }
   return (
     <div className="w-max mx-auto   my-6 flex justify-center bg-white shadow-sm border   border-slate-200 rounded-lg ">

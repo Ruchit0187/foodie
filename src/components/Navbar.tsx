@@ -19,7 +19,7 @@ export default function Navbar() {
   }, [session]);
   if (status === "loading") return <AuthLoading />;
   return (
-    <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-1  md:flex-row max-[760px]:items-start">
+    <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-10  md:flex-row max-[760px]:items-start">
       <div className="flex w-full md:w-[80%] p-2 flex-col md:flex-row max-[760px]:justify-items-start max-[760px]:items-start">
         <Link
           href={"/"}

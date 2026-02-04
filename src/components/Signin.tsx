@@ -31,7 +31,7 @@ export default function Signin() {
       const email = userSignData.email;
       if (signInApiResponse.status === 200) {
         try {
-          await axios.post("/api/forgot", { email });
+          await axios.post("/api/otpsend", { email });
           setOtpVerify(true);
           setUserSignindata(signInApiResponse?.data);
         } catch (error) {
@@ -42,8 +42,8 @@ export default function Signin() {
       if (axios.isAxiosError(error)) {
         toast.error(error?.response?.data.error);
       }
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
   const {
@@ -53,15 +53,18 @@ export default function Signin() {
   } = useForm<Isignin>({
     disabled: loading,
   });
-  if(loading){
-    return <LoadingLoader height={"absolute top-1/2 -translate-y-1/2"}/>
+  if (loading) {
+    return <LoadingLoader cssClass={"absolute top-1/2 -translate-y-1/2"} />;
   }
   return (
     <>
       {otpVerify ? (
         <OtpVerify userSigninData={userSignindata} />
       ) : (
-        <div>
+        <div className="bg-amber-200 w-fit mx-auto rounded-2xl p-2 mt-2">
+          <h2 className="text-2xl text-center mt-2 font-bold underline">
+            SignIn Form
+          </h2>
           <form
             className="max-w-sm mx-auto mt-2 p-4"
             method="post"
@@ -77,7 +80,7 @@ export default function Signin() {
               <input
                 type="email"
                 id="email"
-                className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body rounded-2xl"
                 placeholder="name@gmail.com"
                 {...register("email", {
                   required: true,
@@ -99,7 +102,7 @@ export default function Signin() {
                 <input
                   type={`${showPassword ? "password" : "text"}`}
                   id="password"
-                  className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block  px-3 py-2.5 shadow-xs placeholder:text-body w-full "
+                  className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block  px-3 py-2.5 shadow-xs placeholder:text-body w-full rounded-2xl"
                   placeholder="Enter the password"
                   {...register("password", {
                     required: true,
@@ -129,14 +132,14 @@ export default function Signin() {
             </button>
           </form>
           <button
-            className="bg-black text-white flex justify-center items-center gap-2 p-2 rounded-2xl mx-auto mt-2"
+            className="bg-black text-white flex cursor-pointer justify-center items-center gap-2 p-2 rounded-2xl mx-auto mt-2"
             onClick={() => signIn("google")}
           >
             <FcGoogle />
             SignIn with Google
           </button>
-          <div className="text-center mt-2">
-            Reset Password
+          <div className="text-center mt-2 ">
+           <span className="font-bold">Want to reset your password?</span> 
             <Link
               href={"/forgot"}
               className="text-center  text-violet-600 ml-2"

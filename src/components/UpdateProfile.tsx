@@ -1,17 +1,8 @@
 "use client";
-import axios from "axios";
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { userData } from "../types";
-import { toast } from "react-toastify";
-import ResetPassword from "./ResetPassword";
 import { Session } from "next-auth";
-import OtpVerify from "./OtpVerify";
-import LoadingLoader from "./Loading";
+import { useRouter } from "next/navigation";
 
-interface userFormData extends userData {
-  confirmPassword: string;
-}
 function UpdateProfile({
   userData,
   session,
@@ -19,105 +10,47 @@ function UpdateProfile({
   userData: userData;
   session: Session | null;
 }) {
-  const [updatedValue, setUpdatedValue] = useState<userData>(userData);
-  const [editPassword, setEditPassword] = useState<boolean>(false);
-  const [editName, setEditName] = useState<boolean>(false);
-  const [otpVerify, setOtpVerify] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<userFormData>({
-    defaultValues: {
-      name: updatedValue.name,
-    },
-  });
-  const onSubmit: SubmitHandler<userFormData> = async (data) => {
-    try {
-      const updateProfile = await axios.patch("/api/profile", {
-        name: data.name.trim(),
-        _id: updatedValue._id,
-      });
-      if (updateProfile.status === 200) {
-        toast.success("User Data Updated Successfully");
-        const { googleUser, value } = updateProfile.data;
-        setUpdatedValue(() => (value ? value : googleUser));
-        setEditName(false);
-      }
-    } catch (error) {
-      console.log(error);
-      if (axios.isAxiosError(error)) {
-        toast.error("User Data is not Updated");
-      }
-    }
-  };
+  const router = useRouter();
   return (
-    <>
-      <div className="flex mx-auto text-center gap-2 items-center justify-center mt-2">
-        <span className="p-1 text-xl">Change Name</span>
+    <div className="w-1/3 mx-auto flex flex-col p-3 border-2 border-gray-200 mt-2 justify-between items-center max-[500px]:w-full max-[500px]:p-3 rounded-2xl shadow-md bg-amber-100 hover:shadow-lg transition-shadow gap-2.5">
+      <span className=" uppercase text-2xl text-center tracking-wide mb-4  font-bold">
+        Account Settings
+      </span>
+      <div className="flex w-full gap-2 items-center justify-between mt-2 border-b pb-3">
+        <div className="flex flex-col">
+          <span className="text-lg font-bold text-gray-900 mt-1">
+            Change Name
+          </span>
+          <span className=" text-gray-600 mt-1">{userData.name}</span>
+        </div>
         <button
-          className="  bg-black text-white  p-1 rounded-2xl cursor-pointer"
+          className="bg-black text-white px-3 py-1 rounded-2xl cursor-pointer hover:bg-gray-800 transition"
           onClick={() => {
-            setEditPassword(false);
-            setEditName((prev) => !prev);
+            router.push(`/profile/nameupdate`);
           }}
         >
-          Edit Name
+          Edit
         </button>
       </div>
       {!session?.user?.image && (
-        <div className="flex mx-auto text-center gap-2 items-center justify-center mt-2">
-          <span className="p-1 text-xl">Change Password</span>
+        <div className="flex w-full gap-2 items-center justify-between mt-4">
+          <div className="flex flex-col">
+            <span className="text-lg font-bold text-gray-900">
+              Change Password
+            </span>
+            <span className="text-gray-600 mt-1 tracking-widest">
+              *********
+            </span>
+          </div>
           <button
-            className=" bg-black text-white mt-3 p-1  rounded-2xl cursor-pointer"
-            onClick={async () => {
-              setLoading((prev) => !prev);
-              setEditName(false);
-              setEditPassword((prev) => !prev);
-              await axios.post("/api/forgot", { email: session?.user.email });
-              toast.success("Send the Otp in mail");
-              setOtpVerify(true);
-              setLoading(false);
-            }}
+            className="bg-black text-white px-3 py-1 rounded-2xl cursor-pointer hover:bg-gray-800 transition"
+            onClick={() => router.push(`/profile/passwordupdate`)}
           >
-            Edit Password
+            Edit
           </button>
         </div>
       )}
-      {editPassword &&
-        !session?.user?.image &&
-        (loading ? (
-          <LoadingLoader />
-        ) : otpVerify ? (
-          <OtpVerify session={session} setOtpVerify={setOtpVerify} />
-        ) : (
-          <ResetPassword
-            email={userData.email}
-            setEditPassword={setEditPassword}
-          />
-        ))}
-      {editName && (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col border-2 w-fit p-2 mx-auto gap-2 mt-10 justify-center "
-        >
-          <label htmlFor="name" className="text-xl font-semibold">
-            Name:
-          </label>
-          <input
-            {...register("name", { required: true })}
-            className="border-2 rounded-2xl p-2"
-            id="name"
-            placeholder="Enter the New Name"
-          />
-          {errors.name && <p className="text-red-500">Enter New Name</p>}
-          <button className="bg-black text-white p-2 rounded-2xl block mx-auto cursor-pointer">
-            Submit
-          </button>
-        </form>
-      )}
-    </>
+    </div>
   );
 }
 

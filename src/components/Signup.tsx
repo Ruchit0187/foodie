@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
+import LoadingLoader from "./Loading";
 interface formData {
   name: string;
   email: string;
@@ -41,10 +42,18 @@ export default function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm<formData>({
-    disabled:loading
+    disabled: loading,
   });
+  if (loading) {
+    return (
+      <LoadingLoader cssClass={"absolute top-1/2 -translate-y-1/2 h-full"} />
+    );
+  }
   return (
     <>
+      <h2 className="text-2xl text-center mt-2 font-bold underline">
+        SignUp Form
+      </h2>
       <form
         className="flex flex-col gap-4 w-fit sm:w-full md:w-[50%] lg:w-[30%] max-[600px]:w-fit mx-auto p-4 sm:p-6 md:p-8"
         onSubmit={handleSubmit(signupData)}
@@ -99,7 +108,9 @@ export default function Signup() {
             {showPassword ? <IoEyeOffSharp /> : <IoEye />}
           </span>
         </div>
-        {errors.password && <p className="text-red-500">Password cannot be empty.</p>}
+        {errors.password && (
+          <p className="text-red-500">Password cannot be empty.</p>
+        )}
         {loading ? (
           <button className="block mx-auto bg-black text-white rounded-2xl p-2">
             Loading
@@ -110,6 +121,7 @@ export default function Signup() {
           </button>
         )}
       </form>
+
       <button
         className="bg-black text-white flex justify-center items-center gap-2 p-2 rounded-2xl mx-auto cursor-pointer"
         onClick={() => signIn("google")}

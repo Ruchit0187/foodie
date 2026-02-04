@@ -11,11 +11,10 @@ interface IEmail {
 
 function ForgotPassword() {
   const [otpCheck, setOtpCheck] = useState<boolean>(false);
-
   const otpGenerator = async (emailData: IEmail) => {
     const email = emailData.email.trim();
     try {
-      const emailStatus = await axios.post("/api/forgot", { email });
+      const emailStatus = await axios.post("/api/otpsend", { email });
       if (emailStatus.status === 200) {
         setOtpCheck(true);
       }

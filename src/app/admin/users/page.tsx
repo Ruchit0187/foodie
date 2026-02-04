@@ -14,10 +14,12 @@ export default async function UserPage() {
   const userJsonData = await userData.json();
   const { users } = userJsonData;
   return (
-    <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-       <BackButton/>
+    <>
+         <BackButton/>
+    <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default ">
+  
       <table className="w-full text-sm text-left rtl:text-right text-body">
-        <thead className="bg-neutral-secondary-soft border-b border-default">
+        <thead className="bg-neutral-secondary-soft border-b border-default bg-blue-200">
           <tr className="text-xl">
             <th scope="col" className="px-2.5 py-3 font-medium">
               Name
@@ -41,15 +43,15 @@ export default async function UserPage() {
             ) : null}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-amber-200 p-1.5">
           {users.map((data: userData) => (
             <tr
               key={data._id}
               className="odd:bg-neutral-primary even:bg-neutral-secondary-soft
-                            border border-default ring-1 ring-black/5
+                            border-3 ring-1 ring-black/5
                             p-4 rounded-3xl m-2
                             shadow-sm hover:shadow-lg hover:-translate-y-0.5
-                            transition-all duration-200 ease-in-out"
+                            transition-all duration-200 ease-in-out "
             >
               <td className="px-2.5 py-4">{data.name}</td>
               <td className="px-1.5 py-4">{data.email}</td>
@@ -72,6 +74,7 @@ export default async function UserPage() {
         </tbody>
       </table>
     </div>
+  </>
   );
 }
 

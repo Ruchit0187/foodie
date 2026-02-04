@@ -51,7 +51,9 @@ const OtpVerify = ({
         }
       }
     }
-    otpCheck();
+    if (otp.length === 5) {
+      otpCheck();
+    }
   }, [otp]);
   const emailID = userSigninData
     ? userSigninData?.user.email

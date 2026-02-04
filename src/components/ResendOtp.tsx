@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 function ResendOtp({ email }: { userEmail?: string; email?: string }) {
   const sendOtp = async () => {
     try {
-      await axios.post("/api/forgot", { email });
+      await axios.post("/api/otpsend", { email });
       toast.success("New OTP send in email")
     } catch (error) {
-      toast.error("OTP  Not Send")
+      toast.error("OTP  Not Send")  
       console.log(error);
     }
   };

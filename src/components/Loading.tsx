@@ -1,6 +1,6 @@
-function LoadingLoader({height}:{height?:string}) {
+function LoadingLoader({cssClass}:{cssClass?:string}) {
   return (
-    <div className={`flex ${height} w-full flex-col items-center justify-center gap-4 bg-white `}>
+    <div className={`flex ${cssClass} w-full flex-col items-center justify-center gap-4 bg-white `}>
       <div role="status">
         <svg
           aria-hidden="true"

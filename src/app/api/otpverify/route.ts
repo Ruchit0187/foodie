@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const databaseUser = (await User.findOne({
     email: userEmail,
   })) as userOtpData;
-  if (databaseUser?.otpExpiry < new Date() || !databaseUser) {
+  if (!databaseUser || databaseUser?.otpExpiry < new Date()  ) {
     console.log("time over");
     return NextResponse.json({ error: "Time is Over" }, { status: 400 });
   }
