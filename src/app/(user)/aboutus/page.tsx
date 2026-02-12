@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 async function Aboutus() {
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/visitors`);
   const jsonData = await data.json();

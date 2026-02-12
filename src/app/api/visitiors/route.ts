@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 
 export async function GET() {
-  const headersList =  headers();
+  const headersList = await headers();
 
   const ip = headersList.get("x-forwarded-for")?.split(",")[0] || "Unknown";
 
