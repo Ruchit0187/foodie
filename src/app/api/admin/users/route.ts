@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const isOwner = searchParams.get("session");
-    if (isOwner) {
+    if (isOwner === "true") {
       const normalUsers = await User.find({ isOwner: false });
       const googleUsers = await Provider.find({ isOwner: false });
       const users = [...googleUsers, ...normalUsers];
