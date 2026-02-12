@@ -1,9 +1,4 @@
-export const dynamic = "force-dynamic";
-
 async function Aboutus() {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/visitors`);
-  const jsonData = await data.json();
-  console.log("user Location Data",jsonData);
   return (
     <div className="text-gray-800">
       <section className="bg-linear-to-r from-orange-500 to-green-500 text-white text-center py-20 px-4">
