@@ -61,7 +61,7 @@ export async function GET() {
   const region = headersList.get("x-vercel-ip-country-region") || "Unknown";
   const city = headersList.get("x-vercel-ip-city") || "Unknown";
   const continent = headersList.get("x-vercel-ip-continent") || "Unknown";
-  const country=countryName?.country;
+  const country = countryName[countryCode as keyof typeof countryName] || "Unknown";
   return NextResponse.json({
     ip,
     continent,
