@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 }
 export async function DELETE(request: NextRequest) {
   const token = await getToken({ req: request, secret });
-  if (!token?.isAdmin) {
+  if (token?.isAdmin===false) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
