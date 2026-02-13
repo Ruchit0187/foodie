@@ -66,7 +66,7 @@ function DeleteData({
         const value = await axios.delete("/api/blogs", { data: { blogID } });
 
         if (value.status === 200) {
-          toast.success("Recipe deleted successfully");
+          toast.success("Blog deleted successfully");
           router.back();
         }
       } catch (error) {
@@ -76,7 +76,6 @@ function DeleteData({
       } finally {
         setLoading(false);
       }
-      toast.success("User deleted successfully");
       router.back();
     }
     setIsModalOpen(false);
