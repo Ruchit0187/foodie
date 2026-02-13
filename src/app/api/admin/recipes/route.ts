@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Recipes } from "@/src/model/recipeSchema";
 import { getToken } from "next-auth/jwt";
@@ -41,14 +42,10 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-  const requestHeaders = await headers();
-  const userAgent = requestHeaders.get("user-agent");
-  if (userAgent?.includes("PostmanRuntime")) {
-    console.log("Postman");
-  }
-  const token = await getToken({ req: request,secret });
-  console.log(token);
-  if (token?.isAdmin !== true) {
+  const token = await getToken({ req: request, secret });
+  // console.log(token);
+  const session = await auth();
+  if (session?.user?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
