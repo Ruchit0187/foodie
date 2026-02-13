@@ -1,12 +1,13 @@
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Recipes } from "@/src/model/recipeSchema";
 import { getToken } from "next-auth/jwt";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET!;
 export async function POST(request: NextRequest) {
   const token = await getToken({ req: request, secret });
-  if (!token || token.isAdmin !== true) {
+  if (token?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
@@ -40,9 +41,14 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-  const token = await getToken({ req: request });
+  const requestHeaders = await headers();
+  const userAgent = requestHeaders.get("user-agent");
+  if (userAgent?.includes("PostmanRuntime")) {
+    console.log("Postman");
+  }
+  const token = await getToken({ req: request,secret });
   console.log(token);
-  if (!token || token.isAdmin !== true) {
+  if (token?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
@@ -80,7 +86,7 @@ export async function PATCH(request: NextRequest) {
 }
 export async function DELETE(request: NextRequest) {
   const token = await getToken({ req: request, secret });
-  if (!token || token.isAdmin !== true) {
+  if (token?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },

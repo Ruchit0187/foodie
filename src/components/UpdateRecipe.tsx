@@ -48,14 +48,10 @@ function UpdateRecipe({ value }: { value: recipeDataTypes }) {
   };
   const onSubmit = async (data: recipeDataTypes) => {
     try {
-      const value = await axios.patch(
-        "/api/admin/recipes",
-        {
-          ...data,
-          recipeID,
-        },
-        { withCredentials: true },
-      );
+      const value = await axios.patch("/api/admin/recipes", {
+        ...data,
+        recipeID,
+      });
       if (value.status === 200) {
         reset(data);
         router.refresh();
