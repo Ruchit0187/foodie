@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-  const token = await getToken({ req: request, secret });
+  const token = await getToken({ req: request });
   console.log(token);
   if (!token || token.isAdmin !== true) {
     return NextResponse.json(
@@ -84,7 +84,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
-    );  
+    );
   }
   await dbConnect();
   try {
