@@ -1,9 +1,9 @@
+import { auth } from "@/auth";
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Blogs } from "@/src/model/blogSchema";
-import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-const secret = process.env.NEXTAUTH_SECRET!;
+
 export async function GET(request: NextRequest) {
   await dbConnect();
   try {
@@ -20,13 +20,13 @@ export async function GET(request: NextRequest) {
   }
 }
 export async function POST(request: NextRequest) {
-  const token = await getToken({ req: request, secret });
-  if (token?.isAdmin===false) {
-    return NextResponse.json(
-      { error: "Normal User can not Update" },
-      { status: 401 },
-    );
-  }
+   const session = await auth();
+    if (session?.user?.isAdmin !== true) {
+      return NextResponse.json(
+        { error: "Normal User can not Update" },
+        { status: 401 },
+      );
+    }
   await dbConnect();
   try {
     const {
@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function DELETE(request: NextRequest) {
-  const token = await getToken({ req: request, secret });
-  if (token?.isAdmin===false) {
+ const session = await auth();
+  if (session?.user?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
@@ -81,8 +81,8 @@ export async function DELETE(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-  const token = await getToken({ req: request, secret });
-  if (token?.isAdmin===false) {
+   const session = await auth();
+  if (session?.user?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
