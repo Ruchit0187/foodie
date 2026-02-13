@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 const secret = process.env.NEXTAUTH_SECRET!;
 export async function POST(request: NextRequest) {
   const token = await getToken({ req: request, secret });
-  if (!token || token?.isAdmin === false) {
+  if (token?.isAdmin === false) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const token = await getToken({ req: request, secret });
   console.log(token);
-  if (!token || token?.isAdmin === false) {
+  if ( token?.isAdmin === false) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
       { status: 401 },
