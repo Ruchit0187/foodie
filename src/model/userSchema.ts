@@ -10,6 +10,7 @@ interface IUser extends Document {
   isOwner: boolean;
   otp?: number | undefined;
   otpExpiry?: Date | undefined;
+  location: string | undefined;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -40,6 +41,9 @@ const userSchema: Schema<IUser> = new Schema({
   isOwner: {
     type: Boolean,
     default: false,
+  },
+  location: {
+    type: String,
   },
   otp: Number,
   otpExpiry: Date,

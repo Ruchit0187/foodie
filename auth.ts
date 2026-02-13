@@ -103,9 +103,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user.isAdmin = googleExistingUser.isAdmin;
             user.isOwner = googleExistingUser.isOwner;
             return true;
-          }
-          else if(value){
-              return false;
+          } else if (value) {
+            return false;
           }
         } catch (error) {
           return false;

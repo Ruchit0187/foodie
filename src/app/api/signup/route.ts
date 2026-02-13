@@ -4,6 +4,8 @@ import { User } from "@/src/model/userSchema";
 import bcrypt from "bcryptjs";
 import { sendMail } from "@/src/helper/mailer";
 import { Provider } from "@/src/model/provider";
+import { headers } from "next/headers";
+import { countryName } from "../visitors/route";
 
 export async function POST(request: NextRequest) {
   await dbConnect();
@@ -13,16 +15,20 @@ export async function POST(request: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         { error: "User already Registered" },
-        { status: 409 }
+        { status: 409 },
       );
     }
     const googleUser = await Provider.findOne({ email });
     if (googleUser) {
       return NextResponse.json(
         { error: "Please Signup With the Google" },
-        { status: 409 }
+        { status: 409 },
       );
     }
+    const headersList = await headers();
+    const countryCode = headersList.get("x-vercel-ip-country") || "Unknown";
+    const country =
+      countryName[countryCode as keyof typeof countryName] || "Unknown";
     const hashPassword = await bcrypt.hash(password, 10);
     const verifyToken = bcrypt.hashSync(name, 10);
     await User.create({
@@ -33,11 +39,12 @@ export async function POST(request: NextRequest) {
       verifyTokenExpiry: new Date(Date.now() + 60 * 60 * 1000),
       isAdmin: isAdmin ? true : false,
       isOwner: isOwner ? true : false,
+      location: country,
     });
     await sendMail(email, undefined, verifyToken);
     return NextResponse.json(
       { message: "User Registered Successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);

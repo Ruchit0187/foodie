@@ -3,17 +3,20 @@ import { User } from "@/src/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { Provider } from "@/src/model/provider";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export async function POST(request: NextRequest) {
   await dbConnect();
   try {
     const { email, password } = await request.json();
     const user = await User.findOne({ email });
-    const googleUser=await Provider.findOne({email});
-    const cookie=await cookies()
-     if (googleUser) {
-      return NextResponse.json({ error: "Please Signin With Google" }, { status: 404 });
+    const googleUser = await Provider.findOne({ email });
+    const cookie = await cookies();
+    if (googleUser) {
+      return NextResponse.json(
+        { error: "Please Signin With Google" },
+        { status: 404 },
+      );
     }
     if (!user) {
       return NextResponse.json({ error: "User not  Found" }, { status: 404 });
@@ -21,20 +24,20 @@ export async function POST(request: NextRequest) {
     if (!user.isVerify) {
       return NextResponse.json(
         { error: "User Mail is not verify" },
-        { status: 404 }
+        { status: 404 },
       );
     }
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
       return NextResponse.json(
         { error: "Incorrect Password" },
-        { status: 401 }
+        { status: 401 },
       );
     }
-    cookie.set("email",email);
+    cookie.set("email", email);
     return NextResponse.json(
       { message: "User SignIn Successfully", user },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error });

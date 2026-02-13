@@ -5,6 +5,7 @@ interface IGoogle extends Document {
   isAdmin: boolean;
   isOwner: boolean;
   isVerify: boolean;
+  location: string | undefined;
 }
 
 const googleSchema: Schema<IGoogle> = new Schema({
@@ -29,6 +30,9 @@ const googleSchema: Schema<IGoogle> = new Schema({
   isVerify: {
     type: Boolean,
     default: true,
+  },
+  location: {
+    type: String,
   },
 });
 export const Provider: Model<IGoogle> =
