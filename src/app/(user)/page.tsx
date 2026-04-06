@@ -16,7 +16,6 @@ export const metadata: Metadata = {
     "restaurants near me",
     "recipes",
     "foodie community",
-    "dining guide",
   ],
   openGraph: {
     title: "BiteRight | Your Ultimate Food Guide",
