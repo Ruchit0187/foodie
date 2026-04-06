@@ -1,6 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+// layout.js or page.js
+export const metadata: Metadata = {
+  title: {
+    default: "BiteRight | Discover Local Flavors",
+    template: "%s | BiteRight",
+  },
+  description:
+    "Explore the best local eateries, hidden gems, and culinary delights in your city.",
+  keywords: [
+    "food reviews",
+    "restaurants near me",
+    "recipes",
+    "foodie community",
+    "dining guide",
+  ],
+  openGraph: {
+    title: "BiteRight | Your Ultimate Food Guide",
+    description:
+      "Join our community of food lovers and discover your next favorite meal.",
+    locale: "en_US",
+    type: "website",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 function HomePage() {
   return (
     <div className="relative w-full h-[87vh]">
