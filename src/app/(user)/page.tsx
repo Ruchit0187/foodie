@@ -23,6 +23,14 @@ export const metadata: Metadata = {
       "Join our community of food lovers and discover your next favorite meal.",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/homepage.jpg",
+        width: 800,
+        height: 600,
+        alt: "BiteRight Logo",
+      },
+    ],
   },
 
   robots: {
