@@ -15,19 +15,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${BASE_URL}/aboutus`,
+      url: `${BASE_URL}aboutus`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/blogs`,
+      url: `${BASE_URL}blogs`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/recipes`,
+      url: `${BASE_URL}recipes`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     await dbConnect();
     const blogs = await Blogs.find({}, { _id: 1, date: 1 }).lean();
     blogPages = blogs.map((blog) => ({
-      url: `${BASE_URL}/blogs/${blog._id}`,
+      url: `${BASE_URL}blogs/${blog._id}`,
       lastModified: blog.date || new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.7,
@@ -54,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const recipes = await Recipes.find({}, { _id: 1 }).lean();
     recipePages = recipes.map((recipe) => ({
-      url: `${BASE_URL}/recipes/${recipe._id}`,
+      url: `${BASE_URL}recipes/${recipe._id}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.7,
