@@ -6,8 +6,8 @@ import type { Metadata } from "next";
 // layout.js or page.js
 export const metadata: Metadata = {
   title: {
-    default: "BiteRight | Discover Local Flavors",
-    template: "%s | BiteRight",
+    default: "Foodie | Discover Local Flavors",
+    template: "%s | Foodie",
   },
   description:
     "Explore the best local eateries, hidden gems, and culinary delights in your city.",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "foodie community",
   ],
   openGraph: {
-    title: "BiteRight | Your Ultimate Food Guide",
+    title: "Foodie | Your Ultimate Food Guide",
     description:
       "Join our community of food lovers and discover your next favorite meal.",
     locale: "en_US",

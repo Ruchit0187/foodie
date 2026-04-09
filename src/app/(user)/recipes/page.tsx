@@ -7,6 +7,27 @@ import { useQuery } from "@tanstack/react-query";
 import { recipeDataTypes } from "@/src/types";
 import Loading from "../blogs/loading";
 import { useSession } from "next-auth/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Easy Recipes & Healthy Dinner Ideas | Quick Meal Guides - Foodie",
+  description: "Discover quick easy meals and healthy dinner ideas for every day. Explore our step-by-step cooking guides for vegetarian, vegan, and non-veg recipes.",
+  keywords: [
+    "easy recipes",           
+    "healthy dinner ideas",   
+    "quick meals",            
+    "step by step cooking",   
+    "vegetarian recipes",     
+    "vegan cooking",          
+    "non-veg recipes",        
+    "homemade food",          
+    "culinary inspiration"    
+  ],
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/recipes`,
+  },
+};
+
 
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");

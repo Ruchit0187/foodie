@@ -1,3 +1,20 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us | Our Mission to Deliver Happiness - Foodie",
+  description:
+    "Learn more about Foodie’s journey, our commitment to quality, and our mission to connect you with the best local food and fast service.",
+  keywords: [
+    "about foodie",
+    "our mission",
+    "food delivery story",
+    "reliable food platform",
+    "quality restaurants",
+    "customer-centric food service",
+    "fast delivery mission",
+  ],
+};
+
 async function Aboutus() {
   return (
     <div className="text-gray-800">
