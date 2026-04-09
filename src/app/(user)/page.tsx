@@ -12,11 +12,19 @@ export const metadata: Metadata = {
   description:
     "Explore the best local eateries, hidden gems, and culinary delights in your city.",
   keywords: [
+    "recipes",
+    "easy recipes",
+    "healthy dinner ideas",
     "food reviews",
     "restaurants near me",
-    "recipes",
+    "quick meals",
+    "step by step cooking",
     "foodie community",
   ],
+   alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+  },
+  
   openGraph: {
     title: "Foodie | Your Ultimate Food Guide",
     description:
