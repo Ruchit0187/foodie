@@ -37,9 +37,9 @@ async function BlogDetails(props: blogProps) {
             </div>
             <div className="flex flex-col p-2">
               <div className=" flex justify-between ">
-                <span className="text-2xl font-extrabold ">
+                <h1 className="text-2xl font-extrabold ">
                   {blogJsonData.name}
-                </span>
+                </h1>
                 <span>{new Date(blogJsonData.date).toLocaleDateString("en-GB")}</span>
               </div>
               <span>{blogJsonData.category}</span>
