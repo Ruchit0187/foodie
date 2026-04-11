@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "/homepage.jpg",
         width: 800,
         height: 600,
-        alt: "BiteRight Logo",
+        alt: "Foodie Logo",
       },
     ],
   },
