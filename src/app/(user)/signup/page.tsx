@@ -1,5 +1,12 @@
 import Signup from "@/src/components/Signup";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Your Foodie Account",
+  description: "Join Foodie today! Sign up to discover recipes, read food blogs, save bookmarks, and become part of our foodie community.",
+  robots: { index: false, follow: false },
+};
 
 function SignUppage() {
   return (

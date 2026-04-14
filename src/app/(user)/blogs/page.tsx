@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
+
 export const metadata: Metadata = {
   title: "Foodie Blogs | Culinary Insights & Healthy Living",
   description: "Explore our collection of food blogs, featuring healthy recipes, culinary tips, and cooking guides from our passionate foodie community.",
@@ -14,10 +17,31 @@ export const metadata: Metadata = {
     "cooking guides",
     "foodie community",
     "easy meal ideas",
-    "nutrition advice"
+    "nutrition advice",
+    "foodie blog",
+    "healthy eating tips",
+    "food articles",
+    "cooking blog",
+    "meal planning",
+    "diet tips",
+    "food lifestyle",
   ],
+  openGraph: {
+    title: "Foodie Blogs | Culinary Insights & Healthy Living",
+    description:
+      "Explore our collection of food blogs, featuring healthy recipes, culinary tips, and cooking guides.",
+    type: "website",
+    images: [{ url: "/blog-background.jpg", alt: "Foodie Blogs" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Foodie Blogs | Culinary Insights & Healthy Living",
+    description:
+      "Explore food blogs, healthy recipes, culinary tips, and cooking guides.",
+    images: ["/blog-background.jpg"],
+  },
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/blogs`,
+    canonical: `${BASE_URL}/blogs`,
   },
 };
 
@@ -34,9 +58,58 @@ export const blogDataFetch = async (limit: number) => {
     console.log(error);
   }
 };
+
 async function Blog() {
   const blogValue = await blogDataFetch(1);
-  return <BlogData blogData={blogValue} />;
+
+  const collectionPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Foodie Blogs",
+    url: `${BASE_URL}/blogs`,
+    description:
+      "Explore our collection of food blogs, featuring healthy recipes, culinary tips, and cooking guides from our passionate foodie community.",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Foodie",
+      url: BASE_URL,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: BASE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blogs",
+        item: `${BASE_URL}/blogs`,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(collectionPageSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <BlogData blogData={blogValue} />
+    </>
+  );
 }
 
 export default Blog;

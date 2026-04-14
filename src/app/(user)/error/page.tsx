@@ -1,4 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Authentication Error",
+  description: "An authentication error occurred. Please sign in with your email and password.",
+  robots: { index: false, follow: false },
+};
 
 export default function AuthErrorPage() {
   return (

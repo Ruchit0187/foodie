@@ -1,4 +1,11 @@
 import EmailVerification from "@/src/components/EmailVerification";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Verify Your Email",
+  description: "Verify your email address to activate your Foodie account.",
+  robots: { index: false, follow: false },
+};
 
 async function page({
   searchParams,

@@ -6,7 +6,9 @@ import { ToastContainer } from "react-toastify";
 
 
 export const metadata: Metadata = {
-  title: "Admin Panel",
+  title: "Admin Panel | Foodie",
+  description: "Foodie admin dashboard for managing recipes, blogs, and users.",
+  robots: { index: false, follow: false },
 };
 export default function RootLayout({
   children,
