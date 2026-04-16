@@ -41,12 +41,13 @@ function RecipeCardItem({
             className={`object-cover object-center rounded-2xl transition-opacity duration-300 ${
               imageLoading ? "absolute w-0 h-0 opacity-0" : "opacity-100 h-65"
             }`}
-            width={250}
-            height={250}
+            width={260}
+            height={260}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={value.name}
             priority={index < 3}
             onLoad={() => setImageLoading(false)}
+            
           />
         </div>
         <div>
