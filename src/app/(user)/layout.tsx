@@ -4,6 +4,7 @@ import "../globals.css";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -98,7 +99,8 @@ export default function RootLayout({
         <SessionProvider>
           <Navbar />
           <ToastContainer autoClose={2000} />
-            <SpeedInsights />
+          <SpeedInsights />
+          <Analytics />
           {children}
         </SessionProvider>
       </body>
