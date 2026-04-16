@@ -16,65 +16,88 @@ interface filterRecipes {
   session: Session;
 }
 
-function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
+/* ---------- Individual card with its OWN loading state ---------- */
+function RecipeCardItem({
+  value,
+  session,
+  index,
+}: {
+  value: recipeDataTypes;
+  session: Session;
+  index: number;
+}) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
 
+  return (
+    <li
+      className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
+      key={String(value._id)}
+    >
+      <Link href={`/recipes/${value._id}`}>
+        <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
+          {imageLoading && <SkeletonEffect />}
+          <Image
+            src={String(value.image).trimEnd()}
+            className={`object-cover object-center rounded-2xl transition-opacity duration-300 ${
+              imageLoading ? "absolute w-0 h-0 opacity-0" : "opacity-100 h-65"
+            }`}
+            width={250}
+            height={250}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            alt={value.name}
+            priority={index < 3}
+            onLoad={() => setImageLoading(false)}
+          />
+        </div>
+        <div>
+          <div className="p-5 pt-2">
+            <div className="flex justify-between items-center gap-2">
+              <h5 className="mt-4 mb-2 text-xl font-semibold text-heading text-nowrap">
+                {value.name}
+              </h5>
+              <LikeButton
+                recipeID={value?._id}
+                likes={value?.likes}
+                session={session}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="text-body text-sm flex items-center gap-2 bg-[#fef4cc] p-2 mt-2 rounded-2xl">
+                <CiClock2 style={{ minWidth: "10px" }} />
+                {value.cookingTimeMinutes} mins
+                <p>|</p>
+                <div>{value.difficulty}</div>
+              </div>
+              <div className="p-2 mt-1">
+                <BookMark
+                  recipeID={value._id}
+                  bookmarkValue={value.bookmark}
+                  session={session}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
+}
+
+/* ---------- Parent grid ---------- */
+function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
   if (!recipeCardData.length && !isLoadingData) {
     return <Datanot />;
   }
   return (
     <div className="w-full mx-auto p-4 ">
       <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
-        {recipeCardData?.map((value: recipeDataTypes) => (
-          <li
-            className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
+        {recipeCardData?.map((value: recipeDataTypes, index: number) => (
+          <RecipeCardItem
             key={String(value._id)}
-          >
-            <Link href={`/recipes/${value._id}`}>
-              <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
-                {imageLoading && <SkeletonEffect />}
-                <Image
-                  src={String(value.image).trimEnd()}
-                  className={`object-cover object-center  rounded-2xl  ${
-                    imageLoading ? "opacity-0" : "opacity-100  h-65 "
-                  }`}
-                  width={imageLoading ? 0 : 250}
-                  height={imageLoading ? 0 : 250}
-                  alt={value.name}
-                  onLoad={() => setImageLoading(false)}
-                />
-              </div>
-              <div>
-                <div className="p-5 pt-2">
-                  <div className="flex justify-between items-center gap-2">
-                    <h5 className="mt-4 mb-2 text-xl font-semibold text-heading text-nowrap">
-                      {value.name}
-                    </h5>
-                    <LikeButton
-                      recipeID={value?._id}
-                      likes={value?.likes}
-                      session={session}
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-body text-sm flex items-center gap-2 bg-[#fef4cc] p-2 mt-2 rounded-2xl">
-                      <CiClock2 style={{ minWidth: "10px" }} />
-                      {value.cookingTimeMinutes} mins
-                      <p>|</p>
-                      <div>{value.difficulty}</div>
-                    </div>
-                    <div className="p-2 mt-1">
-                      <BookMark
-                        recipeID={value._id}
-                        bookmarkValue={value.bookmark}
-                        session={session}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </li>
+            value={value}
+            session={session}
+            index={index}
+          />
         ))}
       </ul>
       {isLoadingData ? <Loading /> : null}
