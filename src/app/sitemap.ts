@@ -3,7 +3,7 @@ import { dbConnect } from "@/src/lib/dbConnect";
 import { Blogs } from "@/src/model/blogSchema";
 import { Recipes } from "@/src/model/recipeSchema";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
+const BASE_URL =  "https://foodie-nine-gold.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ─── Static Pages ─────────────────────────────────────────────
