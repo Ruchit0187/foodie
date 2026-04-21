@@ -59,37 +59,6 @@ async function Aboutus() {
     },
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is Foodie?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Foodie is a modern food delivery platform created for people who love delicious food and fast service. We connect you with local favorites and top-rated restaurants.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Why choose Foodie?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Foodie offers quality food from trusted restaurants, fast and reliable delivery, and customer-first service. With 10K+ happy customers and 500+ restaurants, we ensure your satisfaction.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How fast is Foodie delivery?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Foodie delivers in an average of 30 minutes, ensuring your food arrives fresh and fast.",
-        },
-      },
-    ],
-  };
-
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -116,11 +85,7 @@ async function Aboutus() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
-      <Script
-        strategy="beforeInteractive"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+   
       <Script
         strategy="beforeInteractive"
         type="application/ld+json"
