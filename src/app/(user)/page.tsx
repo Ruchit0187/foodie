@@ -89,28 +89,13 @@ function HomePage() {
     },
   };
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Foodie",
-    url: BASE_URL,
-    logo: `${BASE_URL}/foodielogo.png`,
-    description:
-      "Foodie connects food lovers with easy recipes, healthy meal ideas, expert food blogs, and trusted restaurant reviews.",
-    sameAs: [],
-  };
+
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema),
-        }}
       />
       <div className="relative w-full h-[87vh]">
         <Image
