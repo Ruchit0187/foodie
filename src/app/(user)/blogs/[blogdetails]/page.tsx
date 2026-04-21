@@ -128,6 +128,44 @@ async function BlogDetails(props: blogProps) {
     ],
   };
 
+  // Dynamic FAQ schema from blog health_benefits
+  const blogFaqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `What is ${blogJsonData.name}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: blogJsonData.quick_summary || blogJsonData.description?.substring(0, 300) || `${blogJsonData.name} is a ${blogJsonData.category} food topic covered on Foodie.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `What are the health benefits of ${blogJsonData.name}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: blogJsonData.health_benefits.length > 0
+            ? `The key health benefits of ${blogJsonData.name} include: ${blogJsonData.health_benefits.join(", ")}.`
+            : `Read our full blog post on ${blogJsonData.name} to learn about its health benefits and nutritional value.`,
+        },
+      },
+      ...(blogJsonData.health_benefits.length > 0
+        ? [
+            {
+              "@type": "Question",
+              name: `How many health benefits does ${blogJsonData.name} have?`,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: `${blogJsonData.name} has ${blogJsonData.health_benefits.length} documented health benefits on Foodie, including ${blogJsonData.health_benefits.slice(0, 3).join(", ")}${blogJsonData.health_benefits.length > 3 ? ", and more" : ""}.`,
+              },
+            },
+          ]
+        : []),
+    ],
+  };
+
   return (
     <Suspense fallback={<Loading />}>
       <script
@@ -137,6 +175,10 @@ async function BlogDetails(props: blogProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogFaqSchema) }}
       />
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
         <BackButton />

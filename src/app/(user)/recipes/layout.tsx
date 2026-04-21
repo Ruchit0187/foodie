@@ -81,6 +81,37 @@ export default function DashboardLayout({
     ],
   };
 
+  const recipesListingFaqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What types of recipes can I find on Foodie?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Foodie offers hundreds of recipes across vegetarian, vegan, and non-veg categories. Each recipe includes ingredients with quantities, cooking time, difficulty level (easy, medium, hard), and step-by-step instructions.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I search and filter recipes on Foodie?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes! You can search recipes by name, filter by category (vegetarian, vegan, non-veg), and filter by difficulty level (easy, medium, hard). Our recipes page makes it easy to find exactly what you're looking for.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Are Foodie recipes suitable for beginners?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Absolutely! Foodie has recipes for every skill level. Filter by 'easy' difficulty to find beginner-friendly recipes with simple ingredients and short cooking times. Each recipe clearly shows the cooking time and number of ingredients.",
+        },
+      },
+    ],
+  };
+
   return (
     <QueryProvider>
       <script
@@ -92,6 +123,12 @@ export default function DashboardLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(recipesListingFaqSchema),
+        }}
       />
       {children}
     </QueryProvider>

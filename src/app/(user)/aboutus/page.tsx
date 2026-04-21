@@ -89,6 +89,25 @@ async function Aboutus() {
     ],
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: BASE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About Us",
+        item: `${BASE_URL}/aboutus`,
+      },
+    ],
+  };
+
   return (
     <>
       <script
@@ -98,6 +117,10 @@ async function Aboutus() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="text-gray-800">
         <section className="bg-linear-to-r from-orange-500 to-green-500 text-white text-center py-20 px-4">

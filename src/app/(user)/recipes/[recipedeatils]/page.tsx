@@ -144,6 +144,46 @@ async function page(props: recipeDetails) {
     ],
   };
 
+  // Dynamic FAQ schema from recipe data
+  const recipeFaqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `How do I make ${recipeData.name}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `To make ${recipeData.name}, you need ${recipeData.ingredients.length} ingredients: ${recipeData.ingredients.map((i) => `${i.quantity} ${i.name}`).join(", ")}. The cooking time is ${recipeData.cookingTimeMinutes} minutes with a ${recipeData.difficulty} difficulty level. Visit the full recipe page on Foodie for step-by-step instructions.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `What ingredients do I need for ${recipeData.name}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `You need the following ${recipeData.ingredients.length} ingredients for ${recipeData.name}: ${recipeData.ingredients.map((i) => `${i.quantity} ${i.name}`).join(", ")}.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `How long does it take to cook ${recipeData.name}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${recipeData.name} takes approximately ${recipeData.cookingTimeMinutes} minutes to cook. The difficulty level is ${recipeData.difficulty}, making it ${recipeData.difficulty === "easy" ? "perfect for beginners" : recipeData.difficulty === "medium" ? "suitable for intermediate home cooks" : "a challenge for experienced cooks"}.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Is ${recipeData.name} vegetarian or vegan?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${recipeData.name} is categorized as ${recipeData.category} on Foodie. ${recipeData.category === "vegetarian" ? "It is a vegetarian recipe suitable for those who avoid meat." : recipeData.category === "vegan" ? "It is a vegan recipe with no animal products." : "It is a non-vegetarian recipe that contains meat or animal products."}`,
+        },
+      },
+    ],
+  };
+
   return (
     <Suspense fallback={<Loading />}>
       <script
@@ -153,6 +193,10 @@ async function page(props: recipeDetails) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeFaqSchema) }}
       />
       <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
         <BackButton />
