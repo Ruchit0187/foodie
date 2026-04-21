@@ -9,6 +9,7 @@ import UpdateRecipe from "@/src/components/UpdateRecipe";
 import { Suspense } from "react";
 import Loading from "../../blogs/loading";
 import type { Metadata } from "next";
+import Script from "next/script";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -186,15 +187,18 @@ async function page(props: recipeDetails) {
 
   return (
     <Suspense fallback={<Loading />}>
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeSchema) }}
       />
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeFaqSchema) }}
       />

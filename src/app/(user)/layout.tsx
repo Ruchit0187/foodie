@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
+import Script from "next/script";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -201,19 +202,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
+        <Script
+          strategy="beforeInteractive"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationSchema),
           }}
         />
-        <script
+        <Script
+          strategy="beforeInteractive"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(siteNavigationSchema),
           }}
         />
-        <script
+        <Script
+          strategy="beforeInteractive"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(globalFaqSchema),

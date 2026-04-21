@@ -1,6 +1,7 @@
 import BlogData from "@/src/components/BlogData";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,8 @@ const BASE_URL =
 
 export const metadata: Metadata = {
   title: "Foodie Blogs | Culinary Insights & Healthy Living",
-  description: "Explore our collection of food blogs, featuring healthy recipes, culinary tips, and cooking guides from our passionate foodie community.",
+  description:
+    "Explore our collection of food blogs, featuring healthy recipes, culinary tips, and cooking guides from our passionate foodie community.",
   keywords: [
     "food blog",
     "healthy recipes",
@@ -128,19 +130,22 @@ async function Blog() {
 
   return (
     <>
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(collectionPageSchema),
         }}
       />
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(blogFaqSchema),

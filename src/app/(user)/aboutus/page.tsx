@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Script from "next/script";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -110,15 +111,18 @@ async function Aboutus() {
 
   return (
     <>
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <script
+      <Script
+        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
