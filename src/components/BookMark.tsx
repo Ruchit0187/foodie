@@ -4,6 +4,7 @@ import { MouseEvent, useEffect, useState } from "react";
 import { CiBookmark } from "react-icons/ci";
 import { FaBookmark } from "react-icons/fa";
 import { toast } from "react-toastify";
+import trackEvent from "../function/trackEvent";
 
 function BookMark({
   recipeID,
@@ -26,6 +27,10 @@ function BookMark({
     }
   }, [bookmarkValue, sessionData?.user?.id]);
   const handleMarkDown = async (event: MouseEvent) => {
+    trackEvent(recipeID ? "recipe_bookmark" : "blog_bookmark", {
+      item_id: recipeID || blogID,
+      action: bookmarkApi ? "remove" : "save",
+    });
     event.stopPropagation();
     event.preventDefault();
     setBookmarkApi((prev) => !prev);
@@ -44,7 +49,9 @@ function BookMark({
       //   );
       // setBookmarkApi(bookValue);
     } catch (error) {
-      toast.error(`Failed to save the ${recipeID ? "recipe" : "blog"}. Please try again.`);
+      toast.error(
+        `Failed to save the ${recipeID ? "recipe" : "blog"}. Please try again.`,
+      );
       setBookmarkApi((prev) => !prev);
       console.log(error);
     }

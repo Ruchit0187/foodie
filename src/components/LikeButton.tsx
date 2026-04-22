@@ -4,6 +4,7 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import LikePopUp from "./LikePopUp";
 import { toast } from "react-toastify";
 import { Session } from "next-auth";
+import trackEvent from "../function/trackEvent";
 
 interface likeButtonProps {
   recipeID?: string;
@@ -29,6 +30,10 @@ function LikeButton({
     }
   }, [likes, sessionData?.user?.id]);
   const handleLikeButton = async (event: MouseEvent) => {
+    trackEvent(recipeID ? "recipe_like" : "blog_like", {
+      item_id: recipeID || blogID,
+      action: likecontrol ? "unlike" : "like",
+    });
     event.stopPropagation();
     event.preventDefault();
     setLikeControl((prev) => !prev);
@@ -43,7 +48,7 @@ function LikeButton({
         return;
       }
     } catch (error) {
-      toast.error("Like action failed. Please try again.");;
+      toast.error("Like action failed. Please try again.");
       setLikeControl((prev) => !prev);
       setLikeCount((prev) => (!likecontrol ? prev - 1 : prev + 1));
       console.log(error);
