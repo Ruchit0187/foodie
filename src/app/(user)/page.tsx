@@ -122,7 +122,7 @@ function HomePage() {
           fill
           className="object-cover"
           quality={75}
-          fetchPriority="high"
+          preload={true}
         />
         <div className="absolute inset-0 bg-black/40 max-[500px]:top-28" />
         <div className="relative z-10 flex items-center justify-center h-full px-4">
