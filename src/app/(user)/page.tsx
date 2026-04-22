@@ -121,8 +121,9 @@ function HomePage() {
           alt="Foodie – Discover Recipes, Food Blogs & Local Flavors"
           fill
           className="object-cover"
-          quality={75}
-          preload={true}
+          sizes="100vw"
+          priority
+          quality={85}
         />
         <div className="absolute inset-0 bg-black/40 max-[500px]:top-28" />
         <div className="relative z-10 flex items-center justify-center h-full px-4">

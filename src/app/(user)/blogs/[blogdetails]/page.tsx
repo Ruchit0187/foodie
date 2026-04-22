@@ -21,7 +21,7 @@ export async function generateMetadata(props: blogProps): Promise<Metadata> {
   const { blogdetails } = await props.params;
   try {
     const res = await fetch(`${BASE_URL}/api/blogs/${blogdetails}`);
-    if (!res.ok) return { title: "Blog Not Found | Foodie" };
+    if (!res.ok) return { title: "Blog Not Found " };
     const blog: blogData = await res.json();
     return {
       title: `${blog.name} – ${blog.category} Blog`,
