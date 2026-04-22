@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
 import Script from "next/script";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -223,6 +224,7 @@ export default function RootLayout({
             __html: JSON.stringify(globalFaqSchema),
           }}
         />
+        <GoogleAnalytics gaId="G-XQ5SK1MQCP" />
       </head>
       <body className="antialiased">
         <SessionProvider>
