@@ -155,6 +155,7 @@ async function BlogDetails(props: blogProps) {
                 height={300}
                 className="object-cover object-center rounded-lg h-95 w-full max-[950px]:w-full"
                 alt={blogJsonData.name}
+                fetchPriority="high"
               />
             </div>
             <div className="flex flex-col p-2">
