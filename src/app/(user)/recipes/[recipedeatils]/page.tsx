@@ -172,6 +172,7 @@ async function page(props: recipeDetails) {
                 className="object-cover object-center rounded-lg h-95 w-full max-[950px]:w-full"
                 alt={recipeData.name}
                 fetchPriority="high"
+                loading="lazy"
               />
             </div>
             <div className="flex  ml-5 p-2.5 flex-col w-fit gap-4 rounded-xl border border-gray-200 bg-white shadow-sm text-nowrap max-[550px]:m-auto">
