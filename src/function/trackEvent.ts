@@ -1,4 +1,4 @@
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from '@next/third-parties/google'
 
 type EventParams = Record<string, string | number | boolean | undefined>;
 
@@ -16,5 +16,5 @@ export default function trackEvent(
   eventName: string,
   params?: EventParams
 ) {
-  sendGAEvent("event", eventName, params ?? {});
+  sendGTMEvent({ event: eventName, ...params });
 }
