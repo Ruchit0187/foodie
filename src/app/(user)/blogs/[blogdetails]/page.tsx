@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import Loading from "../loading";
 import type { Metadata } from "next";
 import Script from "next/script";
+import BlogTracker from "@/src/components/BlogTracker";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -73,7 +74,7 @@ async function BlogDetails(props: blogProps) {
   );
   if (!blogData.ok) return notFound();
   const blogJsonData: blogData = await blogData.json();
-
+  
   const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -133,6 +134,7 @@ async function BlogDetails(props: blogProps) {
  
   return (
     <Suspense fallback={<Loading />}>
+      <BlogTracker blogData={blogJsonData} />
       <Script
         strategy="beforeInteractive"
         type="application/ld+json"

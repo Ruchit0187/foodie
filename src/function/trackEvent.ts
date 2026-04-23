@@ -1,6 +1,6 @@
 import { sendGTMEvent } from '@next/third-parties/google'
 
-type EventParams = Record<string, string | number | boolean | undefined>;
+type EventParams = Record<string, any>;
 
 /**
  * Track a Google Analytics event.
