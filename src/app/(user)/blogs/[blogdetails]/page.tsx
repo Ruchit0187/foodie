@@ -24,47 +24,6 @@ export async function generateMetadata(props: blogProps): Promise<Metadata> {
     const res = await fetch(`${BASE_URL}/api/blogs/${blogdetails}`);
     if (!res.ok) return { title: "Blog Not Found " };
     const blog: blogData = await res.json();
-
-    const blogPostingSchema = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: blog.name,
-      description: blog.quick_summary || blog.description?.substring(0, 160),
-      image: blog.image,
-      datePublished: new Date(blog.date).toISOString(),
-      dateModified: new Date(blog.date).toISOString(),
-      author: {
-        "@type": "Organization",
-        name: "Foodie",
-        url: BASE_URL,
-      },
-      publisher: {
-        "@type": "Organization",
-        name: "Foodie",
-        url: BASE_URL,
-        logo: {
-          "@type": "ImageObject",
-          url: `${BASE_URL}/foodielogo.png`,
-        },
-      },
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": `${BASE_URL}/blogs/${blogdetails}`,
-      },
-      articleSection: blog.category,
-      keywords: [blog.name, blog.category, "food blog", "foodie"],
-    };
-
-    const breadcrumbSchema = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
-        { "@type": "ListItem", position: 2, name: "Blogs", item: `${BASE_URL}/blogs` },
-        { "@type": "ListItem", position: 3, name: blog.name, item: `${BASE_URL}/blogs/${blogdetails}` },
-      ],
-    };
-
     return {
       title: `${blog.name} – ${blog.category} Blog`,
       description:
