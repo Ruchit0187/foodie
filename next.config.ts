@@ -21,7 +21,7 @@ const nextConfig = {
     ];
   },
   trailingSlash: false,
-  htmlLimitedBots: /.*/,
+  // htmlLimitedBots: /.*/,
 };
 
 module.exports = nextConfig;
