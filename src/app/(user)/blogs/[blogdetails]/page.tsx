@@ -101,12 +101,6 @@ export async function generateMetadata(props: blogProps): Promise<Metadata> {
       alternates: {
         canonical: `${BASE_URL}/blogs/${blogdetails}`,
       },
-      other: {
-        "script:ld+json": [
-          JSON.stringify(blogPostingSchema),
-          JSON.stringify(breadcrumbSchema),
-        ],
-      },
     };
   } catch {
     return { title: "Blog | Foodie" };
@@ -121,11 +115,54 @@ async function BlogDetails(props: blogProps) {
   );
   if (!blogData.ok) return notFound();
   const blogJsonData: blogData = await blogData.json();
+
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blogJsonData.name,
+    description: blogJsonData.quick_summary || blogJsonData.description?.substring(0, 160),
+    image: blogJsonData.image,
+    datePublished: new Date(blogJsonData.date).toISOString(),
+    dateModified: new Date(blogJsonData.date).toISOString(),
+    author: { "@type": "Organization", name: "Foodie", url: BASE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "Foodie",
+      url: BASE_URL,
+      logo: { "@type": "ImageObject", url: `${BASE_URL}/foodielogo.png` },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${BASE_URL}/blogs/${blogdetails}`,
+    },
+    articleSection: blogJsonData.category,
+    keywords: [blogJsonData.name, blogJsonData.category, "food blog", "foodie"],
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Blogs", item: `${BASE_URL}/blogs` },
+      { "@type": "ListItem", position: 3, name: blogJsonData.name, item: `${BASE_URL}/blogs/${blogdetails}` },
+    ],
+  };
+
   return (
-    <Suspense fallback={<Loading />}>
-      <BlogTracker blogData={blogJsonData} />
-      <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
-        <BackButton />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <Suspense fallback={<Loading />}>
+        <BlogTracker blogData={blogJsonData} />
+        <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
+          <BackButton />
         <div className="flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
           <div className="flex flex-col w-1/2 max-[950px]:w-full">
             <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
@@ -186,8 +223,9 @@ async function BlogDetails(props: blogProps) {
             </div>
           </div>
         </div>
-      </div>
-    </Suspense>
+        </div>
+      </Suspense>
+    </>
   );
 }
 
