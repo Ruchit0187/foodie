@@ -20,7 +20,8 @@ const nextConfig = {
       },
     ];
   },
-  trailingSlash: false
+  trailingSlash: false,
+  htmlLimitedBots: /.*/,
 };
 
 module.exports = nextConfig;
