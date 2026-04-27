@@ -64,6 +64,7 @@ function LikeButton({
                    transition-transform duration-200
                    hover:scale-110 active:scale-95 cursor-pointer"
             onClick={(event) => handleLikeButton(event)}
+            
           >
             {likecontrol ? <FcLike /> : <FcLikePlaceholder />}
           </button>

@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import { useState } from "react";
 import SkeletonEffect from "./Skeleton";
 import { Session } from "next-auth";
+import { useMediaQuery } from "usehooks-ts";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
@@ -27,6 +28,7 @@ function RecipeCardItem({
   index: number;
 }) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
+  const matches = useMediaQuery("(max-width: 1024px)");
 
   return (
     <li
@@ -45,17 +47,33 @@ function RecipeCardItem({
             height={260}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={value.name}
-            priority={index < 3}
+            loading={
+              matches
+                ? index < 1
+                  ? "eager"
+                  : "lazy"
+                : index < 3
+                  ? "eager"
+                  : "lazy"
+            }
+            fetchPriority={
+              matches
+                ? index < 1
+                  ? "high"
+                  : "low"
+                : index < 3
+                  ? "high"
+                  : "low"
+            }
             onLoad={() => setImageLoading(false)}
-            
           />
         </div>
         <div>
           <div className="p-5 pt-2">
             <div className="flex justify-between items-center gap-2">
-              <h5 className="mt-4 mb-2 text-xl font-semibold text-heading text-nowrap">
+              <h1 className="mt-4 mb-2 text-xl font-semibold text-heading text-nowrap">
                 {value.name}
-              </h5>
+              </h1>
               <LikeButton
                 recipeID={value?._id}
                 likes={value?.likes}

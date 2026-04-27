@@ -75,7 +75,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
         <Datanot />
       ) : (
         <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
-          {previousBlogData?.map((blogvalue) => (
+          {previousBlogData?.map((blogvalue, index) => (
             <li
               className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
               key={String(blogvalue._id)}
@@ -91,12 +91,13 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                     width={imageLoading ? 0 : 250}
                     height={imageLoading ? 0 : 250}
                     alt={blogvalue.name}
+                    priority={index < 6 ? true : false}
                     onLoad={() => setImageLoading(false)}
                   />
                 </div>
                 <div className="flex flex-col">
                   <div className="flex items-center justify-between p-1.5">
-                    <span className="">
+                    <span>
                       <LikeButton
                         likes={blogvalue?.likes}
                         blogID={blogvalue?._id}
@@ -108,9 +109,9 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className=" p-1.5 text-left italic font-semibold text-xl">
+                    <h1 className=" p-1.5 text-left italic font-semibold text-xl">
                       {blogvalue.name}
-                    </span>
+                    </h1>
                     <span className="mb-2.5">
                       <BookMark
                         blogID={blogvalue._id}
