@@ -28,7 +28,7 @@ function RecipeCardItem({
   index: number;
 }) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
-  const matches = useMediaQuery("(max-width: 1024px)");
+  const matches = useMediaQuery("(max-width: 640px)");
 
   return (
     <li

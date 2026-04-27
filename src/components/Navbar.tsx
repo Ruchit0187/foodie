@@ -19,7 +19,7 @@ export default function Navbar() {
   }, [session]);
   if (status === "loading") return <AuthLoading />;
   return (
-    <div className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-10  md:flex-row max-[760px]:items-start">
+    <nav className="flex w-full bg-amber-400 mx-auto justify-between items-center sticky top-0 z-10  md:flex-row max-[760px]:items-start">
       <div className="flex w-full md:w-[80%] p-2 flex-col md:flex-row max-[760px]:justify-items-start max-[760px]:items-start">
         <Link
           href={"/"}
@@ -31,6 +31,7 @@ export default function Navbar() {
             height={80}
             alt="logo image"
             className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20"
+            fetchPriority="high"
           />
           <span className="self-center text-xl sm:text-2xl text-heading font-semibold whitespace-nowrap">
             Foodie
@@ -120,6 +121,6 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
