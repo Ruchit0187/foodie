@@ -23,7 +23,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="GTM-MTT2R75T" />
        {/* <GoogleAnalytics gaId="G-XQ5SK1MQCP" /> */}
        <Script id="google-consent-mode" strategy="beforeInteractive">
           {`
@@ -55,6 +54,7 @@ export default function RootLayout({
           {children}
         </SessionProvider>
       </body>
+      <GoogleTagManager gtmId="GTM-MTT2R75T" />
     </html>
   );
 }

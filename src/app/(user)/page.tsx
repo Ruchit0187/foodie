@@ -123,6 +123,7 @@ function HomePage() {
           className="object-cover"
           sizes="100vw"
           priority
+          fetchPriority="high"
           quality={85}
         />
         <div className="absolute inset-0 bg-black/40 max-[500px]:top-28" />
