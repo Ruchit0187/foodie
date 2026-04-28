@@ -153,6 +153,7 @@ async function BlogDetails(props: blogProps) {
                   alt={blogJsonData.name}
                   fetchPriority="high"
                   loading="eager"
+                  quality={80}
                 />
               </div>
               <div className="flex flex-col p-2">
