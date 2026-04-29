@@ -22,13 +22,14 @@ function RecipeCardItem({
   value,
   session,
   index,
+  isMobile,
 }: {
   value: recipeDataTypes;
   session: Session;
   index: number;
+  isMobile: boolean;
 }) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
-  const matches = useMediaQuery("(max-width: 640px)");
 
   return (
     <li
@@ -48,7 +49,7 @@ function RecipeCardItem({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={value.name}
             loading={
-              matches
+              isMobile
                 ? index < 1
                   ? "eager"
                   : "lazy"
@@ -57,7 +58,7 @@ function RecipeCardItem({
                   : "lazy"
             }
             fetchPriority={
-              matches
+              isMobile
                 ? index < 1
                   ? "high"
                   : "low"
@@ -104,6 +105,7 @@ function RecipeCardItem({
 
 /* ---------- Parent grid ---------- */
 function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
+  const isMobile = useMediaQuery("(max-width: 640px)");
   if (!recipeCardData.length && !isLoadingData) {
     return <Datanot />;
   }
@@ -116,6 +118,7 @@ function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
             value={value}
             session={session}
             index={index}
+            isMobile={isMobile}
           />
         ))}
       </ul>

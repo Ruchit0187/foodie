@@ -1,19 +1,23 @@
 import Navbar from "@/src/components/Navbar";
 import "../globals.css";
-import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 // import { GoogleAnalytics } from '@next/third-parties/google'
-import CookieBanner from "@/src/components/CookieBanner";
 import type { Metadata } from "next";
 import Script from "next/script";
-import OptimizedAnalytics from "@/src/components/OptimizedAnalytics";
 import LazyGTM from "@/src/components/LazyGTM";
+import dynamic from "next/dynamic";
+import OptimizedAnalytics from "@/src/components/OptimizedAnalytics";
 
 export const metadata: Metadata = {
   verification: {
     google: "-7cFxBAdCIEchqn2aKZKT8_-tU0ujtRcK_QTaviHnN4",
   },
 };
+
+const ToastContainer = dynamic(
+  () => import("react-toastify").then((m) => m.ToastContainer)
+);
+const CookieBanner = dynamic(() => import("@/src/components/CookieBanner"));
 
 export default function RootLayout({
   children,

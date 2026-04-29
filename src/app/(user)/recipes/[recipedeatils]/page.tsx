@@ -4,13 +4,15 @@ import axios from "axios";
 import Image from "next/image";
 import BackButton from "@/src/components/BackButton";
 import { auth } from "@/auth";
-import RecipeDelete from "@/src/components/DeleteData";
-import UpdateRecipe from "@/src/components/UpdateRecipe";
 import { Suspense } from "react";
 import Loading from "../../blogs/loading";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const RecipeDelete = dynamic(() => import("@/src/components/DeleteData"));
+const UpdateRecipe = dynamic(() => import("@/src/components/UpdateRecipe"));
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -149,13 +151,11 @@ async function page(props: recipeDetails) {
     };
     return (
       <Suspense fallback={<Loading />}>
-        <Script
-          strategy="beforeInteractive"
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeSchema) }}
         />
-        <Script
-          strategy="beforeInteractive"
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />

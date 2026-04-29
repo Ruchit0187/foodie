@@ -99,17 +99,15 @@ async function Blog() {
 
   return (
     <>
-      <Script
+      <script
         id="blog-collectionPageSchema"
-        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(collectionPageSchema),
         }}
       />
-      <Script
+      <script
         id="blog-breadcrumbSchema"
-        strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),

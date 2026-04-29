@@ -17,13 +17,14 @@ const BlogCard = ({
   blogvalue,
   index,
   sessionData,
+  isMobile,
 }: {
   blogvalue: blogData;
   index: number;
   sessionData: any;
+  isMobile: boolean;
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const matches = useMediaQuery("(max-width: 640px)");
 
   return (
     <li
@@ -47,7 +48,7 @@ const BlogCard = ({
             alt={blogvalue.name}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             loading={
-              matches
+              isMobile
                 ? index < 1
                   ? "eager"
                   : "lazy"
@@ -56,7 +57,7 @@ const BlogCard = ({
                   : "lazy"
             }
             fetchPriority={
-              matches
+              isMobile
                 ? index < 1
                   ? "high"
                   : "low"
@@ -99,6 +100,7 @@ const BlogCard = ({
 };
 
 function BlogData({ blogData }: { blogData: blogData[] }) {
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const [moreData, setMoreData] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
   const [previousBlogData, setPreviousBlogData] =
@@ -178,6 +180,7 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
               blogvalue={blogvalue}
               index={index}
               sessionData={sessionData}
+              isMobile={isMobile}
             />
           ))}
         </ul>

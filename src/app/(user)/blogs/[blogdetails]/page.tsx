@@ -1,15 +1,16 @@
 import { auth } from "@/auth";
-import DeleteData from "@/src/components/DeleteData";
-import BackButton from "@/src/components/BackButton";
-import UpdateBlog from "@/src/components/UpdateBlog";
 import { blogData } from "@/src/types";
+import BackButton from "@/src/components/BackButton";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Loading from "../loading";
 import type { Metadata } from "next";
-
 import BlogTracker from "@/src/components/BlogTracker";
+import dynamic from "next/dynamic";
+
+const DeleteData = dynamic(() => import("@/src/components/DeleteData"));
+const UpdateBlog = dynamic(() => import("@/src/components/UpdateBlog"));
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
