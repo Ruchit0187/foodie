@@ -51,6 +51,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/recipes`}
+                prefetch={false}
                 className={`${pathURL.includes("/recipes") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}
               >
                 Recipes
@@ -58,6 +59,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
+                prefetch={false}
                 href={`/blogs`}
                 className={`${pathURL.includes("/blogs") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}
               >
@@ -66,6 +68,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
+                prefetch={false}
                 href={`/aboutus`}
                 className={` ${pathURL.includes("/aboutus") ? "underline" : ""} block py-2 px-3 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0`}
               >

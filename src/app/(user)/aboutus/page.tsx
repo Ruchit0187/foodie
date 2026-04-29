@@ -81,71 +81,87 @@ async function Aboutus() {
   return (
     <>
       <div className="text-gray-800">
-        <section className="bg-linear-to-r from-orange-500 to-green-500 text-white text-center py-20 px-4">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-orange-500 to-green-500 text-white text-center py-20 px-4 min-h-[300px] flex flex-col justify-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">About Foodie</h1>
           <p className="text-lg md:text-xl">
             Delivering happiness, one bite at a time
           </p>
         </section>
-        <section className="p-5">
+
+        {/* About Section */}
+        <section className="p-5 max-w-6xl mx-auto min-h-[300px]">
           <div>
             <h2 className="text-3xl font-semibold mb-4">Who We Are</h2>
-            <p className="text-gray-600 mb-4">
+
+            <p className="text-gray-600 mb-4 leading-relaxed">
               Foodie is a modern food delivery platform created for people who
               love delicious food and fast service. We connect you with local
               favorites and top-rated restaurants.
             </p>
-            <p className="text-gray-600 mb-6">
+
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Our mission is simple — make food ordering effortless, enjoyable,
               and reliable. From quick snacks to family meals, Foodie delivers
               happiness to your doorstep.
             </p>
-            <div className="flex gap-8">
-              <div>
-                <h3 className="text-2xl font-bold text-orange-500">10K+</h3>
-                <span className="text-sm text-gray-500">Happy Customers</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-orange-500">500+</h3>
-                <span className="text-sm text-gray-500">Restaurants</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-orange-500">30 min</h3>
-                <span className="text-sm text-gray-500">Avg Delivery</span>
-              </div>
+
+            {/* Stats with fixed layout */}
+            <div className="flex gap-8 flex-wrap">
+              {[
+                { value: "10K+", label: "Happy Customers" },
+                { value: "500+", label: "Restaurants" },
+                { value: "30 min", label: "Avg Delivery" },
+              ].map((item, i) => (
+                <div key={i} className="w-30">
+                  <h3 className="text-2xl font-bold text-orange-500">
+                    {item.value}
+                  </h3>
+                  <span className="text-sm text-gray-500 block">
+                    {item.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
+        {/* Features Section */}
         <section className="bg-gray-50 py-16 px-4">
           <h2 className="text-3xl font-semibold text-center mb-12">
             Why Choose Foodie
           </h2>
+
           <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold mb-2">Quality Food</h3>
-              <p className="text-gray-600">
-                We partner with trusted restaurants to ensure quality meals.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold mb-2"> Fast Delivery</h3>
-              <p className="text-gray-600">
-                Quick and reliable delivery you can count on.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold mb-2"> Customer First</h3>
-              <p className="text-gray-600">
-                Your satisfaction is always our top priority.
-              </p>
-            </div>
+            {[
+              {
+                title: "Quality Food",
+                desc: "We partner with trusted restaurants to ensure quality meals.",
+              },
+              {
+                title: "Fast Delivery",
+                desc: "Quick and reliable delivery you can count on.",
+              },
+              {
+                title: "Customer First",
+                desc: "Your satisfaction is always our top priority.",
+              },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="bg-white p-6 rounded-2xl shadow transition min-h-[140px] flex flex-col justify-start"
+              >
+                <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
+                <p className="text-gray-600">{card.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
       </div>
       <Script
         id="aboutPageSchema"
         strategy="beforeInteractive"
+        async={true}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
@@ -153,6 +169,7 @@ async function Aboutus() {
       <Script
         type="application/ld+json"
         strategy="beforeInteractive"
+        async={true}
         id="breadcrumbSchema"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
