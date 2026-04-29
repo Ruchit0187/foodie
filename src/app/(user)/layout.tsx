@@ -7,7 +7,8 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import CookieBanner from "@/src/components/CookieBanner";
 import type { Metadata } from "next";
 import Script from "next/script";
-
+import OptimizedAnalytics from "@/src/components/OptimizedAnalytics";
+import { LazyGTM } from "@/src/components/LazyGTM";
 
 export const metadata: Metadata = {
   verification: {
@@ -23,8 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* <GoogleAnalytics gaId="G-XQ5SK1MQCP" /> */}
-      <Script id="google-consent-mode" strategy="afterInteractive">
-        {`
+
+      <body className="antialiased">
+        <Script id="google-consent-mode" strategy="beforeInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             
@@ -42,16 +45,16 @@ export default function RootLayout({
               'wait_for_update': 500
             });
           `}
-      </Script>
-      <body className="antialiased">
+        </Script>
         <SessionProvider>
-          <CookieBanner />
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}
         </SessionProvider>
+        <CookieBanner />
+        <OptimizedAnalytics />
+        <LazyGTM gtmId="GTM-MTT2R75T" />
       </body>
-      <GoogleTagManager gtmId="GTM-MTT2R75T"  />
     </html>
   );
 }
