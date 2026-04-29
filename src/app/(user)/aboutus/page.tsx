@@ -81,14 +81,12 @@ async function Aboutus() {
   return (
     <>
       <Script
-        strategy="lazyOnload"
         id="aboutPageSchema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
    
       <Script
-        strategy="lazyOnload"
         type="application/ld+json"
         id="breadcrumbSchema"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
