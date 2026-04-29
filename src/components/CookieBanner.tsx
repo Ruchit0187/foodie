@@ -27,11 +27,11 @@ export default function CookieBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-[9999] flex flex-col md:flex-row items-center justify-between gap-4 rounded-2xl bg-white/80 p-6 shadow-2xl backdrop-blur-md border border-white/20 animate-in fade-in slide-in-from-bottom-8 duration-500 max-w-5xl mx-auto">
+    <div className="fixed bottom-4 left-4 right-4 z-9999 flex flex-col md:flex-row items-center justify-between gap-4 rounded-2xl bg-white/80 p-6 shadow-2xl backdrop-blur-md border border-white/20 animate-in fade-in slide-in-from-bottom-8 duration-500 max-w-5xl mx-auto">
       <div className="flex-1">
         <h3 className="text-lg font-bold text-gray-900 mb-1">Cookie Settings</h3>
         <p className="text-sm text-gray-600 leading-relaxed">
-          We use cookies to enhance your experience and analyze our traffic. By clicking "Accept All", you consent to our use of cookies for analytics and personalized ads.
+          We use cookies to enhance your experience and analyze our traffic. By clicking &quot;Accept All&quot;, you consent to our use of cookies for analytics and personalized ads.
         </p>
       </div>
       <div className="flex items-center gap-3 w-full md:w-auto">

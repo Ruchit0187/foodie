@@ -1,14 +1,13 @@
 "use client";
-import { Modal } from "antd";
 import { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaUser ,FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import { Session } from "next-auth";
 import fetchUserData from "../function/fetchUserData";
 import { userData } from "../types";
 import SignoutButton from "./Signout";
-
+import dynamic from "next/dynamic";
+const Modal =dynamic(() => import("antd").then((mod) => mod.Modal),{ssr:false});
 function Profile({ sessionValue }: { sessionValue: Session | undefined }) {
   const [open, setOpen] = useState<boolean>(false);
   const [userNewData, setUserNewData] = useState<userData>();

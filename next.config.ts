@@ -11,6 +11,7 @@ const nextConfig = {
   },
   experimental: {
     globalNotFound: true,
+    optimizePackageImports: ["antd"],
   },
   async headers() {
     return [
@@ -20,6 +21,7 @@ const nextConfig = {
       },
     ];
   },
+
   trailingSlash: false,
   // htmlLimitedBots: /.*/,
 };
