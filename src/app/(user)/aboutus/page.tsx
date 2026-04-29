@@ -82,6 +82,7 @@ async function Aboutus() {
     <>
       <Script
         strategy="beforeInteractive"
+        id="aboutPageSchema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
@@ -89,6 +90,7 @@ async function Aboutus() {
       <Script
         strategy="beforeInteractive"
         type="application/ld+json"
+        id="breadcrumbSchema"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="text-gray-800">
