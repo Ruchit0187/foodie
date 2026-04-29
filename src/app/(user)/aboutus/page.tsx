@@ -80,17 +80,6 @@ async function Aboutus() {
 
   return (
     <>
-      <Script
-        id="aboutPageSchema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
-      />
-   
-      <Script
-        type="application/ld+json"
-        id="breadcrumbSchema"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
       <div className="text-gray-800">
         <section className="bg-linear-to-r from-orange-500 to-green-500 text-white text-center py-20 px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">About Foodie</h1>
@@ -154,6 +143,19 @@ async function Aboutus() {
           </div>
         </section>
       </div>
+      <Script
+        id="aboutPageSchema"
+        strategy="beforeInteractive"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
+      />
+
+      <Script
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        id="breadcrumbSchema"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
     </>
   );
 }
