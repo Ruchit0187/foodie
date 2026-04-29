@@ -1,13 +1,8 @@
-// ✅ Fix — delay GTM until user interaction (best mobile TBT fix)
-// Replace GoogleTagManager component with this:
-
 "use client";
 import { useEffect } from "react";
 
-export function LazyGTM({ gtmId }: { gtmId: string }) {
+export default function LazyGTM({ gtmId }: { gtmId: string }) {
   useEffect(() => {
-    // ✅ Load GTM only after first user interaction
-    // on mobile this dramatically reduces TBT
     const load = () => {
       if ((window as any).__gtmLoaded) return;
       (window as any).__gtmLoaded = true;

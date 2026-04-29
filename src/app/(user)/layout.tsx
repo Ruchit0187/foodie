@@ -7,7 +7,7 @@ import CookieBanner from "@/src/components/CookieBanner";
 import type { Metadata } from "next";
 import Script from "next/script";
 import OptimizedAnalytics from "@/src/components/OptimizedAnalytics";
-import { LazyGTM } from "@/src/components/LazyGTM";
+import LazyGTM from "@/src/components/LazyGTM";
 
 export const metadata: Metadata = {
   verification: {

@@ -3,7 +3,7 @@ import Script from "next/script";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
-
+export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "About Us | Our Mission to Deliver Happiness - Foodie",
   description:
@@ -90,7 +90,7 @@ async function Aboutus() {
         </section>
 
         {/* About Section */}
-        <section className="p-5 max-w-6xl mx-auto min-h-[300px]">
+        <section className="p-5 max-w-6xl mx-auto min-h-75">
           <div>
             <h2 className="text-3xl font-semibold mb-4">Who We Are</h2>
 
@@ -149,7 +149,7 @@ async function Aboutus() {
             ].map((card, i) => (
               <div
                 key={i}
-                className="bg-white p-6 rounded-2xl shadow transition min-h-[140px] flex flex-col justify-start"
+                className="bg-white p-6 rounded-2xl shadow transition min-h-35 flex flex-col justify-start"
               >
                 <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
                 <p className="text-gray-600">{card.desc}</p>

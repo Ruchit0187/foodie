@@ -1,11 +1,14 @@
 "use client";
 import { useEffect } from "react";
-import { inject } from "@vercel/analytics";
-import { injectSpeedInsights } from "@vercel/speed-insights";
+
+// ✅ Lazy load the heavy Vercel libs only when browser is idle
+const loadAnalytics = () => Promise.all([
+  import("@vercel/analytics").then(m => m.inject),
+  import("@vercel/speed-insights").then(m => m.injectSpeedInsights),
+]);
 
 export default function OptimizedAnalytics() {
   useEffect(() => {
-    // This hook waits for the browser to be idle before loading analytics
     const idleCallback =
       window.requestIdleCallback ||
       ((cb: IdleRequestCallback) => {
@@ -21,8 +24,11 @@ export default function OptimizedAnalytics() {
       });
 
     idleCallback(() => {
-      inject();
-      injectSpeedInsights();
+      // ✅ Dynamic import happens here — zero bundle cost on initial load
+      loadAnalytics().then(([inject, injectSpeedInsights]) => {
+        inject();
+        injectSpeedInsights();
+      });
     });
   }, []);
 
