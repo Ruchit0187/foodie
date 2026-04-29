@@ -2,13 +2,12 @@ import Navbar from "@/src/components/Navbar";
 import "../globals.css";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
 // import { GoogleAnalytics } from '@next/third-parties/google'
 import { GoogleTagManager } from "@next/third-parties/google";
 import CookieBanner from "@/src/components/CookieBanner";
 import type { Metadata } from "next";
 import Script from "next/script";
+import OptimizedAnalytics from "@/src/components/OptimizedAnalytics";
 
 export const metadata: Metadata = {
   verification: {
@@ -24,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* <GoogleAnalytics gaId="G-XQ5SK1MQCP" /> */}
-      <Script id="google-consent-mode" strategy="beforeInteractive">
+      <Script id="google-consent-mode" strategy="afterInteractive">
         {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -50,11 +49,10 @@ export default function RootLayout({
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}
-          <Analytics   />
-          <SpeedInsights />
+          <OptimizedAnalytics />
         </SessionProvider>
       </body>
-      <GoogleTagManager gtmId="GTM-MTT2R75T" />
+      <GoogleTagManager gtmId="GTM-MTT2R75T"  />
     </html>
   );
 }
