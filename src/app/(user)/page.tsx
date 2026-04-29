@@ -106,11 +106,13 @@ function HomePage() {
   return (
     <>
       <Script
+       id="homepage-websiteSchema"
         strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
       <Script
+      id="homepage-breadcrumbSchema"
         strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
