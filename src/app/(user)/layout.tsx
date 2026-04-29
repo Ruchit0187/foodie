@@ -23,9 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       {/* <GoogleAnalytics gaId="G-XQ5SK1MQCP" /> */}
-       <Script id="google-consent-mode" strategy="beforeInteractive">
-          {`
+      {/* <GoogleAnalytics gaId="G-XQ5SK1MQCP" /> */}
+      <Script id="google-consent-mode" strategy="beforeInteractive">
+        {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             
@@ -43,15 +43,15 @@ export default function RootLayout({
               'wait_for_update': 500
             });
           `}
-        </Script>
+      </Script>
       <body className="antialiased">
         <SessionProvider>
           <CookieBanner />
           <Navbar />
           <ToastContainer autoClose={2000} />
-          <SpeedInsights />
-          <Analytics />
           {children}
+          <Analytics   />
+          <SpeedInsights />
         </SessionProvider>
       </body>
       <GoogleTagManager gtmId="GTM-MTT2R75T" />
