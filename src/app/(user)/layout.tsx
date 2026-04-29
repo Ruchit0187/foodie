@@ -7,7 +7,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import CookieBanner from "@/src/components/CookieBanner";
 import type { Metadata } from "next";
 import Script from "next/script";
-import OptimizedAnalytics from "@/src/components/OptimizedAnalytics";
+
 
 export const metadata: Metadata = {
   verification: {
@@ -49,7 +49,6 @@ export default function RootLayout({
           <Navbar />
           <ToastContainer autoClose={2000} />
           {children}
-          <OptimizedAnalytics />
         </SessionProvider>
       </body>
       <GoogleTagManager gtmId="GTM-MTT2R75T"  />
