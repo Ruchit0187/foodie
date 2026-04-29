@@ -51,7 +51,7 @@ export const blogDataFetch = async (limit: number) => {
   try {
     const blogResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`,
-      { cache: "no-store" },
+      { next: { revalidate: 7200 } },
     );
     if (!blogResponse.ok) return notFound();
     const blogDataValue = await blogResponse.json();
@@ -97,11 +97,10 @@ async function Blog() {
     ],
   };
 
-
-
   return (
     <>
       <Script
+        id="blog-collectionPageSchema"
         strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -109,13 +108,14 @@ async function Blog() {
         }}
       />
       <Script
+        id="blog-breadcrumbSchema"
         strategy="beforeInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      
+
       <BlogData blogData={blogValue} />
     </>
   );
