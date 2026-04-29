@@ -3,7 +3,6 @@ import "../globals.css";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 // import { GoogleAnalytics } from '@next/third-parties/google'
-import { GoogleTagManager } from "@next/third-parties/google";
 import CookieBanner from "@/src/components/CookieBanner";
 import type { Metadata } from "next";
 import Script from "next/script";
