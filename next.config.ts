@@ -23,7 +23,6 @@ const nextConfig = {
         source: "/api/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
-
       {
         source: "/_next/static/:path*",
         headers: [
@@ -40,6 +39,15 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/(blogs|recipes|aboutus)/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=60, must-revalidate",
           },
         ],
       },
