@@ -1,13 +1,12 @@
 "use client";
-import LoadingLoader from "@/src/components/Loading";
-import fetchUserData from "@/src/function/fetchUserData";
-import { userData } from "@/src/types";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-
+import type { userData } from "@/src/types";
+import fetchUserData from "@/src/function/fetchUserData";
+import LoadingLoader from "@/src/components/Loading";
 function NameUpdate() {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState<string>(session?.user.name!);

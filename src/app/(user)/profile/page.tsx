@@ -1,7 +1,7 @@
+import type { Metadata } from "next";
 import { auth } from "@/auth";
 import UpdateProfile from "@/src/components/UpdateProfile";
 import fetchUserData from "@/src/function/fetchUserData";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "My Profile",

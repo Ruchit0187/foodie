@@ -1,13 +1,19 @@
 "use client";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import axios from "axios";
 import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import LoadingLoader from "./Loading";
+const FcGoogle = dynamic(() =>
+  import("react-icons/fc").then((mod) => mod.FcGoogle),
+);
+const IoEye = dynamic(() => import("react-icons/io5").then((mod) => mod.IoEye));
+const IoEyeOffSharp = dynamic(() =>
+  import("react-icons/io5").then((mod) => mod.IoEyeOffSharp),
+);
 interface formData {
   name: string;
   email: string;

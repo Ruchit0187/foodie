@@ -1,6 +1,6 @@
-import Signup from "@/src/components/Signup";
 import Link from "next/link";
 import type { Metadata } from "next";
+import Signup from "@/src/components/Signup";
 
 export const metadata: Metadata = {
   title: "Create Your Foodie Account",

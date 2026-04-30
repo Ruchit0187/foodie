@@ -1,11 +1,17 @@
 "use client";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+const IoEye = dynamic(() =>
+  import("react-icons/io5").then((mod) => mod.IoEye)
+);
+const IoEyeOffSharp = dynamic(() =>
+  import("react-icons/io5").then((mod) => mod.IoEyeOffSharp)
+);
 
 interface IResetPassword {
   email: string;

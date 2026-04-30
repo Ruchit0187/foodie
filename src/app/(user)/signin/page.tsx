@@ -1,5 +1,5 @@
-import Signin from "@/src/components/Signin";
 import type { Metadata } from "next";
+import Signin from "@/src/components/Signin";
 
 export const metadata: Metadata = {
   title: "Sign In to Foodie",

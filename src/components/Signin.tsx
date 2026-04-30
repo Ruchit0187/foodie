@@ -1,16 +1,23 @@
 "use client";
+import { useState } from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 import axios from "axios";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { IoEye } from "react-icons/io5";
-import { IoEyeOffSharp } from "react-icons/io5";
-import OtpVerify from "./OtpVerify";
-import Link from "next/link";
-import { authSignin } from "../types";
+import type { authSignin } from "../types";
 import LoadingLoader from "./Loading";
+const OtpVerify = dynamic(() => import("./OtpVerify"));
+const FcGoogle = dynamic(() =>
+  import("react-icons/fc").then((mod) => mod.FcGoogle)
+);
+const IoEye = dynamic(() =>
+  import("react-icons/io5").then((mod) => mod.IoEye)
+);
+const IoEyeOffSharp = dynamic(() =>
+  import("react-icons/io5").then((mod) => mod.IoEyeOffSharp)
+);
 interface Isignin {
   email: string;
   password: string;

@@ -1,6 +1,6 @@
-import ResetPassword from "@/src/components/ResetPassword";
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
+import ResetPassword from "@/src/components/ResetPassword";
 
 export const metadata: Metadata = {
   title: "Reset Password",

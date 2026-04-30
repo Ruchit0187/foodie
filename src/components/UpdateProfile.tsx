@@ -1,7 +1,7 @@
 "use client";
-import { userData } from "../types";
-import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
+import type { Session } from "next-auth";
+import type { userData } from "../types";
 
 function UpdateProfile({
   userData,

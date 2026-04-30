@@ -1,12 +1,12 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
-import Profile from "./Profile";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import AuthLoading from "./AuthLoading";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import Profile from "./Profile";
+import AuthLoading from "./AuthLoading";
 
 export default function Navbar() {
   const { data: session, status } = useSession();

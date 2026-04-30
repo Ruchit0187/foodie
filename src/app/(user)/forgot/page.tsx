@@ -1,5 +1,5 @@
-import ForgotPassword from "@/src/components/ForgotPassword";
 import type { Metadata } from "next";
+import ForgotPassword from "@/src/components/ForgotPassword";
 
 export const metadata: Metadata = {
   title: "Forgot Password",
