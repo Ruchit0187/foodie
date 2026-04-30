@@ -1,20 +1,17 @@
-// 1️⃣ REACT CORE
 import { Suspense } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { IoMdTime } from "react-icons/io";
+import type { recipeDataTypes } from "@/src/types";
 import { auth } from "@/auth";
-import { recipeDataTypes } from "@/src/types";
 import BackButton from "@/src/components/BackButton";
 import Loading from "@/src/app/(user)/blogs/loading";
 const RecipeDelete = dynamic(() => import("@/src/components/DeleteData"));
 const UpdateRecipe = dynamic(() => import("@/src/components/UpdateRecipe"));
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
 }
@@ -89,44 +86,9 @@ async function page(props: recipeDetails) {
 
     const recipeSchema = {
       "@context": "https://schema.org",
-      "@type": "Recipe",
+      "@type": "Website",
+      url: `${BASE_URL}/recipes`,
       name: recipeData.name,
-      image: String(recipeData.image),
-      description: `A ${recipeData.difficulty} ${recipeData.category} recipe with ${recipeData.ingredients.length} ingredients, ready in ${recipeData.cookingTimeMinutes} minutes.`,
-      cookTime: `PT${recipeData.cookingTimeMinutes}M`,
-      prepTime: `PT${Math.max(5, Math.round(recipeData.cookingTimeMinutes * 0.3))}M`,
-      totalTime: `PT${recipeData.cookingTimeMinutes + Math.max(5, Math.round(recipeData.cookingTimeMinutes * 0.3))}M`,
-      recipeCategory: recipeData.category,
-      recipeCuisine: "Indian",
-      recipeIngredient: recipeData.ingredients.map(
-        (ing) => `${ing.quantity} ${ing.name}`,
-      ),
-      recipeYield: "2-4 servings",
-      author: {
-        "@type": "Organization",
-        name: "Foodie",
-        url: BASE_URL,
-      },
-      publisher: {
-        "@type": "Organization",
-        name: "Foodie",
-        url: BASE_URL,
-        logo: {
-          "@type": "ImageObject",
-          url: `${BASE_URL}/foodielogo.png`,
-        },
-      },
-      nutrition: {
-        "@type": "NutritionInformation",
-        servingSize: "1 serving",
-      },
-      suitableForDiet:
-        recipeData.category === "vegetarian"
-          ? "https://schema.org/VegetarianDiet"
-          : recipeData.category === "vegan"
-            ? "https://schema.org/VeganDiet"
-            : undefined,
-      keywords: `${recipeData.name}, ${recipeData.category}, ${recipeData.difficulty}, recipe, foodie`,
     };
     const breadcrumbSchema = {
       "@context": "https://schema.org",
@@ -177,6 +139,7 @@ async function page(props: recipeDetails) {
                     className="object-cover object-center rounded-lg h-95 w-full max-[950px]:w-full"
                     alt={recipeData.name}
                     fetchPriority="high"
+                    decoding="sync"
                     loading="eager"
                     quality={80}
                   />
