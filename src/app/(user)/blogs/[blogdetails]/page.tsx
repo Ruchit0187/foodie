@@ -1,19 +1,17 @@
-import { auth } from "@/auth";
-import { blogData } from "@/src/types";
-import BackButton from "@/src/components/BackButton";
-import Image from "next/image";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import Loading from "../loading";
-import type { Metadata } from "next";
-import BlogTracker from "@/src/components/BlogTracker";
+import Image from "next/image";
 import dynamic from "next/dynamic";
-
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { auth } from "@/auth";
+import type { blogData } from "@/src/types";
+import BackButton from "@/src/components/BackButton";
+import Loading from "../loading";
+import BlogTracker from "@/src/components/BlogTracker";
 const DeleteData = dynamic(() => import("@/src/components/DeleteData"));
 const UpdateBlog = dynamic(() => import("@/src/components/UpdateBlog"));
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 interface blogProps {
   params: Promise<{ blogdetails: string }>;
@@ -87,26 +85,11 @@ async function BlogDetails(props: blogProps) {
 
   const blogPostingSchema = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": "Website",
     headline: blogJsonData.name,
+    url: `${BASE_URL}/blogs/${blogdetails}`,
     description:
       blogJsonData.quick_summary || blogJsonData.description?.substring(0, 160),
-    image: blogJsonData.image,
-    datePublished: new Date(blogJsonData.date).toISOString(),
-    dateModified: new Date(blogJsonData.date).toISOString(),
-    author: { "@type": "Organization", name: "Foodie", url: BASE_URL },
-    publisher: {
-      "@type": "Organization",
-      name: "Foodie",
-      url: BASE_URL,
-      logo: { "@type": "ImageObject", url: `${BASE_URL}/foodielogo.png` },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${BASE_URL}/blogs/${blogdetails}`,
-    },
-    articleSection: blogJsonData.category,
-    keywords: [blogJsonData.name, blogJsonData.category, "food blog", "foodie"],
   };
 
   const breadcrumbSchema = {
@@ -199,9 +182,7 @@ async function BlogDetails(props: blogProps) {
               </div>
 
               <div className="rounded-2xl">
-                  <span className="text-2xl font-bold underline">
-                    BeneFits:
-                  </span>
+                <span className="text-2xl font-bold underline">BeneFits:</span>
                 <ul>
                   {blogJsonData.health_benefits.map((value, index) => (
                     <li key={index}>{value}</li>
