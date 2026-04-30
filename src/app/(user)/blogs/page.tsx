@@ -1,7 +1,6 @@
 import BlogData from "@/src/components/BlogData";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 export const dynamic = "force-dynamic";
 

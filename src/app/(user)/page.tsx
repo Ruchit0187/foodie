@@ -106,25 +106,23 @@ function HomePage() {
   return (
     <>
       <Script
-       id="homepage-websiteSchema"
-        strategy="beforeInteractive"
+        id="homepage-websiteSchema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
       <Script
-      id="homepage-breadcrumbSchema"
-        strategy="beforeInteractive"
+        id="homepage-breadcrumbSchema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="relative w-full h-[87vh]">
         <Image
-          src="/homepage.jpg"
+          src="/homepage.webp"
           alt="Foodie – Discover Recipes, Food Blogs & Local Flavors"
           fill
           className="object-cover"
           sizes="100vw"
-          priority
+          priority={true}
           fetchPriority="high"
           quality={85}
         />
@@ -134,6 +132,7 @@ function HomePage() {
             <p>
               <Link
                 href="/recipes"
+                prefetch={false}
                 className="text-xl sm:text-2xl font-semibold hover:text-orange-600 transition"
               >
                 Go to Recipes
@@ -142,6 +141,7 @@ function HomePage() {
             <p>
               <Link
                 href="/blogs"
+                prefetch={false}
                 className="text-xl sm:text-2xl font-semibold hover:text-orange-600 transition"
               >
                 Go to Blogs
