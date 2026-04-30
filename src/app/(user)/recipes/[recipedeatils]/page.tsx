@@ -5,9 +5,8 @@ import Image from "next/image";
 import BackButton from "@/src/components/BackButton";
 import { auth } from "@/auth";
 import { Suspense } from "react";
-import Loading from "../../blogs/loading";
+import Loading from "@/src/app/(user)/blogs/loading";
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -153,10 +152,12 @@ async function page(props: recipeDetails) {
       <Suspense fallback={<Loading />}>
         <script
           type="application/ld+json"
+          id="recipe-schema"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeSchema) }}
         />
         <script
           type="application/ld+json"
+          id="recipe-breadcrumb"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
         <div className="flex flex-col bg-blue-100 mt-2.5 mx-3 rounded-3xl shadow-sm p-5">
