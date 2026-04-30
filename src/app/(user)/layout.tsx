@@ -1,11 +1,11 @@
-import Navbar from "@/src/components/Navbar";
 import "../globals.css";
-import { SessionProvider } from "next-auth/react";
-// import { GoogleAnalytics } from '@next/third-parties/google'
-import type { Metadata } from "next";
 import Script from "next/script";
-import LazyGTM from "@/src/components/LazyGTM";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+import Navbar from "@/src/components/Navbar";
+// import { GoogleAnalytics } from '@next/third-parties/google'
+import LazyGTM from "@/src/components/LazyGTM";
 const ToastContainer = dynamic(() =>
   import("react-toastify").then((toast) => toast.ToastContainer),
 );
