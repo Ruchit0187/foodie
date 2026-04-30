@@ -137,6 +137,7 @@ async function BlogDetails(props: blogProps) {
                   alt={blogJsonData.name}
                   fetchPriority="high"
                   loading="eager"
+                  decoding="sync"
                   quality={80}
                 />
               </div>
