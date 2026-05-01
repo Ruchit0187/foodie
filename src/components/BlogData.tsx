@@ -7,7 +7,6 @@ import type { blogData } from "../types";
 import { useInView } from "react-intersection-observer";
 import { useDebounceCallback } from "usehooks-ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import SkeletonEffect from "./Skeleton";
 import Loading from "./Loading";
 const Datanot = dynamic(() => import("./Datanot"), { ssr: false });
@@ -29,7 +28,11 @@ const BlogCard = ({
       className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
       key={String(blogvalue._id)}
     >
-      <Link href={`/blogs/${blogvalue._id}`} className="w-full">
+      <Link
+        href={`/blogs/${blogvalue._id}`}
+        className="w-full"
+        prefetch={false}
+      >
         <div className="relative grid w-full place-items-center rounded-lg p-6 lg:overflow-visible min-h-75">
           {!isLoaded && (
             <div className="absolute inset-0 z-10 flex items-center justify-center p-6">
@@ -84,14 +87,15 @@ const BlogCard = ({
 function BlogData({
   blogData,
   count,
+  session,
 }: {
   blogData: blogData[];
   count: number;
+  session: any;
 }) {
   const [searchInput, setSearchInput] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const debouncedSetSearch = useDebounceCallback(setSearch, 1000);
-  const { data: sessionData } = useSession();
   const { ref, inView } = useInView({ rootMargin: "200px" });
   const PAGE_SIZE = 6;
 
@@ -157,7 +161,7 @@ function BlogData({
               key={String(blogvalue._id)}
               blogvalue={blogvalue}
               index={index}
-              sessionData={sessionData}
+              sessionData={session}
             />
           ))}
         </ul>

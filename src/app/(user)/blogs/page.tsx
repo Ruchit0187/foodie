@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import type{ Metadata } from "next";
+import type { Metadata } from "next";
+import { auth } from "@/auth";
 import BlogData from "@/src/components/BlogData";
 
 export const dynamic = "force-dynamic";
@@ -60,6 +61,7 @@ export const blogDataFetch = async (limit: number) => {
 
 async function Blog() {
   const blogValue = await blogDataFetch(1);
+  const session = await auth();
 
   const collectionPageSchema = {
     "@context": "https://schema.org",
@@ -110,7 +112,11 @@ async function Blog() {
         }}
       />
 
-      <BlogData blogData={blogValue.blogData} count={blogValue.count} />
+      <BlogData
+        blogData={blogValue.blogData}
+        count={blogValue.count}
+        session={session}
+      />
     </>
   );
 }
