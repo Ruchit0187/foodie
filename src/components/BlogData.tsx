@@ -44,7 +44,7 @@ const BlogCard = ({
             height={250}
             alt={blogvalue.name}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={index < 3}
+            priority={index < 6}
             fetchPriority={index < 6 ? "high" : "low"}
             onLoad={() => setIsLoaded(true)}
           />
@@ -109,7 +109,7 @@ function BlogData({
         ? {
             pages: [
               {
-                blogData: blogData.slice(0, 6), 
+                blogData: blogData.slice(0, 6),
                 total: count,
               },
             ],
