@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import Navbar from "@/src/components/Navbar";
 // import { GoogleAnalytics } from '@next/third-parties/google'
 import LazyGTM from "@/src/components/LazyGTM";
+const QueryProvider = dynamic(() => import("@/src/components/QueryProvider"));
 const ToastContainer = dynamic(() =>
   import("react-toastify").then((toast) => toast.ToastContainer),
 );
@@ -25,11 +26,13 @@ export default function RootLayout({
     <html lang="en">
       {/* <GoogleAnalytics gaId="G-XQ5SK1MQCP" /> */}
       <body className="antialiased">
-        <SessionProvider>
-          <Navbar />
-          <ToastContainer autoClose={2000} />
-          {children}
-        </SessionProvider>
+        <QueryProvider>
+          <SessionProvider>
+            <Navbar />
+            <ToastContainer autoClose={2000} />
+            {children}
+          </SessionProvider>
+        </QueryProvider>
         <CookieBanner />
         <LazyGTM gtmId="GTM-MTT2R75T" />
         <Script id="google-consent-mode" strategy="beforeInteractive">

@@ -1,6 +1,5 @@
-import type { Metadata } from "next";
-import QueryProvider from "@/src/components/QueryProvider";
 import Script from "next/script";
+import type { Metadata } from "next";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
@@ -83,10 +82,11 @@ export default function DashboardLayout({
   };
 
   return (
-    <QueryProvider>
+    <>
       <Script
         type="application/ld+json"
         strategy="beforeInteractive"
+        id="recipe-collectionPageSchema"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(collectionPageSchema),
         }}
@@ -94,9 +94,10 @@ export default function DashboardLayout({
       <Script
         strategy="beforeInteractive"
         type="application/ld+json"
+        id="recipe-breadcrumbSchema"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {children}
-    </QueryProvider>
+    </>
   );
 }

@@ -2,7 +2,8 @@
 import Image from "next/image";
 import { blogData } from "../types";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import Loading from "./Loading";
 import { useDebounceCallback, useMediaQuery } from "usehooks-ts";
 import SkeletonEffect from "./Skeleton";
@@ -10,7 +11,7 @@ import Datanot from "./Datanot";
 import BookMark from "./BookMark";
 import LikeButton from "./LikeButton";
 import { useSession } from "next-auth/react";
-import { useRef } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 // Sub-component to handle individual blog item state and image loading
 const BlogCard = ({
@@ -99,67 +100,60 @@ const BlogCard = ({
   );
 };
 
-function BlogData({ blogData }: { blogData: blogData[] }) {
+function BlogData({
+  blogData,
+  count,
+}: {
+  blogData: blogData[];
+  count: number;
+}) {
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const [moreData, setMoreData] = useState<boolean>(true);
+  const [searchInput, setSearchInput] = useState<string>("");
   const [search, setSearch] = useState<string>("");
-  const [previousBlogData, setPreviousBlogData] =
-    useState<blogData[]>(blogData);
-  const [bottomValue, setBottomValue] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [limit, setLimit] = useState<number>(1);
-  const [hasEmptyBlogData, setHasEmptyBlogData] = useState<boolean>(false);
-  const debounce = useDebounceCallback(setSearch, 1000);
+  const debouncedSetSearch = useDebounceCallback(setSearch, 1000);
   const { data: sessionData } = useSession();
-  const isInitialMount = useRef(true);
-  const handleScroll = useCallback(() => {
-    const bottom =
-      window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight - 1;
-    if (bottom && moreData) {
-      setBottomValue(bottom);
-      setLimit((prev) => prev + 1);
-    }
-  }, [moreData]);
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  useEffect(() => {
-    // Skip the first fetch on mount because data is already provided by the server
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
+  const { ref, inView } = useInView({ rootMargin: "200px" });
+  const PAGE_SIZE = 6;
 
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetch(`/api/blogs?limit=${limit}&search=${search}`);
-        const blogJsonData = await data.json();
-        if (blogJsonData.length === 0) {
-          setHasEmptyBlogData(true);
-        } else {
-          setHasEmptyBlogData(false);
-        }
-        if (
-          blogJsonData.length === previousBlogData.length &&
-          blogJsonData.length !== 6
-        ) {
-          setMoreData(false);
-        }
-        setPreviousBlogData(blogJsonData);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [limit, search]);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteQuery({
+      queryKey: ["products-feed", search],
+      initialPageParam: 1,
+      queryFn: async ({ pageParam }) => {
+        const res = await fetch(
+          `/api/blogs?limit=${pageParam}&search=${search}`,
+        );
+        const json = await res.json();
+        return { blogData: json.blogData ?? [], total: json.count ?? 0 };
+      },
+      getNextPageParam: (lastPage, allPages) => {
+        const fetchedCount = allPages.flatMap((p) => p.blogData ?? []).length;
+        const total = lastPage.total;
+        if (total == null) return undefined;
+        return fetchedCount < total ? allPages.length + 1 : undefined;
+      },
+      initialData: !search
+        ? {
+            pages: [
+              {
+                blogData: blogData.slice(0, PAGE_SIZE), // ✅ only first 6 from SSR
+                total: count,
+              },
+            ],
+            pageParams: [1],
+          }
+        : undefined,
+      staleTime: 1000 * 60 * 5,
+    });
+
+  // 3. THE AUTOMATIC TRIGGER
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const allProducts = data?.pages.flatMap((page) => page.blogData ?? []) ?? [];
+  console.log("data", data);
   return (
     <div className="w-full mx-auto p-4 ">
       <div className="text-end mb-2">
@@ -167,14 +161,18 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
           type="text"
           className="py-2 px-2 text-black border-2 rounded-2xl"
           placeholder="Search Blog Details"
-          onChange={(event) => debounce(event.target.value)}
+          value={searchInput}
+          onChange={(event) => {
+            setSearchInput(event.target.value);
+            debouncedSetSearch(event.target.value);
+          }}
         />
       </div>
-      {hasEmptyBlogData ? (
+      {allProducts.length === 0 && !isLoading ? (
         <Datanot />
       ) : (
         <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
-          {previousBlogData?.map((blogvalue, index) => (
+          {allProducts.map((blogvalue, index) => (
             <BlogCard
               key={String(blogvalue._id)}
               blogvalue={blogvalue}
@@ -185,7 +183,8 @@ function BlogData({ blogData }: { blogData: blogData[] }) {
           ))}
         </ul>
       )}
-      {loading ? <Loading /> : null}
+      <div ref={ref} className="h-4" />
+      {(isLoading || isFetchingNextPage) && <Loading />}
     </div>
   );
 }

@@ -4,8 +4,7 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://foodie-nine-gold.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 
 export const metadata: Metadata = {
   title: "Foodie Blogs | Culinary Insights & Healthy Living",
@@ -50,7 +49,6 @@ export const blogDataFetch = async (limit: number) => {
   try {
     const blogResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`,
-      { next: { revalidate: 7200 } },
     );
     if (!blogResponse.ok) return notFound();
     const blogDataValue = await blogResponse.json();
@@ -95,7 +93,6 @@ async function Blog() {
       },
     ],
   };
-
   return (
     <>
       <script
@@ -113,7 +110,7 @@ async function Blog() {
         }}
       />
 
-      <BlogData blogData={blogValue} />
+      <BlogData blogData={blogValue.blogData} count={blogValue.count} />
     </>
   );
 }

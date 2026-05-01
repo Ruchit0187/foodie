@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { dbConnect } from "@/src/lib/dbConnect";
 import { Blogs } from "@/src/model/blogSchema";
+import { count } from "console";
 import { NextRequest, NextResponse } from "next/server";
-
 
 export async function GET(request: NextRequest) {
   await dbConnect();
@@ -12,21 +12,24 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search")?.trim();
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
-    const blogData = await Blogs.find(query).limit(6 * limit);
+    const blogData = await Blogs.find(query).skip((limit - 1) * 6).limit(6);
     // .skip(limit * 6 - 6);
-    return NextResponse.json(blogData, { status: 200 });
+    return NextResponse.json(
+      { blogData, count: await Blogs.countDocuments(query) },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
 export async function POST(request: NextRequest) {
-   const session = await auth();
-    if (session?.user?.isAdmin !== true) {
-      return NextResponse.json(
-        { error: "Normal User can not Update" },
-        { status: 401 },
-      );
-    }
+  const session = await auth();
+  if (session?.user?.isAdmin !== true) {
+    return NextResponse.json(
+      { error: "Normal User can not Update" },
+      { status: 401 },
+    );
+  }
   await dbConnect();
   try {
     const {
@@ -58,7 +61,7 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function DELETE(request: NextRequest) {
- const session = await auth();
+  const session = await auth();
   if (session?.user?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
@@ -81,7 +84,7 @@ export async function DELETE(request: NextRequest) {
   }
 }
 export async function PATCH(request: NextRequest) {
-   const session = await auth();
+  const session = await auth();
   if (session?.user?.isAdmin !== true) {
     return NextResponse.json(
       { error: "Normal User can not Update" },
