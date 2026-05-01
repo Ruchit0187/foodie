@@ -28,11 +28,7 @@ const BlogCard = ({
       className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
       key={String(blogvalue._id)}
     >
-      <Link
-        href={`/blogs/${blogvalue._id}`}
-        className="w-full"
-        prefetch={false}
-      >
+      <Link href={`/blogs/${blogvalue._id}`} className="w-full">
         <div className="relative grid w-full place-items-center rounded-lg p-6 lg:overflow-visible min-h-75">
           {!isLoaded && (
             <div className="absolute inset-0 z-10 flex items-center justify-center p-6">
@@ -53,31 +49,26 @@ const BlogCard = ({
             onLoad={() => setIsLoaded(true)}
           />
         </div>
-        <div className="flex flex-col">
-          <div className="flex items-center justify-between p-1.5">
-            <span>
-              <LikeButton
-                likes={blogvalue?.likes}
-                blogID={blogvalue?._id}
-                session={sessionData}
-              />
-            </span>
-            <span className="text-sm text-gray-600">
-              {new Date(blogvalue.date).toLocaleDateString("en-GB")}
-            </span>
-          </div>
-          <div className="flex justify-between items-center px-2">
-            <h1 className="p-1.5 text-left italic font-semibold text-xl line-clamp-1">
-              {blogvalue.name}
-            </h1>
-            <span className="mb-2.5">
-              <BookMark
-                blogID={blogvalue._id}
-                bookmarkValue={blogvalue.bookmark}
-                session={sessionData}
-              />
-            </span>
-          </div>
+
+        <div className="flex items-center justify-between p-1.5 h-15">
+          <LikeButton
+            likes={blogvalue?.likes}
+            blogID={blogvalue?._id}
+            session={sessionData}
+          />
+          <span className="text-sm text-gray-600">
+            {new Date(blogvalue.date).toLocaleDateString("en-GB")}
+          </span>
+        </div>
+        <div className="flex justify-between items-center px-2">
+          <h1 className="p-1.5 text-left italic font-semibold text-xl line-clamp-1">
+            {blogvalue.name}
+          </h1>
+          <BookMark
+            blogID={blogvalue._id}
+            bookmarkValue={blogvalue.bookmark}
+            session={sessionData}
+          />
         </div>
       </Link>
     </li>
@@ -97,8 +88,6 @@ function BlogData({
   const [search, setSearch] = useState<string>("");
   const debouncedSetSearch = useDebounceCallback(setSearch, 1000);
   const { ref, inView } = useInView({ rootMargin: "200px" });
-  const PAGE_SIZE = 6;
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["products-feed", search],
@@ -120,14 +109,15 @@ function BlogData({
         ? {
             pages: [
               {
-                blogData: blogData.slice(0, PAGE_SIZE), // ✅ only first 6 from SSR
+                blogData: blogData.slice(0, 6), 
                 total: count,
               },
             ],
             pageParams: [1],
           }
         : undefined,
-      staleTime: 1000 * 60 * 5,
+      staleTime: 0,
+      gcTime: 0,
     });
 
   // 3. THE AUTOMATIC TRIGGER
