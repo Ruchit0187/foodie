@@ -1,29 +1,26 @@
 "use client";
-import Image from "next/image";
-import { blogData } from "../types";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import type { blogData } from "../types";
 import { useInView } from "react-intersection-observer";
-import Loading from "./Loading";
-import { useDebounceCallback, useMediaQuery } from "usehooks-ts";
-import SkeletonEffect from "./Skeleton";
-import Datanot from "./Datanot";
-import BookMark from "./BookMark";
-import LikeButton from "./LikeButton";
-import { useSession } from "next-auth/react";
+import { useDebounceCallback } from "usehooks-ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
-
-// Sub-component to handle individual blog item state and image loading
+import { useSession } from "next-auth/react";
+import SkeletonEffect from "./Skeleton";
+import Loading from "./Loading";
+const Datanot = dynamic(() => import("./Datanot"), { ssr: false });
+const LikeButton = dynamic(() => import("./LikeButton"), { ssr: false });
+const BookMark = dynamic(() => import("./BookMark"), { ssr: false });
 const BlogCard = ({
   blogvalue,
   index,
   sessionData,
-  isMobile,
 }: {
   blogvalue: blogData;
   index: number;
   sessionData: any;
-  isMobile: boolean;
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -33,7 +30,7 @@ const BlogCard = ({
       key={String(blogvalue._id)}
     >
       <Link href={`/blogs/${blogvalue._id}`} className="w-full">
-        <div className="relative grid w-full place-items-center rounded-lg p-6 lg:overflow-visible min-h-[300px]">
+        <div className="relative grid w-full place-items-center rounded-lg p-6 lg:overflow-visible min-h-75">
           {!isLoaded && (
             <div className="absolute inset-0 z-10 flex items-center justify-center p-6">
               <SkeletonEffect />
@@ -48,24 +45,8 @@ const BlogCard = ({
             height={250}
             alt={blogvalue.name}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            loading={
-              isMobile
-                ? index < 1
-                  ? "eager"
-                  : "lazy"
-                : index < 3
-                  ? "eager"
-                  : "lazy"
-            }
-            fetchPriority={
-              isMobile
-                ? index < 1
-                  ? "high"
-                  : "low"
-                : index < 3
-                  ? "high"
-                  : "low"
-            }
+            priority={index < 3}
+            fetchPriority={index < 6 ? "high" : "low"}
             onLoad={() => setIsLoaded(true)}
           />
         </div>
@@ -107,7 +88,6 @@ function BlogData({
   blogData: blogData[];
   count: number;
 }) {
-  const isMobile = useMediaQuery("(max-width: 640px)");
   const [searchInput, setSearchInput] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const debouncedSetSearch = useDebounceCallback(setSearch, 1000);
@@ -178,7 +158,6 @@ function BlogData({
               blogvalue={blogvalue}
               index={index}
               sessionData={sessionData}
-              isMobile={isMobile}
             />
           ))}
         </ul>

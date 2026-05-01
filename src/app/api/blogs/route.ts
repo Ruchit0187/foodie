@@ -1,8 +1,7 @@
-import { auth } from "@/auth";
-import { dbConnect } from "@/src/lib/dbConnect";
-import { Blogs } from "@/src/model/blogSchema";
-import { count } from "console";
 import { NextRequest, NextResponse } from "next/server";
+import { dbConnect } from "@/src/lib/dbConnect";
+import { auth } from "@/auth";
+import { Blogs } from "@/src/model/blogSchema";
 
 export async function GET(request: NextRequest) {
   await dbConnect();
@@ -12,7 +11,9 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search")?.trim();
     const query: Record<string, any> = {};
     if (search) query.name = { $regex: search, $options: "i" };
-    const blogData = await Blogs.find(query).skip((limit - 1) * 6).limit(6);
+    const blogData = await Blogs.find(query)
+      .skip((limit - 1) * 6)
+      .limit(6);
     // .skip(limit * 6 - 6);
     return NextResponse.json(
       { blogData, count: await Blogs.countDocuments(query) },
