@@ -161,6 +161,7 @@ async function Aboutus() {
       <Script
         id="aboutPageSchema"
         async={true}
+        strategy="afterInteractive"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
@@ -169,6 +170,7 @@ async function Aboutus() {
         type="application/ld+json"
         async={true}
         id="breadcrumbSchema"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </>

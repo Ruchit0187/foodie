@@ -8,7 +8,6 @@ import { recipeDataTypes } from "@/src/types";
 import Loading from "../blogs/loading";
 import { useSession } from "next-auth/react";
 
-
 function RecipeDetails() {
   const [searchName, setSearchName] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");

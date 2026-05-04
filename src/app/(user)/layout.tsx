@@ -34,8 +34,8 @@ export default function RootLayout({
           </SessionProvider>
         </QueryProvider>
         <CookieBanner />
-        <LazyGTM gtmId="GTM-MTT2R75T" />
-        <Script id="google-consent-mode" strategy="beforeInteractive">
+        <LazyGTM/>
+        <Script id="google-consent-mode" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

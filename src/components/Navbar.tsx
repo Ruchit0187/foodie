@@ -34,6 +34,7 @@ export default function Navbar() {
             alt="logo image"
             className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20"
             fetchPriority="high"
+            loading="eager"
           />
           <span className="self-center text-xl sm:text-2xl text-heading font-semibold whitespace-nowrap">
             Foodie

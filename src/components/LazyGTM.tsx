@@ -1,14 +1,13 @@
 "use client";
 import { useEffect } from "react";
-
-export default function LazyGTM({ gtmId }: { gtmId: string }) {
+export default function LazyGTM() {
   useEffect(() => {
     const load = () => {
       if ((window as any).__gtmLoaded) return;
       (window as any).__gtmLoaded = true;
 
       const script = document.createElement("script");
-      script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+      script.src = "https://www.googletagmanager.com/gtm.js?id=GTM-MTT2R75T";
       script.async = true;
       document.head.appendChild(script);
     };
