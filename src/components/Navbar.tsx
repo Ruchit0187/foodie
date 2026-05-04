@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { FaUser } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Profile from "./Profile";
 import AuthLoading from "./AuthLoading";
-
+const FaUser = dynamic(() =>
+  import("react-icons/fa").then((mod) => mod.FaUser),
+);
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [adminStatus, setAdminStatus] = useState<boolean>(false);

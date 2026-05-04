@@ -1,10 +1,13 @@
 "use client";
-import { Modal } from "antd";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import axios from "axios";
+import { Modal } from "antd";
 import { toast } from "react-toastify";
+const MdDelete = dynamic(() =>
+  import("react-icons/md").then((mod) => mod.MdDelete),
+);
 import LoadingLoader from "./Loading";
 
 function DeleteData({
@@ -85,7 +88,7 @@ function DeleteData({
   };
   return (
     <>
-    {loading && (
+      {loading && (
         <div>
           <LoadingLoader cssClass="fixed inset-0 bg-black/30 z-9 h- flex items-center justify-center" />
         </div>

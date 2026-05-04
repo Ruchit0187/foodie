@@ -1,6 +1,6 @@
-import { Modal } from "antd";
-import Link from "next/link";
 import { MouseEvent, useState } from "react";
+import Link from "next/link";
+import { Modal } from "antd";
 import { FcLikePlaceholder } from "react-icons/fc";
 
 function LikePopUp() {
