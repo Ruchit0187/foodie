@@ -1,79 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import type { blogData } from "../types";
 import { useInView } from "react-intersection-observer";
 import { useDebounceCallback } from "usehooks-ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import SkeletonEffect from "./Skeleton";
 import Loading from "./Loading";
+import { BlogCard } from "./BlogCard";
 const Datanot = dynamic(() => import("./Datanot"), { ssr: false });
-const LikeButton = dynamic(() => import("./LikeButton"), { ssr: false });
-const BookMark = dynamic(() => import("./BookMark"), { ssr: false });
-const BlogCard = ({
-  blogvalue,
-  index,
-  sessionData,
-}: {
-  blogvalue: blogData;
-  index: number;
-  sessionData: any;
-}) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  return (
-    <li
-      className="w-full flex flex-col items-center bg-neutral-primary-soft max-w-sm overflow-hidden rounded-xl border border-default shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-amber-50"
-      key={String(blogvalue._id)}
-    >
-      <Link href={`/blogs/${blogvalue._id}`} className="w-full">
-        <div className="relative grid w-full place-items-center rounded-lg p-6 lg:overflow-visible min-h-75">
-          {!isLoaded && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center p-6">
-              <SkeletonEffect />
-            </div>
-          )}
-          <Image
-            src={blogvalue.image.trimEnd()}
-            className={`object-cover object-center rounded-2xl transition-opacity duration-500 ${
-              isLoaded ? "opacity-100 h-65" : "opacity-0"
-            }`}
-            width={250}
-            height={250}
-            alt={blogvalue.name}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={index < 6}
-            fetchPriority={index < 6 ? "high" : "low"}
-            onLoad={() => setIsLoaded(true)}
-          />
-        </div>
-
-        <div className="flex items-center justify-between p-1.5 h-15">
-          <LikeButton
-            likes={blogvalue?.likes}
-            blogID={blogvalue?._id}
-            session={sessionData}
-          />
-          <span className="text-sm text-gray-600">
-            {new Date(blogvalue.date).toLocaleDateString("en-GB")}
-          </span>
-        </div>
-        <div className="flex justify-between items-center px-2">
-          <h1 className="p-1.5 text-left italic font-semibold text-xl line-clamp-1">
-            {blogvalue.name}
-          </h1>
-          <BookMark
-            blogID={blogvalue._id}
-            bookmarkValue={blogvalue.bookmark}
-            session={sessionData}
-          />
-        </div>
-      </Link>
-    </li>
-  );
-};
 
 function BlogData({
   blogData,
@@ -87,7 +22,10 @@ function BlogData({
   const [searchInput, setSearchInput] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const debouncedSetSearch = useDebounceCallback(setSearch, 1000);
-  const { ref, inView } = useInView({ rootMargin: "200px" });
+
+  // Updated rootMargin to 100px from the second component
+  const { ref, inView } = useInView({ rootMargin: "100px" });
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["products-feed", search],
@@ -97,9 +35,11 @@ function BlogData({
           `/api/blogs?limit=${pageParam}&search=${search}`,
         );
         const json = await res.json();
+        // Return matching the logic of the second component's structure
         return { blogData: json.blogData ?? [], total: json.count ?? 0 };
       },
       getNextPageParam: (lastPage, allPages) => {
+        // Calculation logic from the second component
         const fetchedCount = allPages.flatMap((p) => p.blogData ?? []).length;
         const total = lastPage.total;
         if (total == null) return undefined;
@@ -116,20 +56,19 @@ function BlogData({
             pageParams: [1],
           }
         : undefined,
-      staleTime: 0,
-      gcTime: 0,
+      staleTime: 1000 * 60 * 5,
     });
 
-  // 3. THE AUTOMATIC TRIGGER
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   const allProducts = data?.pages.flatMap((page) => page.blogData ?? []) ?? [];
-  console.log("data", data);
+
   return (
-    <div className="w-full mx-auto p-4 ">
+    <div className="w-full mx-auto p-4 flex flex-col gap-6">
       <div className="text-end mb-2">
         <input
           type="text"
@@ -142,13 +81,14 @@ function BlogData({
           }}
         />
       </div>
+
       {allProducts.length === 0 && !isLoading ? (
         <Datanot />
       ) : (
         <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
           {allProducts.map((blogvalue, index) => (
             <BlogCard
-              key={String(blogvalue._id)}
+              key={blogvalue._id.toString()}
               blogvalue={blogvalue}
               index={index}
               sessionData={session}
@@ -156,8 +96,21 @@ function BlogData({
           ))}
         </ul>
       )}
-      <div ref={ref} className="h-4" />
-      {(isLoading || isFetchingNextPage) && <Loading />}
+      {hasNextPage && (
+        <div ref={ref} className="py-12 flex justify-center items-center h-32">
+          {isFetchingNextPage ? (
+            <Loading />
+          ) : (
+            <Link
+              href={`/blogs?page=${data.pages.length + 1}`}
+              className="px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              prefetch={false}
+            >
+              Next Page
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,12 +1,9 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import componentdynamic from "next/dynamic";
 import { auth } from "@/auth";
-import BlogData from "@/src/components/BlogData";
-
-export const dynamic = "force-dynamic";
-
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
-
+const BlogData = componentdynamic(() => import("@/src/components/BlogData"));
 export const metadata: Metadata = {
   title: "Foodie Blogs | Culinary Insights & Healthy Living",
   description:
@@ -45,24 +42,12 @@ export const metadata: Metadata = {
     canonical: `${BASE_URL}/blogs`,
   },
 };
-
-export const blogDataFetch = async (limit: number) => {
-  try {
-    const blogResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`,
-    );
-    if (!blogResponse.ok) return notFound();
-    const blogDataValue = await blogResponse.json();
-    return blogDataValue;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+export const dynamic = "force-dynamic";
 async function Blog() {
-  const blogValue = await blogDataFetch(1);
+  const blogResponse = await fetch(`${BASE_URL}/api/blogs?limit=1`);
+  if (!blogResponse.ok) return notFound();
+  const blogDataValue = await blogResponse.json();
   const session = await auth();
-
   const collectionPageSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -76,7 +61,6 @@ async function Blog() {
       url: BASE_URL,
     },
   };
-
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -111,12 +95,13 @@ async function Blog() {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-
-      <BlogData
-        blogData={blogValue.blogData}
-        count={blogValue.count}
-        session={session}
-      />
+      <main className="bg-gray-50 ">
+        <BlogData
+          blogData={blogDataValue.blogData}
+          count={blogDataValue.count}
+          session={session}
+        />
+      </main>
     </>
   );
 }
