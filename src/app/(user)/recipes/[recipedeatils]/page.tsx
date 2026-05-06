@@ -1,13 +1,12 @@
 import { Suspense } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import { IoMdTime } from "react-icons/io";
 import type { recipeDataTypes } from "@/src/types";
 import { auth } from "@/auth";
 import BackButton from "@/src/components/BackButton";
 import Loading from "@/src/app/(user)/blogs/loading";
+import Picture from "@/src/components/Picture";
 const RecipeDelete = dynamic(() => import("@/src/components/DeleteData"));
 const UpdateRecipe = dynamic(() => import("@/src/components/UpdateRecipe"));
 
@@ -101,7 +100,7 @@ async function page(props: recipeDetails) {
             <div className="  flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5">
               <div className=" max-[950px]:w-full flex flex-col w-1/2 ">
                 <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
-                  <Image
+                  <Picture
                     src={recipeData.image.toString().trimEnd()}
                     width={300}
                     height={300}

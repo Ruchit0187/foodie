@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import type{ blogData } from "../types";
 import SkeletonEffect from "./Skeleton";
+import Picture from "./Picture";
 const LikeButton = dynamic(() => import("./LikeButton"), { ssr: false });
 const BookMark = dynamic(() => import("./BookMark"), { ssr: false });
 export const BlogCard = ({
@@ -29,7 +29,7 @@ export const BlogCard = ({
               <SkeletonEffect />
             </div>
           )}
-          <Image
+          <Picture
             src={blogvalue.image.trimEnd()}
             className={`object-cover object-center rounded-2xl transition-opacity duration-500 ${
               isLoaded ? "opacity-100 h-65" : "opacity-0"

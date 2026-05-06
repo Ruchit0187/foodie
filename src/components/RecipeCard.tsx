@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Session } from "next-auth";
 import type { recipeDataTypes } from "../types";
 import { CiClock2 } from "react-icons/ci";
@@ -10,6 +9,7 @@ import Datanot from "./Datanot";
 import Loading from "./Loading";
 import SkeletonEffect from "./Skeleton";
 import { useMediaQuery } from "usehooks-ts";
+import Picture from "./Picture";
 
 interface filterRecipes {
   recipeCardData: recipeDataTypes[];
@@ -39,7 +39,7 @@ function RecipeCardItem({
       <Link href={`/recipes/${value._id}`}>
         <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible">
           {imageLoading && <SkeletonEffect />}
-          <Image
+          <Picture
             src={String(value.image).trimEnd()}
             className={`object-cover object-center rounded-2xl transition-opacity duration-300 ${
               imageLoading ? "absolute w-0 h-0 opacity-0" : "opacity-100 h-65"

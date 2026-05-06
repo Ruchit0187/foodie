@@ -1,3 +1,5 @@
+import { type ImageProps } from "next/image";
+
 interface ingredients {
   name: string;
   quantity: string;
@@ -17,7 +19,7 @@ export interface recipeDataTypes {
 }
 export interface recipeRoute {
   filterRecipes: recipeDataTypes[];
-  recipeTotalCount:number
+  recipeTotalCount: number;
 }
 export interface blogData {
   _id: string;
@@ -30,7 +32,7 @@ export interface blogData {
   health_benefits: string[];
   likes: string[];
   description: string;
-  bookmark:string[]
+  bookmark: string[];
 }
 
 export interface individualBlog {
@@ -46,24 +48,28 @@ export interface individualBlog {
 
 export interface userData {
   _id: string;
-  name:string
+  name: string;
   email: string;
   password: string;
   isVerify: boolean;
   isAdmin: boolean;
-  isOwner:boolean
+  isOwner: boolean;
 }
 
+export interface authSignin {
+  message: string;
+  user: {
+    email: string;
+    isAdmin: boolean;
+    isVerify: boolean;
+    name: string;
+    password: string;
+    _id: string;
+    _v: number;
+  };
+}
 
-export interface authSignin{
-  message:string ,
-  user:{
-    email:string,
-    isAdmin:boolean,
-    isVerify:boolean,
-    name:string
-    password:string
-    _id:string,
-    _v:number
-  }
+export interface PictureProps extends ImageProps {
+  src: string;
+  alt: string;
 }

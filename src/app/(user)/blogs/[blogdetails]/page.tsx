@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -8,6 +7,7 @@ import type { blogData } from "@/src/types";
 import BackButton from "@/src/components/BackButton";
 import Loading from "../loading";
 import BlogTracker from "@/src/components/BlogTracker";
+import Picture from "@/src/components/Picture";
 const DeleteData = dynamic(() => import("@/src/components/DeleteData"));
 const UpdateBlog = dynamic(() => import("@/src/components/UpdateBlog"));
 
@@ -129,16 +129,15 @@ async function BlogDetails(props: blogProps) {
           <div className="flex max-[950px]:flex-col max-[600px]:gap-2  justify-between gap-3.5 ">
             <div className="flex flex-col w-1/2 max-[950px]:w-full">
               <div className="grid w-full place-items-center  rounded-lg p-6 lg:overflow-visible max-[950px]:w-full">
-                <Image
+                <Picture
                   src={blogJsonData.image.trimEnd()}
-                  width={300}
-                  height={300}
-                  className="object-cover object-center rounded-lg h-95 w-full max-[950px]:w-full"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover object-center rounded-lg h-95"
                   alt={blogJsonData.name}
                   fetchPriority="high"
                   loading="eager"
                   decoding="sync"
-                  quality={80}
+                  quality={85}
                 />
               </div>
               <div className="flex flex-col p-2">

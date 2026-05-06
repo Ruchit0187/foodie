@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Profile from "./Profile";
 import AuthLoading from "./AuthLoading";
+import Picture from "./Picture";
 const FaUser = dynamic(() =>
   import("react-icons/fa").then((mod) => mod.FaUser),
 );
@@ -27,7 +27,7 @@ export default function Navbar() {
           href={"/"}
           className="pl-2.5 flex items-center justify-center md:justify-start max-[760px]:justify-start"
         >
-          <Image
+          <Picture
             src={"/foodielogo.png"}
             width={80}
             height={80}
