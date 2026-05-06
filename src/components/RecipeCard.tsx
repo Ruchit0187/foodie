@@ -110,20 +110,59 @@ function RecipeCard({ recipeCardData, isLoadingData, session }: filterRecipes) {
     return <Datanot />;
   }
   return (
-    <div className="w-full mx-auto p-4 ">
-      <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
-        {recipeCardData?.map((value: recipeDataTypes, index: number) => (
-          <RecipeCardItem
-            key={String(value._id)}
-            value={value}
-            session={session}
-            index={index}
-            isMobile={isMobile}
-          />
-        ))}
-      </ul>
-      {isLoadingData ? <Loading /> : null}
-    </div>
+    <>
+      <head>
+        <title>Recipes – Easy, Healthy & Delicious Meal Ideas</title>
+        <meta
+          name="description"
+          content="Browse hundreds of easy-to-follow recipes on Foodie. Filter by category (vegetarian, vegan, non-veg) and difficulty level. Find your next favorite meal today!"
+        />
+        <meta
+          name="keywords"
+          content="recipes, easy recipes, healthy recipes, vegetarian recipes, vegan recipes, non-veg recipes, quick meals, dinner ideas, cooking recipes, foodie recipes, step by step recipes, homemade food, meal prep, best recipes online"
+        />
+        <link
+          rel="canonical"
+          href="https://foodie-nine-gold.vercel.app/recipes"
+        />
+        <meta
+          property="og:title"
+          content="Recipes – Easy, Healthy & Delicious Meal Ideas | Foodie"
+        />
+        <meta
+          property="og:description"
+          content="Browse hundreds of easy-to-follow recipes. Filter by category and difficulty. Find your next favorite meal!"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/homepage.jpg" />
+        <meta property="og:image:alt" content="Foodie Recipes" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Recipes – Easy, Healthy & Delicious Meal Ideas | Foodie"
+        />
+        <meta
+          name="twitter:description"
+          content="Browse hundreds of easy-to-follow recipes. Filter by category and difficulty."
+        />
+        <meta name="twitter:image" content="/homepage.jpg" />
+      </head>
+      <main className="w-full mx-auto p-4 ">
+        <ul className="w-[95%] mx-auto grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 ">
+          {recipeCardData?.map((value: recipeDataTypes, index: number) => (
+            <RecipeCardItem
+              key={String(value._id)}
+              value={value}
+              session={session}
+              index={index}
+              isMobile={isMobile}
+            />
+          ))}
+        </ul>
+        {isLoadingData ? <Loading /> : null}
+      </main>
+    </>
   );
 }
 

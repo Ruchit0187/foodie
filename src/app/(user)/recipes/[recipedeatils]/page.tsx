@@ -16,61 +16,6 @@ interface recipeDetails {
   params: Promise<{ recipedeatils: string }>;
 }
 
-export async function generateMetadata(
-  props: recipeDetails,
-): Promise<Metadata> {
-  const { recipedeatils } = await props.params;
-  try {
-    const res = await fetch(`${BASE_URL}/api/recipe/${recipedeatils}`, {
-      next: { revalidate: 3600 },
-    });
-    const recipeDataJson = await res.json();
-    const recipe: recipeDataTypes = recipeDataJson?.recipeDetails;
-    if (!recipe) return { title: "Recipe Not Found | Foodie" };
-    return {
-      title: `${recipe.name} Recipe – ${recipe.category} | ${recipe.difficulty} Level`,
-      description: `Learn how to make ${recipe.name} in ${recipe.cookingTimeMinutes} minutes. A ${recipe.difficulty} ${recipe.category} recipe with ${recipe.ingredients.length} ingredients. Step-by-step guide on Foodie.`,
-      keywords: [
-        recipe.name,
-        `${recipe.name} recipe`,
-        recipe.category,
-        recipe.difficulty,
-        "recipe",
-        "foodie",
-        "easy cooking",
-        "step by step recipe",
-        "homemade food",
-        `${recipe.category} recipe`,
-        "cooking at home",
-      ],
-      openGraph: {
-        title: `${recipe.name} – ${recipe.category} Recipe | Foodie`,
-        description: `Make ${recipe.name} in ${recipe.cookingTimeMinutes} min. ${recipe.difficulty} level, ${recipe.ingredients.length} ingredients.`,
-        type: "article",
-        url: `${BASE_URL}/recipes/${recipedeatils}`,
-        images: [
-          {
-            url: String(recipe.image),
-            alt: recipe.name,
-          },
-        ],
-        siteName: "Foodie",
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: `${recipe.name} – ${recipe.category} Recipe | Foodie`,
-        description: `Make ${recipe.name} in ${recipe.cookingTimeMinutes} min. ${recipe.difficulty} level.`,
-        images: [String(recipe.image)],
-      },
-      alternates: {
-        canonical: `${BASE_URL}/recipes/${recipedeatils}`,
-      },
-    };
-  } catch {
-    return { title: "Recipe | Foodie" };
-  }
-}
-
 async function page(props: recipeDetails) {
   const { recipedeatils } = await props.params;
   try {
@@ -116,6 +61,30 @@ async function page(props: recipeDetails) {
     };
     return (
       <>
+        <head>
+          <title>{recipeData.name}</title>
+          <meta
+            name="description"
+            content={`Make ${recipeData.name} in ${recipeData.cookingTimeMinutes} min. ${recipeData.difficulty} level.`}
+          />
+          <meta
+            property="og:title"
+            content={`${recipeData.name} – ${recipeData.category} Recipe | Foodie`}
+          />
+          <meta
+            property="og:description"
+            content={`Make ${recipeData.name} in ${recipeData.cookingTimeMinutes} min. ${recipeData.difficulty} level, ${recipeData.ingredients.length} ingredients.`}
+          />
+          <meta property="og:type" content="article" />
+          <meta
+            property="og:url"
+            content={`${BASE_URL}/recipes/${recipedeatils}`}
+          />
+          <meta property="og:site_name" content="Foodie" />
+
+          <meta property="og:image" content={String(recipeData.image)} />
+          <meta property="og:image:alt" content={recipeData.name} />
+        </head>
         <script
           type="application/ld+json"
           id="recipe-schema"
